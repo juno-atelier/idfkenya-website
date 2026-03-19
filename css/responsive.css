@@ -1,0 +1,56 @@
+/* ==============================================
+   IDF Kenya — responsive.css
+   Mobile & tablet breakpoints
+   ============================================== */
+
+/* Tablet: ≤ 1024px */
+@media (max-width: 1024px) {
+  .about-grid    { grid-template-columns: 1fr; gap: 48px; }
+  .about-image-deco { display: none; }
+  .about-image-wrap img { height: 360px; }
+  .award-card { left: 0; top: -20px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
+  .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+}
+
+/* Mobile nav: ≤ 900px */
+@media (max-width: 900px) {
+  .nav-toggle { display: flex; }
+  .nav-links { display: none; }
+  .nav-links.mobile-open { display: flex; }
+  .has-dropdown:hover .dropdown { display: none; }
+  .nav-logo-sub { display: none; }
+}
+
+/* Mobile: ≤ 700px */
+@media (max-width: 700px) {
+  :root { font-size: 15px; }
+  .container { padding: 0 18px; }
+  .hero-content { padding: 100px 18px 60px; }
+  .hero-actions { flex-direction: column; }
+  .hero-actions .btn { text-align: center; justify-content: center; }
+  .about-section   { padding: 70px 0; }
+  .stats-section   { padding: 60px 0; }
+  .projects-section { padding: 70px 0; }
+  .partners-section { padding: 60px 0; }
+  .quote-section   { padding: 70px 0; }
+  .cta-section     { padding: 60px 0; }
+  .projects-grid   { grid-template-columns: 1fr; }
+  .stats-grid      { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .stat-number     { font-size: 2.2rem; }
+  .photo-grid      { grid-template-columns: 1fr; }
+  .footer-grid     { grid-template-columns: 1fr; gap: 28px; }
+  .footer-bottom   { flex-direction: column; text-align: center; }
+  .page-hero       { height: 280px; }
+  .page-content    { padding: 50px 0 70px; }
+  .contact-form    { padding: 24px 18px; }
+  .cta-buttons     { flex-direction: column; align-items: center; }
+}
+
+/* Extra small: ≤ 420px */
+@media (max-width: 420px) {
+  .stats-grid { grid-template-columns: 1fr; }
+  .partners-logos { gap: 10px; }
+  .partner-item { min-width: 110px; padding: 14px 18px; }
+}

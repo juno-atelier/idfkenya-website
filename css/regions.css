@@ -1,0 +1,736 @@
+/* ================================================
+   IDF Kenya — regions.css
+   Scoped stylesheet for the Regions long-scroll page.
+   Loaded only on regions.html — zero conflict with
+   any other page stylesheet.
+
+   Design tokens, patterns, and class conventions are
+   identical to about.css for visual consistency.
+   Update the :root variables to reskin the whole page.
+   ================================================ */
+
+
+/* ================================================
+   1. BRAND TOKENS
+   Mirror of about.css :root — edit here to reskin.
+   ================================================ */
+:root {
+  --idf-navy:          #1B2E4B;
+  --idf-navy-dark:     #0f1e33;
+  --idf-navy-light:    #2a4470;
+  --idf-blue:          #2E6DB4;
+  --idf-blue-light:    #5B9BD5;
+  --idf-blue-pale:     #EBF3FB;
+  --idf-green:         #3A7D44;
+  --idf-green-light:   #52a85f;
+  --idf-green-pale:    #EAF4EB;
+  --idf-cream:         #F8FAFF;
+  --idf-cream-dark:    #F0EDE6;
+  --idf-text:          #1a1a2e;
+  --idf-text-mid:      #3d4560;
+  --idf-text-muted:    #6b7280;
+  --idf-border:        rgba(27, 46, 75, 0.1);
+  --idf-shadow-sm:     0 2px 10px rgba(27, 46, 75, 0.07);
+  --idf-shadow-md:     0 8px 30px rgba(27, 46, 75, 0.13);
+  --idf-shadow-lg:     0 20px 60px rgba(27, 46, 75, 0.18);
+  --section-gap:       120px;
+  --section-gap-sm:    72px;
+  --sidenav-width:     240px;
+  --font-display:      'Playfair Display', Georgia, serif;
+  --font-body:         'DM Sans', system-ui, sans-serif;
+  --r-sm:  4px;
+  --r-md:  10px;
+  --r-lg:  18px;
+  --r-xl:  28px;
+}
+
+
+/* ================================================
+   2. BASE RESET & GLOBALS
+   ================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--idf-text-mid);
+  background: #fff;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--idf-text);
+  line-height: 1.2;
+}
+
+h1 { font-size: clamp(2.4rem, 5vw, 4rem);    font-weight: 700; }
+h2 { font-size: clamp(1.8rem, 3vw, 2.8rem);  font-weight: 600; }
+h3 { font-size: clamp(1.1rem, 2vw, 1.45rem); font-weight: 600; }
+
+p            { margin-bottom: 1rem; }
+p:last-child { margin-bottom: 0; }
+img          { display: block; max-width: 100%; }
+a            { color: inherit; text-decoration: none; transition: color 0.25s; }
+ul           { list-style: none; }
+
+
+/* ================================================
+   3. PAGE LAYOUT
+   Two-column flex: sticky sidenav + scrolling main.
+   Identical to .about-layout in about.css.
+   ================================================ */
+.regions-layout {
+  display: flex;
+  align-items: flex-start;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 28px;
+  gap: 56px;
+}
+
+
+/* ================================================
+   4. NAVBAR INTEGRATION
+   Adapts glass-nav for the Regions page.
+   "Regions" nav link is marked active.
+   ================================================ */
+.glass-nav .nav-link--active,
+.glass-nav.scrolled .nav-link--active {
+  color: var(--idf-blue-light) !important;
+}
+.glass-nav.scrolled .nav-link--active {
+  color: var(--idf-blue) !important;
+  background: var(--idf-blue-pale);
+  border-radius: 4px;
+}
+.nav-link--active::after {
+  transform: scaleX(1) !important;
+}
+
+
+/* ================================================
+   5. PAGE HERO
+   Matches about-hero proportions and overlay style.
+   ================================================ */
+.regions-hero {
+  position: relative;
+  height: 440px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  margin-top: 72px; /* clears fixed navbar */
+}
+
+.regions-hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+}
+
+.regions-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    108deg,
+    rgba(11, 20, 38, 0.92) 0%,
+    rgba(27, 46, 75, 0.72) 40%,
+    rgba(27, 46, 75, 0.28) 100%
+  );
+}
+
+.regions-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 28px 52px;
+}
+
+.regions-hero-eyebrow {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--idf-blue-light);
+  margin-bottom: 14px;
+}
+
+.regions-hero-content h1 {
+  color: #fff;
+  margin-bottom: 14px;
+}
+
+.regions-hero-content p {
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 1.08rem;
+  max-width: 580px;
+  line-height: 1.75;
+  margin: 0;
+}
+
+/* Hero quick-jump pills — same as about-hero-nav-pills */
+.regions-hero-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 28px;
+}
+
+.regions-hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  padding: 5px 13px;
+  border-radius: 20px;
+  backdrop-filter: blur(6px);
+  transition: all 0.25s;
+  cursor: pointer;
+}
+
+.regions-hero-pill:hover {
+  background: var(--idf-blue);
+  border-color: var(--idf-blue);
+  color: #fff;
+}
+
+
+/* ================================================
+   6. STICKY DESKTOP SIDENAV
+   Identical structure/behaviour to about.css
+   ================================================ */
+.regions-sidenav {
+  position: sticky;
+  top: 96px;
+  width: var(--sidenav-width);
+  flex-shrink: 0;
+  align-self: flex-start;
+  padding: 28px 0;
+}
+
+.sidenav-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--idf-text-muted);
+  margin-bottom: 16px;
+  padding-left: 16px;
+}
+
+.sidenav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-left: 2px solid var(--idf-border);
+}
+
+.sidenav-list li a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px;
+  font-size: 0.84rem;
+  font-weight: 400;
+  color: var(--idf-text-muted);
+  border-left: 2px solid transparent;
+  margin-left: -2px;
+  transition: all 0.25s ease;
+  line-height: 1.3;
+}
+
+.sidenav-list li a i {
+  font-size: 0.78rem;
+  width: 16px;
+  text-align: center;
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: opacity 0.25s;
+}
+
+.sidenav-list li a:hover {
+  color: var(--idf-blue);
+  border-left-color: var(--idf-blue-light);
+}
+
+.sidenav-list li a:hover i { opacity: 1; }
+
+.sidenav-list li a.active {
+  color: var(--idf-blue);
+  border-left-color: var(--idf-blue);
+  font-weight: 600;
+  background: var(--idf-blue-pale);
+}
+
+.sidenav-list li a.active i {
+  opacity: 1;
+  color: var(--idf-blue);
+}
+
+/* Reading progress bar */
+.sidenav-progress {
+  margin-top: 28px;
+  padding-left: 16px;
+}
+
+.sidenav-progress-label {
+  font-size: 0.68rem;
+  color: var(--idf-text-muted);
+  margin-bottom: 6px;
+}
+
+.sidenav-progress-bar {
+  height: 3px;
+  background: var(--idf-border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.sidenav-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--idf-blue), var(--idf-green));
+  border-radius: 3px;
+  transition: width 0.2s ease;
+  width: 0%;
+}
+
+
+/* ================================================
+   7. MAIN CONTENT COLUMN
+   ================================================ */
+.regions-main {
+  flex: 1;
+  min-width: 0;
+  padding: var(--section-gap) 0;
+}
+
+
+/* ================================================
+   8. SHARED COUNTY SECTION STYLES
+   ================================================ */
+.county-section {
+  padding-bottom: var(--section-gap);
+  border-bottom: 1px solid var(--idf-border);
+  margin-bottom: var(--section-gap);
+}
+
+.county-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+/* Anchor scroll offset for fixed navbar */
+.county-section::before {
+  content: '';
+  display: block;
+  height: 96px;
+  margin-top: -96px;
+  pointer-events: none;
+}
+
+/* Section label badge — same as about.css .section-label */
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+
+.section-label-blue  { color: var(--idf-blue);  background: var(--idf-blue-pale); }
+.section-label-green { color: var(--idf-green); background: var(--idf-green-pale); }
+.section-label-navy  { color: var(--idf-navy);  background: rgba(27, 46, 75, 0.07); }
+
+
+/* ================================================
+   9. COUNTY CONTENT GRID
+   Text left, image right — mirrors about.css history-grid
+   ================================================ */
+.county-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+  margin-top: 28px;
+}
+
+.county-text h2 { margin-bottom: 16px; }
+.county-text p  { margin-bottom: 14px; }
+.county-text p:last-of-type { margin-bottom: 24px; }
+
+/* Image side */
+.county-img-wrap { position: relative; }
+
+.county-img {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  border-radius: var(--r-xl);
+  box-shadow: var(--idf-shadow-lg);
+  position: relative;
+  z-index: 1;
+}
+
+.county-img-deco {
+  position: absolute;
+  bottom: -14px;
+  right: -14px;
+  width: 100%;
+  height: 100%;
+  border: 2px solid var(--idf-blue);
+  border-radius: var(--r-xl);
+  z-index: 0;
+}
+
+/* County location badge overlapping image */
+.county-badge {
+  position: absolute;
+  top: 24px;
+  left: -20px;
+  background: var(--idf-navy);
+  color: #fff;
+  padding: 14px 18px;
+  border-radius: var(--r-md);
+  box-shadow: var(--idf-shadow-md);
+  z-index: 3;
+  text-align: center;
+  min-width: 80px;
+}
+
+.county-badge strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--idf-blue-light);
+  line-height: 1;
+}
+
+.county-badge span {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.55);
+  display: block;
+  margin-top: 3px;
+}
+
+/* Alternate layout — odd county sections flip image to left */
+.county-section:nth-child(even) .county-grid {
+  direction: rtl;
+}
+.county-section:nth-child(even) .county-grid > * {
+  direction: ltr;
+}
+/* Reset badge on flipped sections */
+.county-section:nth-child(even) .county-badge {
+  left: auto;
+  right: -20px;
+}
+.county-section:nth-child(even) .county-img-deco {
+  right: auto;
+  left: -14px;
+}
+
+
+/* ================================================
+   10. PROJECT CHIPS
+   Shows which IDF projects are active in a county.
+   ================================================ */
+.county-projects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.project-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.project-chip--blue  { background: var(--idf-blue-pale);  color: var(--idf-blue); }
+.project-chip--green { background: var(--idf-green-pale); color: var(--idf-green); }
+.project-chip--navy  { background: rgba(27,46,75,0.07);   color: var(--idf-navy); }
+
+
+/* ================================================
+   11. COUNTY STATS ROW
+   Three or four metric boxes per county.
+   ================================================ */
+.county-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 36px;
+}
+
+.county-stat {
+  background: var(--idf-cream);
+  border: 1px solid var(--idf-border);
+  border-radius: var(--r-md);
+  padding: 20px 18px;
+  text-align: center;
+  transition: all 0.26s ease;
+}
+
+.county-stat:hover {
+  box-shadow: var(--idf-shadow-md);
+  transform: translateY(-3px);
+  border-color: rgba(46, 109, 180, 0.2);
+}
+
+.county-stat-number {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 700;
+  color: var(--idf-navy);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.county-stat-number .stat-suffix {
+  color: var(--idf-blue);
+  font-size: 0.75em;
+}
+
+.county-stat-label {
+  font-size: 0.73rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--idf-text-muted);
+}
+
+
+/* ================================================
+   12. COUNTY INFO BOX
+   Contextual callout — same style as about.css
+   commitment-box.
+   ================================================ */
+.county-info-box {
+  background: var(--idf-blue-pale);
+  border-left: 4px solid var(--idf-blue);
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  padding: 20px 24px;
+  margin-top: 32px;
+}
+
+.county-info-box h4 {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--idf-navy);
+  margin-bottom: 8px;
+}
+
+.county-info-box p {
+  font-size: 0.9rem;
+  color: var(--idf-text-mid);
+  margin: 0;
+  line-height: 1.7;
+}
+
+.county-info-box--green {
+  background: var(--idf-green-pale);
+  border-left-color: var(--idf-green);
+}
+
+.county-info-box--green h4 { color: var(--idf-green); }
+
+
+/* ================================================
+   13. BUTTONS
+   Identical to about.css buttons.
+   ================================================ */
+.btn-idf-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--idf-blue);
+  color: #fff;
+  border: 2px solid var(--idf-blue);
+  padding: 11px 26px;
+  border-radius: var(--r-sm);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.26s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-idf-primary:hover {
+  background: var(--idf-navy);
+  border-color: var(--idf-navy);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(46, 109, 180, 0.38);
+}
+
+.btn-idf-outline-navy {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--idf-navy);
+  border: 2px solid var(--idf-navy);
+  padding: 11px 26px;
+  border-radius: var(--r-sm);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.26s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-idf-outline-navy:hover {
+  background: var(--idf-navy);
+  color: #fff;
+}
+
+
+/* ================================================
+   14. SCROLL REVEAL UTILITY
+   JS adds .visible via IntersectionObserver.
+   Identical to about.css.
+   ================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-delay-3 { transition-delay: 0.24s; }
+.reveal-delay-4 { transition-delay: 0.32s; }
+
+
+/* ================================================
+   15. MOBILE HORIZONTAL SECTION NAV
+   Shown ≤ 1100px — identical to about.css mobile nav.
+   ================================================ */
+.mobile-regions-nav {
+  display: none;
+  position: sticky;
+  top: 72px;
+  z-index: 200;
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--idf-border);
+  box-shadow: var(--idf-shadow-sm);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.mobile-regions-nav::-webkit-scrollbar { display: none; }
+
+.mobile-regions-nav-inner {
+  display: flex;
+  gap: 0;
+  padding: 0 16px;
+  min-width: max-content;
+}
+
+.mobile-regions-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 13px 13px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--idf-text-muted);
+  border-bottom: 2px solid transparent;
+  transition: all 0.22s ease;
+  white-space: nowrap;
+}
+
+.mobile-regions-link:hover  { color: var(--idf-blue); }
+
+.mobile-regions-link.active {
+  color: var(--idf-blue);
+  border-bottom-color: var(--idf-blue);
+  font-weight: 600;
+}
+
+
+/* ================================================
+   16. RESPONSIVE BREAKPOINTS
+   ================================================ */
+
+/* Tablet: hide sidenav, show mobile nav */
+@media (max-width: 1100px) {
+  .regions-sidenav      { display: none; }
+  .mobile-regions-nav   { display: block; }
+  .regions-layout       { padding: 0 20px; gap: 0; }
+  .regions-main         { padding: var(--section-gap-sm) 0; }
+}
+
+/* Tablet portrait */
+@media (max-width: 900px) {
+  .county-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    direction: ltr; /* reset alternating flip */
+  }
+  .county-section:nth-child(even) .county-grid { direction: ltr; }
+  .county-section:nth-child(even) .county-badge {
+    right: auto;
+    left: 0;
+  }
+  .county-section:nth-child(even) .county-img-deco {
+    left: auto;
+    right: -14px;
+  }
+  .county-badge        { left: 0; }
+  .county-img-deco     { display: none; }
+  .county-stats        { grid-template-columns: repeat(2, 1fr); }
+  .regions-hero        { height: 380px; }
+  .regions-hero-pills  { display: none; }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  :root {
+    --section-gap:    60px;
+    --section-gap-sm: 48px;
+  }
+
+  .regions-hero          { height: 340px; }
+  .county-stats          { grid-template-columns: 1fr 1fr; }
+  .county-grid           { gap: 28px; }
+  .county-img            { height: 260px; }
+}

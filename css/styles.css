@@ -1,0 +1,159 @@
+/* ==============================================
+   IDF Kenya — styles.css
+   Base styles, CSS variables, reset, typography
+   Colors from IDF logo:
+     Navy:  #1B2E4B  |  Blue:  #2E6DB4
+     Green: #3A7D44  |  Light: #5B9BD5
+   ============================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+/* ---- CSS VARIABLES ---- */
+:root {
+  --navy:         #1B2E4B;
+  --navy-dark:    #0f1e33;
+  --blue:         #2E6DB4;
+  --blue-light:   #5B9BD5;
+  --blue-pale:    #EBF3FB;
+  --green:        #3A7D44;
+  --green-light:  #52a85f;
+  --green-pale:   #EAF4EB;
+  --cream:        #F8FAFF;
+  --white:        #FFFFFF;
+  --text-dark:    #1a1a2e;
+  --text-mid:     #3d4560;
+  --text-muted:   #6b7280;
+  --border:       rgba(0,0,0,0.08);
+  --shadow-sm:    0 2px 8px rgba(27,46,75,0.07);
+  --shadow-md:    0 8px 28px rgba(27,46,75,0.12);
+  --shadow-lg:    0 20px 56px rgba(27,46,75,0.18);
+  --radius-sm:    4px;
+  --radius-md:    10px;
+  --radius-lg:    18px;
+  --radius-xl:    28px;
+  --transition:   0.28s ease;
+  --max-width:    1180px;
+}
+
+/* ---- RESET ---- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+  color: var(--text-dark);
+  background: var(--white);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-decoration: none; transition: color var(--transition); }
+ul { list-style: none; }
+button { font-family: inherit; cursor: pointer; border: none; }
+input, textarea { font-family: inherit; }
+
+/* ---- TYPOGRAPHY ---- */
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', serif;
+  line-height: 1.2;
+  color: var(--text-dark);
+}
+h1 { font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 700; }
+h2 { font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 600; }
+h3 { font-size: clamp(1.2rem, 2vw, 1.55rem); font-weight: 600; }
+h4 { font-size: 1rem; font-weight: 600; font-family: 'DM Sans', sans-serif; text-transform: uppercase; letter-spacing: 0.1em; }
+em { font-style: italic; }
+p { color: var(--text-mid); margin-bottom: 1rem; line-height: 1.8; }
+p:last-child { margin-bottom: 0; }
+
+/* ---- UTILITIES ---- */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+.label-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--blue);
+  background: var(--blue-pale);
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+}
+
+.label-tag--green {
+  color: var(--green);
+  background: var(--green-pale);
+}
+
+.label-tag--white {
+  color: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.15);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+.section-header h2 { margin-top: 8px; }
+.section-header p { max-width: 580px; margin: 12px auto 0; font-size: 1.05rem; }
+
+/* ---- BUTTONS ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 30px;
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: all var(--transition);
+  border: 2px solid transparent;
+}
+.btn-primary {
+  background: var(--blue);
+  color: var(--white);
+  border-color: var(--blue);
+}
+.btn-primary:hover {
+  background: var(--navy);
+  border-color: var(--navy);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(46,109,180,0.35);
+}
+.btn-green {
+  background: var(--green);
+  color: var(--white);
+  border-color: var(--green);
+}
+.btn-green:hover {
+  background: #2d6235;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(58,125,68,0.35);
+}
+.btn-outline-white {
+  background: transparent;
+  color: var(--white);
+  border-color: rgba(255,255,255,0.6);
+}
+.btn-outline-white:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.9);
+}
+.btn-outline-navy {
+  background: transparent;
+  color: var(--navy);
+  border-color: var(--navy);
+}
+.btn-outline-navy:hover {
+  background: var(--navy);
+  color: var(--white);
+}

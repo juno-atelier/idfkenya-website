@@ -1,0 +1,571 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="About Integrated Development Facility — Our history, mission, values, team, partners and career opportunities.">
+  <title>About Us — Integrated Development Facility Kenya</title>
+  <link rel="icon" href="../assets/images/logo1.png" type="image/png">
+
+  <!-- Google Fonts — identical to index.html -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6.5.1 — icons used throughout this page -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+  <!-- Site-wide stylesheets — same order as index.html -->
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/sections.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+
+  <!-- About Us page-scoped styles (loaded last so overrides are safe) -->
+  <link rel="stylesheet" href="/css/about.css">
+</head>
+
+<body>
+
+  <!-- NAVBAR (injected by component.js) -->
+  <div id="navbar-placeholder"></div>
+
+
+  <!-- ============================================================
+       MOBILE HORIZONTAL SECTION NAV  (visible ≤ 1100px)
+       data-spy-target values must match the section id attributes
+       below — initAboutScrollSpy() in main.js reads them.
+  ============================================================ -->
+  <nav class="mobile-about-nav" role="navigation" aria-label="About page sections">
+    <div class="mobile-nav-inner">
+      <a href="#history"  class="mobile-nav-link" data-spy-target="history">
+        <i class="fa-regular fa-clock"></i>History
+      </a>
+      <a href="#mission"  class="mobile-nav-link" data-spy-target="mission">
+        <i class="fa-solid fa-bullseye"></i>Mission
+      </a>
+      <a href="#values"   class="mobile-nav-link" data-spy-target="values">
+        <i class="fa-solid fa-gem"></i>Values
+      </a>
+      <a href="#partners" class="mobile-nav-link" data-spy-target="partners">
+        <i class="fa-solid fa-handshake"></i>Partners
+      </a>
+      <a href="#team"     class="mobile-nav-link" data-spy-target="team">
+        <i class="fa-solid fa-users"></i>Team
+      </a>
+      <a href="#careers"  class="mobile-nav-link" data-spy-target="careers">
+        <i class="fa-solid fa-briefcase"></i>Join Us
+      </a>
+    </div>
+  </nav>
+
+
+  <!-- ============================================================
+       PAGE HERO
+  ============================================================ -->
+  <header class="about-hero" role="banner">
+    <img class="about-hero-bg" src="../assets/images/idf_home1.jpg"
+      alt="IDF Kenya community members gathered in Homa Bay County" loading="eager">
+    <div class="about-hero-overlay" aria-hidden="true"></div>
+    <div class="about-hero-content">
+      <span class="about-hero-eyebrow">
+        <i class="fa-solid fa-circle-info" style="margin-right:0.3rem"></i>About Integrated Development Facility
+      </span>
+      <h1>Who We Are</h1>
+      <p>A community-based Non-Governmental Organization with Christian values — building healthy, just and empowered communities across Kenya since 1999.</p>
+      <nav class="about-hero-nav-pills" aria-label="Jump to section">
+        <a href="#history"  class="hero-pill"><i class="fa-regular fa-clock"></i>Our History</a>
+        <a href="#mission"  class="hero-pill"><i class="fa-solid fa-bullseye"></i>Mission &amp; Vision</a>
+        <a href="#values"   class="hero-pill"><i class="fa-solid fa-gem"></i>Core Values</a>
+        <a href="#partners" class="hero-pill"><i class="fa-solid fa-handshake"></i>Partners</a>
+        <a href="#team"     class="hero-pill"><i class="fa-solid fa-users"></i>Our Team</a>
+        <a href="#careers"  class="hero-pill"><i class="fa-solid fa-briefcase"></i>Join Us</a>
+      </nav>
+    </div>
+  </header>
+
+
+  <!-- ============================================================
+       TWO-COLUMN LAYOUT: SIDENAV + MAIN CONTENT
+  ============================================================ -->
+  <div class="about-layout">
+
+    <!-- STICKY SIDENAV  (desktop ≥ 1100px) -->
+    <aside class="about-sidenav" aria-label="Page section navigation">
+      <p class="sidenav-label">On this page</p>
+      <ul class="sidenav-list" role="list">
+        <li>
+          <a href="#history" class="active" data-spy-target="history">
+            <i class="fa-regular fa-clock"></i>Our History
+          </a>
+        </li>
+        <li>
+          <a href="#mission" data-spy-target="mission">
+            <i class="fa-solid fa-bullseye"></i>Mission &amp; Vision
+          </a>
+        </li>
+        <li>
+          <a href="#values" data-spy-target="values">
+            <i class="fa-solid fa-gem"></i>Core Values
+          </a>
+        </li>
+        <li>
+          <a href="#partners" data-spy-target="partners">
+            <i class="fa-solid fa-handshake"></i>Partners &amp; Networks
+          </a>
+        </li>
+        <li>
+          <a href="#team" data-spy-target="team">
+            <i class="fa-solid fa-users"></i>Our Team
+          </a>
+        </li>
+        <li>
+          <a href="#careers" data-spy-target="careers">
+            <i class="fa-solid fa-briefcase"></i>Join Us
+          </a>
+        </li>
+      </ul>
+
+      <!-- Reading progress bar — filled by initAboutProgressBar() -->
+      <div class="sidenav-progress" aria-label="Page reading progress">
+        <p class="sidenav-progress-label">Reading progress</p>
+        <div class="sidenav-progress-bar"
+          role="progressbar"
+          aria-valuenow="0"
+          aria-valuemin="0"
+          aria-valuemax="100">
+          <div class="sidenav-progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="about-main" id="mainContent">
+
+
+      <!-- ================================================
+           SECTION 1 — OUR HISTORY
+           id="history" must match data-spy-target values
+      ================================================ -->
+      <section id="history" class="about-section" aria-labelledby="history-heading">
+
+        <span class="section-label section-label-blue reveal">
+          <i class="fa-regular fa-clock"></i>Our History
+        </span>
+
+        <div class="history-grid">
+
+          <div class="history-text">
+            <h2 id="history-heading" class="reveal">Over 25 years of community service</h2>
+            <p class="reveal reveal-delay-1">Integrated Development Facility (IDF) was founded in the year 1999 and was formally registered as a non-governmental organization (NGO) the same year.</p>
+            <p class="reveal reveal-delay-1">The organization was founded to address the challenges of the HIV/AIDS pandemic, deteriorating education standards, and reduced economic opportunities among the people of Homa Bay.</p>
+            <p class="reveal reveal-delay-2">The organization has grown and expanded over the years and currently implements projects in seven counties across the country. IDF has created and managed incredible partnerships that have transformed the lives of vulnerable communities across the country.</p>
+            <p class="reveal reveal-delay-2">Our Head Office is located at Kadongo Centre, Rachuonyo East Sub County, Homa Bay County, along Kisii-Kisumu Road. We also operate satellite offices in all the project areas.</p>
+          </div>
+
+          <div class="history-img-wrap reveal reveal-delay-1">
+            <div class="history-badge">
+              <strong>1999</strong>
+              <span>Founded</span>
+            </div>
+            <img class="history-img"
+              src="../assets/images/usaid_award.jpg"
+              alt="IDF staff receiving the Ndovu Award 2023 for outstanding community governance work in Homa Bay County">
+            <div class="history-img-deco hide-mobile"></div>
+          </div>
+
+        </div>
+
+        <div class="history-timeline reveal">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <p class="timeline-year">1999</p>
+            <h4>Foundation &amp; Registration</h4>
+            <p>IDF founded and formally registered as an NGO to address HIV/AIDS, education and economic challenges in Homa Bay.</p>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <p class="timeline-year">2018 – 2021</p>
+            <h4>Global Fund Malaria — Phase 1</h4>
+            <p>Implemented Global Fund Malaria Project in Meru, Tharaka Nithi, Kwale and Kirinyaga counties.</p>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <p class="timeline-year">2021 – Present</p>
+            <h4>USAID Nuru Ya Mtoto &amp; Malaria Phase 2</h4>
+            <p>Expanded to implement USAID NYM across Homa Bay, Nyamira and Vihiga counties alongside the Global Fund Malaria project.</p>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <p class="timeline-year">2023</p>
+            <h4>Ndovu Award — Governance Excellence</h4>
+            <p>Awarded the prestigious Ndovu Award for outstanding work in educating and mobilizing citizens in Homa Bay County governance.</p>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- ================================================
+           SECTION 2 — MISSION & VISION
+      ================================================ -->
+      <section id="mission" class="about-section" aria-labelledby="mission-heading">
+
+        <span class="section-label section-label-navy reveal">
+          <i class="fa-solid fa-bullseye"></i>Mission &amp; Vision
+        </span>
+
+        <div class="mv-intro reveal">
+          <h2 id="mission-heading">Our purpose, clearly stated</h2>
+          <p>IDF's mission and vision define every project we implement and every community we serve across Kenya.</p>
+        </div>
+
+        <div class="mv-cards">
+          <div class="mv-card mv-card-vision reveal">
+            <div class="mv-card-icon"><i class="fa-solid fa-eye"></i></div>
+            <h3>Our Vision</h3>
+            <p>We envision a <strong style="color:#fff">healthy, just, and empowered society</strong> where every community member can thrive and reach their full potential.</p>
+            <div class="mv-card-deco"></div>
+          </div>
+          <div class="mv-card mv-card-mission reveal reveal-delay-1">
+            <div class="mv-card-icon"><i class="fa-solid fa-bullseye"></i></div>
+            <h3>Our Mission</h3>
+            <p>To harmonise and consolidate local efforts through community empowerment in areas of health education, socio-economic and environmental concerns.</p>
+          </div>
+        </div>
+
+        <div class="commitment-box reveal">
+          <h4><i class="fa-solid fa-circle-check" style="margin-right:0.5rem"></i>Equal Opportunity Commitment</h4>
+          <p>We are committed to being an open, equal opportunity organization that does not discriminate on the basis of sex, race, religion, national origin, or disability. This applies to all organizational practices including provision of services to clients and beneficiaries.</p>
+        </div>
+
+      </section>
+
+
+      <!-- ================================================
+           SECTION 3 — CORE VALUES
+      ================================================ -->
+      <section id="values" class="about-section" aria-labelledby="values-heading">
+
+        <span class="section-label section-label-blue reveal">
+          <i class="fa-solid fa-gem"></i>Core Values
+        </span>
+
+        <div class="values-intro reveal">
+          <h2 id="values-heading">The principles that guide us</h2>
+          <p>Five core values shape every decision IDF makes — from the field to the boardroom.</p>
+        </div>
+
+        <div class="values-grid">
+
+          <div class="value-card reveal">
+            <div class="value-icon"><i class="fa-solid fa-award"></i></div>
+            <h3>Professionalism</h3>
+            <p>We uphold the highest standards of conduct, competence and integrity in all our work and interactions with partners and communities.</p>
+          </div>
+
+          <div class="value-card reveal reveal-delay-1">
+            <div class="value-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+            <h3>Accountability</h3>
+            <p>We take responsibility for our actions and decisions, ensuring transparency in the use of resources entrusted to us by donors and communities.</p>
+          </div>
+
+          <div class="value-card reveal reveal-delay-2">
+            <div class="value-icon"><i class="fa-solid fa-seedling"></i></div>
+            <h3>Stewardship</h3>
+            <p>We manage all resources — financial, human and environmental — with care and wisdom, ensuring long-term sustainability for the communities we serve.</p>
+          </div>
+
+          <div class="value-card reveal reveal-delay-3">
+            <div class="value-icon"><i class="fa-solid fa-people-group"></i></div>
+            <h3>Teamwork</h3>
+            <p>We believe in the power of collaboration — working together internally and with partners to achieve more than any one organization can alone.</p>
+          </div>
+
+          <div class="value-card reveal reveal-delay-4">
+            <div class="value-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+            <h3>Transparency</h3>
+            <p>We are open and honest in all our communications, operations and reporting — building trust with communities, donors and government partners alike.</p>
+          </div>
+
+          <div class="value-card value-card--dark reveal reveal-delay-5">
+            <div class="value-icon"><i class="fa-solid fa-heart"></i></div>
+            <h3>Christian Values</h3>
+            <p>Our work is guided by Christian principles of compassion, dignity, justice and service to the most vulnerable members of society.</p>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ================================================
+           SECTION 4 — PARTNERS & NETWORKS
+      ================================================ -->
+      <section id="partners" class="about-section" aria-labelledby="partners-heading">
+
+        <span class="section-label section-label-green reveal">
+          <i class="fa-solid fa-handshake"></i>Partners &amp; Networks
+        </span>
+
+        <div class="partners-intro reveal">
+          <h2 id="partners-heading">Those who stand with us</h2>
+          <p>Our partners provide technical, financial and institutional support that makes sustainable community development possible across Kenya.</p>
+        </div>
+
+        <div class="partners-logos">
+          <a href="https://www.path.org/" target="_blank" rel="noopener noreferrer" class="partner-chip reveal">
+            <img src="../assets/images/path.jpeg" alt="PATH Kenya partner logo" loading="lazy">
+          </a>
+          <a href="https://uraia.or.ke/" target="_blank" rel="noopener noreferrer" class="partner-chip reveal reveal-delay-1">
+            <img src="../assets/images/uraia.jpeg" alt="Uraia Trust partner logo" loading="lazy">
+          </a>
+          <a href="https://amref.org/" target="_blank" rel="noopener noreferrer" class="partner-chip reveal reveal-delay-2">
+            <img src="../assets/images/amref.jpeg" alt="AMREF Health Africa partner logo" loading="lazy">
+          </a>
+          <div class="partner-chip reveal reveal-delay-3">
+            <img src="../assets/images/usaid.png" alt="USAID partner logo" loading="lazy">
+          </div>
+          <a href="https://www.health.go.ke/" target="_blank" rel="noopener noreferrer" class="partner-chip reveal reveal-delay-4">
+            <img src="../assets/images/moh.png" alt="Kenya Ministry of Health logo" loading="lazy">
+          </a>
+          <a href="https://www.theglobalfund.org/en/" target="_blank" rel="noopener noreferrer" class="partner-chip reveal">
+            <img src="../assets/images/globalfund.jpg" alt="The Global Fund logo" loading="lazy">
+          </a>
+          <a href="https://www.ke.emb-japan.go.jp/itprtop_en/index.html" target="_blank" rel="noopener noreferrer" class="partner-chip reveal reveal-delay-1">
+            <img src="../assets/images/japan2.jpg" alt="Embassy of Japan in Kenya logo" loading="lazy">
+          </a>
+          <a href="https://ke.usembassy.gov/pepfar/" target="_blank" rel="noopener noreferrer" class="partner-chip reveal reveal-delay-2">
+            <img src="../assets/images/pepfar.png" alt="PEPFAR logo" loading="lazy">
+          </a>
+          <a href="https://kenya.um.dk/en/about-denmark-in-kenya/danida-en" target="_blank" rel="noopener noreferrer" class="partner-chip reveal reveal-delay-3">
+            <img src="../assets/images/danida.jpg" alt="DANIDA logo" loading="lazy">
+          </a>
+        </div>
+
+        <div class="partner-quote reveal">
+          <p>"The design of the Global Fund Malaria Project by the GoK and malaria stakeholders led to improved uptake of community case management and eventually reduced malaria prevalence in the lake endemic region."</p>
+          <p class="partner-quote-attr">— IDF Global Fund Project Report</p>
+        </div>
+
+      </section>
+
+
+      <!-- ================================================
+           SECTION 5 — OUR TEAM
+      ================================================ -->
+      <section id="team" class="about-section" aria-labelledby="team-heading">
+
+        <span class="section-label section-label-navy reveal">
+          <i class="fa-solid fa-users"></i>Our Team
+        </span>
+
+        <div class="team-intro reveal">
+          <h2 id="team-heading">The people behind the work</h2>
+          <p>IDF is structured across five functional teams — each dedicated to delivering measurable impact in the communities we serve.</p>
+        </div>
+
+        <div class="team-groups">
+
+          <!-- Board of Management -->
+          <div>
+            <div class="team-group-label reveal">
+              <h3>
+                <i class="fa-solid fa-star" style="color:var(--idf-blue);font-size:0.85rem;margin-right:0.5rem"></i>
+                Board of Management
+              </h3>
+              <div class="team-group-line"></div>
+            </div>
+            <div class="team-grid">
+              <div class="team-card reveal">
+                <div class="team-avatar avatar-navy">BM</div>
+                <h4>Board Member</h4>
+                <p>Board of Management</p>
+              </div>
+              <div class="team-card reveal reveal-delay-1">
+                <div class="team-avatar avatar-navy">BM</div>
+                <h4>Board Member</h4>
+                <p>Board of Management</p>
+              </div>
+              <div class="team-card reveal reveal-delay-2">
+                <div class="team-avatar avatar-navy">BM</div>
+                <h4>Board Member</h4>
+                <p>Board of Management</p>
+              </div>
+              <div class="team-card reveal reveal-delay-3">
+                <div class="team-avatar avatar-navy">BM</div>
+                <h4>Board Member</h4>
+                <p>Board of Management</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Senior Management Team -->
+          <div>
+            <div class="team-group-label reveal">
+              <h3>
+                <i class="fa-solid fa-star" style="color:var(--idf-blue);font-size:0.85rem;margin-right:0.5rem"></i>
+                Senior Management Team
+              </h3>
+              <div class="team-group-line"></div>
+            </div>
+            <div class="team-grid">
+              <div class="team-card reveal">
+                <div class="team-avatar avatar-blue">SM</div>
+                <h4>Senior Manager</h4>
+                <p>Senior Management Team</p>
+              </div>
+              <div class="team-card reveal reveal-delay-1">
+                <div class="team-avatar avatar-blue">SM</div>
+                <h4>Senior Manager</h4>
+                <p>Senior Management Team</p>
+              </div>
+              <div class="team-card reveal reveal-delay-2">
+                <div class="team-avatar avatar-blue">SM</div>
+                <h4>Senior Manager</h4>
+                <p>Senior Management Team</p>
+              </div>
+              <div class="team-card reveal reveal-delay-3">
+                <div class="team-avatar avatar-blue">SM</div>
+                <h4>Senior Manager</h4>
+                <p>Senior Management Team</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Field & Support Teams -->
+          <div>
+            <div class="team-group-label reveal">
+              <h3>
+                <i class="fa-solid fa-star" style="color:var(--idf-green);font-size:0.85rem;margin-right:0.5rem"></i>
+                Field &amp; Support Teams
+              </h3>
+              <div class="team-group-line"></div>
+            </div>
+            <div class="team-grid">
+              <div class="team-card reveal">
+                <div class="team-avatar avatar-green">CM</div>
+                <h4>Case Manager</h4>
+                <p>Case Management Team</p>
+              </div>
+              <div class="team-card reveal reveal-delay-1">
+                <div class="team-avatar avatar-green">FA</div>
+                <h4>Finance Officer</h4>
+                <p>Finance &amp; Administration</p>
+              </div>
+              <div class="team-card reveal reveal-delay-2">
+                <div class="team-avatar avatar-blue">ME</div>
+                <h4>M&amp;E Officer</h4>
+                <p>Monitoring &amp; Evaluation</p>
+              </div>
+              <div class="team-card reveal reveal-delay-3">
+                <div class="team-avatar avatar-navy">PO</div>
+                <h4>Programme Officer</h4>
+                <p>Programmes Team</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="team-note reveal">
+          <i class="fa-solid fa-circle-info" style="color:var(--idf-blue);margin-right:0.5rem"></i>
+          Team member details are managed privately. To request information or arrange an official visit, please <a href="/pages/contact.html">contact our office</a> directly.
+        </div>
+
+      </section>
+
+
+      <!-- ================================================
+           SECTION 6 — JOIN US (CAREERS)
+      ================================================ -->
+      <section id="careers" class="about-section" aria-labelledby="careers-heading">
+
+        <span class="section-label section-label-green reveal">
+          <i class="fa-solid fa-briefcase"></i>Join Us
+        </span>
+
+        <div class="join-intro reveal">
+          <h2 id="careers-heading">Build your career with purpose</h2>
+          <p>IDF offers a stimulating, values-driven work environment for professionals passionate about community development, health, governance and social change.</p>
+        </div>
+
+        <div class="join-grid">
+
+          <div class="join-reason reveal">
+            <div class="join-reason-icon">
+              <i class="fa-solid fa-earth-africa"></i>
+            </div>
+            <div>
+              <h4>Real Community Impact</h4>
+              <p>Your work directly improves the lives of thousands of beneficiaries across seven counties in Kenya.</p>
+            </div>
+          </div>
+
+          <div class="join-reason reveal reveal-delay-1">
+            <div class="join-reason-icon join-reason-icon--green">
+              <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <div>
+              <h4>Learning &amp; Growth</h4>
+              <p>Access training, capacity building and professional development programs supported by our international partners.</p>
+            </div>
+          </div>
+
+          <div class="join-reason reveal reveal-delay-2">
+            <div class="join-reason-icon">
+              <i class="fa-solid fa-handshake-angle"></i>
+            </div>
+            <div>
+              <h4>Global Partnerships</h4>
+              <p>Work alongside USAID, Global Fund, PATH, AMREF and other leading international development organizations.</p>
+            </div>
+          </div>
+
+          <div class="join-reason reveal reveal-delay-3">
+            <div class="join-reason-icon join-reason-icon--green">
+              <i class="fa-solid fa-heart"></i>
+            </div>
+            <div>
+              <h4>Values-Led Culture</h4>
+              <p>Join a team that lives its values — professional, accountable, transparent and deeply committed to community welfare.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="join-cta-box reveal">
+          <div>
+            <h3>Ready to make a difference?</h3>
+            <p>View current opportunities or reach out to express your interest in joining the IDF Kenya team.</p>
+          </div>
+          <div class="join-cta-actions">
+            <a href="/pages/careers.html" class="btn-idf-primary">
+              <i class="fa-solid fa-briefcase"></i>View Open Roles
+            </a>
+            <a href="/pages/contact.html" class="btn-idf-outline-white">
+              <i class="fa-regular fa-envelope"></i>Contact Us
+            </a>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+
+  <!-- FOOTER (injected by component.js) -->
+  <div id="footer-placeholder"></div>
+
+
+  <!-- Scripts — component.js injects navbar + footer, must load first -->
+  <script src="/js/component.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/scroll.js"></script>
+  <script src="/js/utils.js"></script>
+
+</body>
+</html>

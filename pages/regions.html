@@ -1,0 +1,804 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="IDF Kenya operational regions — Homa Bay, Vihiga, Nyamira, Meru, Tharaka Nithi, Kwale and Kirinyaga counties.">
+  <title>Regions — Integrated Development Facility Kenya</title>
+  <link rel="icon" href="/assets/images/logo1.png" type="image/png">
+
+  <!-- Google Fonts — identical to index.html and about.html -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6.5.1 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+  <!-- Site-wide stylesheets — same load order as index.html and about.html -->
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/sections.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+
+  <!-- Regions page-scoped styles (loaded last) -->
+  <link rel="stylesheet" href="/css/regions.css">
+</head>
+
+<body>
+
+  <!-- ============================================================
+       NAVBAR — inlined directly.
+       id="navbar" required by initNavScroll() in main.js.
+       "Regions" is marked active via nav-link--active.
+  ============================================================ -->
+  <nav id="navbar" class="glass-nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-container">
+
+      <a href="/index.html" class="nav-logo">
+        <img src="/assets/images/logo1.png"
+          alt="Integrated Development Facility logo"
+          class="nav-logo-img">
+        <div class="nav-logo-text">
+          <span class="nav-logo-main">IDF Kenya</span>
+          <span class="nav-logo-sub">Integrated Development Facility</span>
+        </div>
+      </a>
+
+      <button class="nav-toggle" id="navToggle"
+        aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="nav-links" id="navLinks">
+
+        <li class="has-dropdown">
+          <a href="/pages/about.html" class="nav-link">
+            About Us <span class="chevron">&#8250;</span>
+          </a>
+          <ul class="dropdown">
+            <li><a href="/pages/our-history.html">Our History</a></li>
+            <li><a href="/pages/mission-vision.html">Mission, Vision &amp; Values</a></li>
+            <li><a href="/pages/partners.html">Partners &amp; Networks</a></li>
+            <li><a href="/pages/our-team.html">Our Team</a></li>
+            <li><a href="/pages/careers.html">Join Us</a></li>
+          </ul>
+        </li>
+
+        <li class="has-dropdown">
+          <a href="#" class="nav-link">
+            Our Work <span class="chevron">&#8250;</span>
+          </a>
+          <ul class="dropdown">
+            <li><a href="/pages/usaid-nuru-ya-mtoto.html">USAID Nuru Ya Mtoto</a></li>
+            <li><a href="/pages/kuimarisha-kaunti.html">Kuimarisha Kaunti</a></li>
+            <li><a href="/pages/global-fund-malaria.html">Global Fund Malaria</a></li>
+            <li><a href="/pages/seka-kagwa.html">Seka Kagwa Water</a></li>
+          </ul>
+        </li>
+
+        <li class="has-dropdown">
+          <a href="/pages/regions.html" class="nav-link nav-link--active">
+            Regions <span class="chevron">&#8250;</span>
+          </a>
+          <ul class="dropdown">
+            <li><a href="/pages/regions.html#homa-bay">Homa Bay County</a></li>
+            <li><a href="/pages/regions.html#vihiga">Vihiga County</a></li>
+            <li><a href="/pages/regions.html#nyamira">Nyamira County</a></li>
+            <li><a href="/pages/regions.html#meru">Meru County</a></li>
+            <li><a href="/pages/regions.html#tharaka-nithi">Tharaka Nithi County</a></li>
+            <li><a href="/pages/regions.html#kwale">Kwale County</a></li>
+            <li><a href="/pages/regions.html#kirinyaga">Kirinyaga County</a></li>
+          </ul>
+        </li>
+
+        <li class="has-dropdown">
+          <a href="#" class="nav-link">
+            Resources <span class="chevron">&#8250;</span>
+          </a>
+          <ul class="dropdown">
+            <li><a href="/pages/newsletters.html">Newsletters</a></li>
+            <li><a href="/pages/photos.html">Photo Gallery</a></li>
+            <li><a href="/pages/videos.html">Videos</a></li>
+            <li><a href="/pages/documents.html">Documents</a></li>
+            <li><a href="/pages/policies.html">Policies</a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="/pages/contact.html" class="nav-cta">Contact Us</a>
+        </li>
+
+      </ul>
+    </div>
+  </nav>
+
+
+  <!-- ============================================================
+       MOBILE HORIZONTAL SECTION NAV (visible ≤ 1100px)
+       data-spy-target values match county section id attributes.
+       initRegionsScrollSpy() in main.js reads them.
+  ============================================================ -->
+  <nav class="mobile-regions-nav" role="navigation" aria-label="County sections">
+    <div class="mobile-regions-nav-inner">
+      <a href="#homa-bay"     class="mobile-regions-link" data-spy-target="homa-bay">
+        <i class="fa-solid fa-location-dot"></i>Homa Bay
+      </a>
+      <a href="#vihiga"       class="mobile-regions-link" data-spy-target="vihiga">
+        <i class="fa-solid fa-location-dot"></i>Vihiga
+      </a>
+      <a href="#nyamira"      class="mobile-regions-link" data-spy-target="nyamira">
+        <i class="fa-solid fa-location-dot"></i>Nyamira
+      </a>
+      <a href="#meru"         class="mobile-regions-link" data-spy-target="meru">
+        <i class="fa-solid fa-location-dot"></i>Meru
+      </a>
+      <a href="#tharaka-nithi" class="mobile-regions-link" data-spy-target="tharaka-nithi">
+        <i class="fa-solid fa-location-dot"></i>Tharaka Nithi
+      </a>
+      <a href="#kwale"        class="mobile-regions-link" data-spy-target="kwale">
+        <i class="fa-solid fa-location-dot"></i>Kwale
+      </a>
+      <a href="#kirinyaga"    class="mobile-regions-link" data-spy-target="kirinyaga">
+        <i class="fa-solid fa-location-dot"></i>Kirinyaga
+      </a>
+    </div>
+  </nav>
+
+
+  <!-- ============================================================
+       PAGE HERO
+  ============================================================ -->
+  <header class="regions-hero" role="banner">
+    <img class="regions-hero-bg"
+      src="/assets/images/idf_home1.jpg"
+      alt="IDF Kenya community members in Homa Bay County"
+      loading="eager">
+    <div class="regions-hero-overlay" aria-hidden="true"></div>
+    <div class="regions-hero-content">
+      <span class="regions-hero-eyebrow">
+        <i class="fa-solid fa-map-location-dot" style="margin-right:0.35rem"></i>Our Operational Regions
+      </span>
+      <h1>Where We Work</h1>
+      <p>IDF Kenya implements projects across seven counties — from the shores of Lake Victoria to the slopes of Mount Kenya — delivering lasting impact in health, governance and water access.</p>
+      <nav class="regions-hero-pills" aria-label="Jump to county">
+        <a href="#homa-bay"      class="regions-hero-pill"><i class="fa-solid fa-location-dot"></i>Homa Bay</a>
+        <a href="#vihiga"        class="regions-hero-pill"><i class="fa-solid fa-location-dot"></i>Vihiga</a>
+        <a href="#nyamira"       class="regions-hero-pill"><i class="fa-solid fa-location-dot"></i>Nyamira</a>
+        <a href="#meru"          class="regions-hero-pill"><i class="fa-solid fa-location-dot"></i>Meru</a>
+        <a href="#tharaka-nithi" class="regions-hero-pill"><i class="fa-solid fa-location-dot"></i>Tharaka Nithi</a>
+        <a href="#kwale"         class="regions-hero-pill"><i class="fa-solid fa-location-dot"></i>Kwale</a>
+        <a href="#kirinyaga"     class="regions-hero-pill"><i class="fa-solid fa-location-dot"></i>Kirinyaga</a>
+      </nav>
+    </div>
+  </header>
+
+
+  <!-- ============================================================
+       TWO-COLUMN LAYOUT: SIDENAV + MAIN CONTENT
+  ============================================================ -->
+  <div class="regions-layout">
+
+    <!-- STICKY SIDENAV (desktop ≥ 1100px) -->
+    <aside class="regions-sidenav" aria-label="County navigation">
+      <p class="sidenav-label">Counties</p>
+      <ul class="sidenav-list" role="list">
+        <li>
+          <a href="#homa-bay" class="active" data-spy-target="homa-bay">
+            <i class="fa-solid fa-location-dot"></i>Homa Bay County
+          </a>
+        </li>
+        <li>
+          <a href="#vihiga" data-spy-target="vihiga">
+            <i class="fa-solid fa-location-dot"></i>Vihiga County
+          </a>
+        </li>
+        <li>
+          <a href="#nyamira" data-spy-target="nyamira">
+            <i class="fa-solid fa-location-dot"></i>Nyamira County
+          </a>
+        </li>
+        <li>
+          <a href="#meru" data-spy-target="meru">
+            <i class="fa-solid fa-location-dot"></i>Meru County
+          </a>
+        </li>
+        <li>
+          <a href="#tharaka-nithi" data-spy-target="tharaka-nithi">
+            <i class="fa-solid fa-location-dot"></i>Tharaka Nithi County
+          </a>
+        </li>
+        <li>
+          <a href="#kwale" data-spy-target="kwale">
+            <i class="fa-solid fa-location-dot"></i>Kwale County
+          </a>
+        </li>
+        <li>
+          <a href="#kirinyaga" data-spy-target="kirinyaga">
+            <i class="fa-solid fa-location-dot"></i>Kirinyaga County
+          </a>
+        </li>
+      </ul>
+
+      <!-- Reading progress bar -->
+      <div class="sidenav-progress" aria-label="Page reading progress">
+        <p class="sidenav-progress-label">Reading progress</p>
+        <div class="sidenav-progress-bar"
+          role="progressbar"
+          aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+          <div class="sidenav-progress-fill" id="regionsProgressFill"></div>
+        </div>
+      </div>
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="regions-main" id="regionsMainContent">
+
+
+      <!-- =====================================================
+           COUNTY 1 — HOMA BAY
+      ====================================================== -->
+      <section id="homa-bay" class="county-section" aria-labelledby="homa-bay-heading">
+
+        <span class="section-label section-label-blue reveal">
+          <i class="fa-solid fa-location-dot"></i>Homa Bay County
+        </span>
+
+        <div class="county-grid">
+
+          <div class="county-text">
+            <div class="county-projects reveal">
+              <span class="project-chip project-chip--blue">
+                <i class="fa-solid fa-heart-pulse"></i>USAID Nuru Ya Mtoto
+              </span>
+              <span class="project-chip project-chip--green">
+                <i class="fa-solid fa-landmark"></i>Kuimarisha Kaunti
+              </span>
+              <span class="project-chip project-chip--blue">
+                <i class="fa-solid fa-syringe"></i>Global Fund Malaria
+              </span>
+              <span class="project-chip project-chip--green">
+                <i class="fa-solid fa-droplet"></i>Seka Kagwa Water
+              </span>
+            </div>
+
+            <h2 id="homa-bay-heading" class="reveal">IDF's home county &amp; headquarters</h2>
+            <p class="reveal reveal-delay-1">IDF was founded in Homa Bay in 1999 and has maintained its headquarters here at Kadongo Centre, Rachuonyo East Sub County. It remains IDF's most operationally intensive county, hosting four concurrent projects across all eight sub-counties.</p>
+            <p class="reveal reveal-delay-1">The USAID Nuru Ya Mtoto project operates in Rachuonyo North Sub County, supporting orphans and vulnerable children (OVC) and their households. The project works with the Directorate of Children Services, Ministry of Health, and County Government to deliver integrated case management and advance Kenya's 95-95-95 HIV strategy.</p>
+            <p class="reveal reveal-delay-2">The Kuimarisha Kaunti governance project reaches all eight sub-counties — Rachuonyo East, Rachuonyo South, Rachuonyo North, Rangwe, Homa Bay Town, Mbita, Ndhiwa and Suba — mobilizing citizens and building county service accountability structures. This project earned IDF the 2023 Ndovu Award for outstanding governance work.</p>
+
+            <div class="county-info-box reveal reveal-delay-2">
+              <h4><i class="fa-solid fa-trophy" style="margin-right:0.4rem"></i>Ndovu Award 2023</h4>
+              <p>Awarded once every 10 years, the Ndovu Award was presented to IDF for outstanding work in educating and mobilising citizens to participate in county governance and service delivery in Homa Bay County.</p>
+            </div>
+
+            <div style="margin-top:24px" class="reveal reveal-delay-3">
+              <a href="/pages/usaid-nuru-ya-mtoto.html" class="btn-idf-primary">
+                <i class="fa-solid fa-arrow-right"></i>View USAID NYM Project
+              </a>
+            </div>
+          </div>
+
+          <div class="county-img-wrap reveal reveal-delay-1">
+            <div class="county-badge">
+              <strong>4</strong>
+              <span>Projects</span>
+            </div>
+            <img class="county-img"
+              src="/assets/images/homabay.jpg"
+              alt="Homa Bay County landscape where IDF implements four active projects">
+            <div class="county-img-deco"></div>
+          </div>
+
+        </div>
+
+        <div class="county-stats">
+          <div class="county-stat reveal">
+            <div class="county-stat-number">6,768<span class="stat-suffix">+</span></div>
+            <div class="county-stat-label">NYM Beneficiaries FY2024</div>
+          </div>
+          <div class="county-stat reveal reveal-delay-1">
+            <div class="county-stat-number">114</div>
+            <div class="county-stat-label">Community Health Units</div>
+          </div>
+          <div class="county-stat reveal reveal-delay-2">
+            <div class="county-stat-number">8</div>
+            <div class="county-stat-label">Sub-Counties Covered</div>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           COUNTY 2 — VIHIGA
+      ====================================================== -->
+      <section id="vihiga" class="county-section" aria-labelledby="vihiga-heading">
+
+        <span class="section-label section-label-green reveal">
+          <i class="fa-solid fa-location-dot"></i>Vihiga County
+        </span>
+
+        <div class="county-grid">
+
+          <div class="county-text">
+            <div class="county-projects reveal">
+              <span class="project-chip project-chip--blue">
+                <i class="fa-solid fa-heart-pulse"></i>USAID Nuru Ya Mtoto
+              </span>
+            </div>
+
+            <h2 id="vihiga-heading" class="reveal">Supporting children &amp; households in Vihiga</h2>
+            <p class="reveal reveal-delay-1">IDF implements the USAID Nuru Ya Mtoto project across the whole of Vihiga County as a Local Implementing Partner (LIP) in cooperative agreement with PATH Kenya. The project targets orphans and vulnerable children (OVC) and adolescent girls and young women (AGYW) in the county.</p>
+            <p class="reveal reveal-delay-1">Vihiga County has a COP beneficiary target of 2,346 with a focus on the four domains of the NYM programme — Healthy, Safe, Stable and Schooled. The project works directly with the County Director of Children Services and Sub-County Health Management Teams to deliver evidence-based OVC services.</p>
+            <p class="reveal reveal-delay-2">IDF's entry into Vihiga was marked by a formal stakeholder engagement meeting presided over by the County Director of Children Services, ensuring community-led ownership from the outset. Field activities in Sabatia and Emuhaya sub-counties have since demonstrated strong programme uptake.</p>
+
+            <div class="county-info-box county-info-box--green reveal reveal-delay-2">
+              <h4><i class="fa-solid fa-children" style="margin-right:0.4rem"></i>AGYW Programme Focus</h4>
+              <p>Vihiga is one of the DREAMS-targeted counties under the USAID NYM project, providing a comprehensive package of HIV prevention and social support services to adolescent girls and young women.</p>
+            </div>
+
+            <div style="margin-top:24px" class="reveal reveal-delay-3">
+              <a href="/pages/usaid-nuru-ya-mtoto.html" class="btn-idf-primary">
+                <i class="fa-solid fa-arrow-right"></i>View USAID NYM Project
+              </a>
+            </div>
+          </div>
+
+          <div class="county-img-wrap reveal reveal-delay-1">
+            <div class="county-badge">
+              <strong>1</strong>
+              <span>Project</span>
+            </div>
+            <img class="county-img"
+              src="/assets/images/vihiga.png"
+              alt="Vihiga County community where IDF delivers the USAID Nuru Ya Mtoto project">
+            <div class="county-img-deco"></div>
+          </div>
+
+        </div>
+
+        <div class="county-stats">
+          <div class="county-stat reveal">
+            <div class="county-stat-number">1,916</div>
+            <div class="county-stat-label">Beneficiaries FY2024</div>
+          </div>
+          <div class="county-stat reveal reveal-delay-1">
+            <div class="county-stat-number">2,346</div>
+            <div class="county-stat-label">COP Target</div>
+          </div>
+          <div class="county-stat reveal reveal-delay-2">
+            <div class="county-stat-number">2021</div>
+            <div class="county-stat-label">Project Start Year</div>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           COUNTY 3 — NYAMIRA
+      ====================================================== -->
+      <section id="nyamira" class="county-section" aria-labelledby="nyamira-heading">
+
+        <span class="section-label section-label-blue reveal">
+          <i class="fa-solid fa-location-dot"></i>Nyamira County
+        </span>
+
+        <div class="county-grid">
+
+          <div class="county-text">
+            <div class="county-projects reveal">
+              <span class="project-chip project-chip--blue">
+                <i class="fa-solid fa-heart-pulse"></i>USAID Nuru Ya Mtoto
+              </span>
+            </div>
+
+            <h2 id="nyamira-heading" class="reveal">Protecting children across Nyamira County</h2>
+            <p class="reveal reveal-delay-1">IDF implements the USAID Nuru Ya Mtoto project across the whole of Nyamira County. The project is supporting the Government of Kenya in attaining its goal of addressing the HIV and AIDS response by safeguarding the rights and welfare of children and adolescents impacted by HIV and AIDS.</p>
+            <p class="reveal reveal-delay-1">Operating under a five-year cooperative agreement with PATH Kenya (March 2021 – March 2026), IDF's Nyamira programme focuses on increasing household economic stability to care for and protect OVC, strengthening OVC-related community systems and structures, and expanding targeted services for HIV-exposed and affected children.</p>
+            <p class="reveal reveal-delay-2">The Nyamira programme works with a range of stakeholders including the Directorate of Children Services, the Ministry of Health, and County Government offices, implementing interventions aligned with the United Nations' ambitious 95-95-95 strategy to end the HIV pandemic by 2030.</p>
+
+            <div class="county-info-box reveal reveal-delay-2">
+              <h4><i class="fa-solid fa-graduation-cap" style="margin-right:0.4rem"></i>Education Support</h4>
+              <p>Under the Schooled domain, the project supports vulnerable students to enroll, be retained and progress academically through school fee assistance, uniforms and supplies — reducing the financial burden on families affected by HIV.</p>
+            </div>
+
+            <div style="margin-top:24px" class="reveal reveal-delay-3">
+              <a href="/pages/usaid-nuru-ya-mtoto.html" class="btn-idf-primary">
+                <i class="fa-solid fa-arrow-right"></i>View USAID NYM Project
+              </a>
+            </div>
+          </div>
+
+          <div class="county-img-wrap reveal reveal-delay-1">
+            <div class="county-badge">
+              <strong>1</strong>
+              <span>Project</span>
+            </div>
+            <img class="county-img"
+              src="/assets/images/nyamira.jpg"
+              alt="Nyamira County community where IDF delivers the USAID Nuru Ya Mtoto project">
+            <div class="county-img-deco"></div>
+          </div>
+
+        </div>
+
+        <div class="county-stats">
+          <div class="county-stat reveal">
+            <div class="county-stat-number">918</div>
+            <div class="county-stat-label">Beneficiaries FY2024</div>
+          </div>
+          <div class="county-stat reveal reveal-delay-1">
+            <div class="county-stat-number">1,412</div>
+            <div class="county-stat-label">COP Target</div>
+          </div>
+          <div class="county-stat reveal reveal-delay-2">
+            <div class="county-stat-number">2021</div>
+            <div class="county-stat-label">Project Start Year</div>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           COUNTY 4 — MERU
+      ====================================================== -->
+      <section id="meru" class="county-section" aria-labelledby="meru-heading">
+
+        <span class="section-label section-label-navy reveal">
+          <i class="fa-solid fa-location-dot"></i>Meru County
+        </span>
+
+        <div class="county-grid">
+
+          <div class="county-text">
+            <div class="county-projects reveal">
+              <span class="project-chip project-chip--navy">
+                <i class="fa-solid fa-syringe"></i>Global Fund Malaria (Completed)
+              </span>
+            </div>
+
+            <h2 id="meru-heading" class="reveal">Reducing malaria burden in Meru County</h2>
+            <p class="reveal reveal-delay-1">IDF implemented the Global Fund Malaria Project in Meru County between 2018 and 2021. The project improved access to prompt and effective treatment of malaria, contributing directly to Kenya's national goal of a "Malaria Free Kenya" as articulated in the Kenya Malaria Strategy.</p>
+            <p class="reveal reveal-delay-1">The programme supported community health workers to identify suspected malaria cases in the community, test using mRDT kits, and treat confirmed cases using artemether-lumefantrine (AL). Community Health Assistants were trained to supervise commodity supply chains and compile monthly accountability reports.</p>
+            <p class="reveal reveal-delay-2">Routine Malaria Quality Audits conducted across all seven project counties — including Meru — assessed medication practices and data management systems. IDF coordinated closely with the Meru County health teams to ensure national treatment guidelines were followed throughout implementation.</p>
+
+            <div class="county-info-box county-info-box--green reveal reveal-delay-2">
+              <h4><i class="fa-solid fa-circle-check" style="margin-right:0.4rem"></i>Project Impact</h4>
+              <p>Community case management has proven effective in managing malaria at the household level. Provision of malaria commodities to CHVs for routine household visits ensured accessibility and prompt management of suspected cases across Meru County.</p>
+            </div>
+
+            <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap" class="reveal reveal-delay-3">
+              <a href="/pages/global-fund-malaria.html" class="btn-idf-primary">
+                <i class="fa-solid fa-arrow-right"></i>View Global Fund Project
+              </a>
+              <a href="/pages/contact.html" class="btn-idf-outline-navy">
+                <i class="fa-regular fa-envelope"></i>Get In Touch
+              </a>
+            </div>
+          </div>
+
+          <div class="county-img-wrap reveal reveal-delay-1">
+            <div class="county-badge">
+              <strong>1</strong>
+              <span>Completed</span>
+            </div>
+            <img class="county-img"
+              src="/assets/images/meru.png"
+              alt="Meru County where IDF implemented the Global Fund Malaria project 2018 to 2021">
+            <div class="county-img-deco"></div>
+          </div>
+
+        </div>
+
+        <div class="county-stats">
+          <div class="county-stat reveal">
+            <div class="county-stat-number">2018</div>
+            <div class="county-stat-label">Project Start Year</div>
+          </div>
+          <div class="county-stat reveal reveal-delay-1">
+            <div class="county-stat-number">2021</div>
+            <div class="county-stat-label">Project End Year</div>
+          </div>
+          <div class="county-stat reveal reveal-delay-2">
+            <div class="county-stat-number">3<span class="stat-suffix">yrs</span></div>
+            <div class="county-stat-label">Programme Duration</div>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           COUNTY 5 — THARAKA NITHI
+      ====================================================== -->
+      <section id="tharaka-nithi" class="county-section" aria-labelledby="tharaka-heading">
+
+        <span class="section-label section-label-navy reveal">
+          <i class="fa-solid fa-location-dot"></i>Tharaka Nithi County
+        </span>
+
+        <div class="county-grid">
+
+          <div class="county-text">
+            <div class="county-projects reveal">
+              <span class="project-chip project-chip--navy">
+                <i class="fa-solid fa-syringe"></i>Global Fund Malaria (Completed)
+              </span>
+            </div>
+
+            <h2 id="tharaka-heading" class="reveal">Community malaria management in Tharaka Nithi</h2>
+            <p class="reveal reveal-delay-1">IDF implemented the Global Fund Malaria Project in Tharaka Nithi County between 2018 and 2021 as a sub-recipient to the Principal Recipient, Amref Health Africa. The project formed part of Kenya's nationwide strategy to achieve 100% management of suspected malaria cases according to treatment guidelines.</p>
+            <p class="reveal reveal-delay-1">Working with the Tharaka Nithi County Department of Health, IDF facilitated training of Community Health Extension Workers (CHEWs) and Community Health Volunteers (CHVs) on mRDT testing procedures, AL dispensing, and monthly data reporting. CHVs received biosafety kits for safe waste management of used mRDT materials.</p>
+            <p class="reveal reveal-delay-2">The project's vector control component reached teachers in Tharaka Nithi through Training of Trainers (ToT) sessions focused on malaria mobilisation, with approximately 3,280 pupils involved in door-to-door health mobilisation in the county.</p>
+
+            <div class="county-info-box county-info-box--green reveal reveal-delay-2">
+              <h4><i class="fa-solid fa-microscope" style="margin-right:0.4rem"></i>Quality Assurance</h4>
+              <p>Routine malaria quality audits were conducted in Tharaka Nithi to assess medication practices and data management. The quality assurance framework ensured CHVs maintained proficiency in mRDT testing and treatment dispensing throughout the project period.</p>
+            </div>
+
+            <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap" class="reveal reveal-delay-3">
+              <a href="/pages/global-fund-malaria.html" class="btn-idf-primary">
+                <i class="fa-solid fa-arrow-right"></i>View Global Fund Project
+              </a>
+              <a href="/pages/contact.html" class="btn-idf-outline-navy">
+                <i class="fa-regular fa-envelope"></i>Get In Touch
+              </a>
+            </div>
+          </div>
+
+          <div class="county-img-wrap reveal reveal-delay-1">
+            <div class="county-badge">
+              <strong>1</strong>
+              <span>Completed</span>
+            </div>
+            <img class="county-img"
+              src="/assets/images/tharaka.png"
+              alt="Tharaka Nithi County where IDF implemented the Global Fund Malaria project 2018 to 2021">
+            <div class="county-img-deco"></div>
+          </div>
+
+        </div>
+
+        <div class="county-stats">
+          <div class="county-stat reveal">
+            <div class="county-stat-number">2018</div>
+            <div class="county-stat-label">Project Start Year</div>
+          </div>
+          <div class="county-stat reveal reveal-delay-1">
+            <div class="county-stat-number">2021</div>
+            <div class="county-stat-label">Project End Year</div>
+          </div>
+          <div class="county-stat reveal reveal-delay-2">
+            <div class="county-stat-number">3<span class="stat-suffix">yrs</span></div>
+            <div class="county-stat-label">Programme Duration</div>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           COUNTY 6 — KWALE
+      ====================================================== -->
+      <section id="kwale" class="county-section" aria-labelledby="kwale-heading">
+
+        <span class="section-label section-label-navy reveal">
+          <i class="fa-solid fa-location-dot"></i>Kwale County
+        </span>
+
+        <div class="county-grid">
+
+          <div class="county-text">
+            <div class="county-projects reveal">
+              <span class="project-chip project-chip--navy">
+                <i class="fa-solid fa-syringe"></i>Global Fund Malaria (Completed)
+              </span>
+            </div>
+
+            <h2 id="kwale-heading" class="reveal">Malaria control on the Kenya coast</h2>
+            <p class="reveal reveal-delay-1">IDF implemented the Global Fund Malaria Project in Kwale County between 2018 and 2021. Located on Kenya's coastal belt, Kwale is a malaria-endemic region where community-level case management was critical in reaching underserved households far from health facilities.</p>
+            <p class="reveal reveal-delay-1">The programme trained Community Health Volunteers to conduct household visits, test suspected cases using rapid diagnostic test kits, and dispense treatment. CHVs received regular refresher training on CCMm procedures, alongside biosafety protocols for proper disposal of used test materials.</p>
+            <p class="reveal reveal-delay-2">IDF collaborated closely with Kwale County health management teams and Sub-County Health Reporting and Information Officers (SCHRIOs) to upload community health unit data into the Kenya Health Information System (KHIS), ensuring real-time monitoring of malaria indicators.</p>
+
+            <div class="county-info-box reveal reveal-delay-2">
+              <h4><i class="fa-solid fa-database" style="margin-right:0.4rem"></i>Data Systems Support</h4>
+              <p>The project facilitated provision of data bundles to SCHRIOs and airtime to CHEWs to support consistent uploading of CHU data into KHIS, improving national malaria surveillance coverage in Kwale County.</p>
+            </div>
+
+            <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap" class="reveal reveal-delay-3">
+              <a href="/pages/global-fund-malaria.html" class="btn-idf-primary">
+                <i class="fa-solid fa-arrow-right"></i>View Global Fund Project
+              </a>
+              <a href="/pages/contact.html" class="btn-idf-outline-navy">
+                <i class="fa-regular fa-envelope"></i>Get In Touch
+              </a>
+            </div>
+          </div>
+
+          <div class="county-img-wrap reveal reveal-delay-1">
+            <div class="county-badge">
+              <strong>1</strong>
+              <span>Completed</span>
+            </div>
+            <img class="county-img"
+              src="/assets/images/kwale.jpg"
+              alt="Kwale County where IDF implemented the Global Fund Malaria project 2018 to 2021">
+            <div class="county-img-deco"></div>
+          </div>
+
+        </div>
+
+        <div class="county-stats">
+          <div class="county-stat reveal">
+            <div class="county-stat-number">2018</div>
+            <div class="county-stat-label">Project Start Year</div>
+          </div>
+          <div class="county-stat reveal reveal-delay-1">
+            <div class="county-stat-number">2021</div>
+            <div class="county-stat-label">Project End Year</div>
+          </div>
+          <div class="county-stat reveal reveal-delay-2">
+            <div class="county-stat-number">3<span class="stat-suffix">yrs</span></div>
+            <div class="county-stat-label">Programme Duration</div>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           COUNTY 7 — KIRINYAGA
+      ====================================================== -->
+      <section id="kirinyaga" class="county-section" aria-labelledby="kirinyaga-heading">
+
+        <span class="section-label section-label-navy reveal">
+          <i class="fa-solid fa-location-dot"></i>Kirinyaga County
+        </span>
+
+        <div class="county-grid">
+
+          <div class="county-text">
+            <div class="county-projects reveal">
+              <span class="project-chip project-chip--navy">
+                <i class="fa-solid fa-syringe"></i>Global Fund Malaria (Completed)
+              </span>
+            </div>
+
+            <h2 id="kirinyaga-heading" class="reveal">Building community health capacity in Kirinyaga</h2>
+            <p class="reveal reveal-delay-1">IDF implemented the Global Fund Malaria Project in Kirinyaga County between 2018 and 2021. Kirinyaga, located in Kenya's central region near Mount Kenya, was one of seven counties included in the programme's nationwide scope under the Kenya Malaria Strategy framework.</p>
+            <p class="reveal reveal-delay-1">The programme built lasting capacity within Kirinyaga's Community Health Units by training frontline CHVs and CHEWs on community case management. Monthly data review meetings were held at CHU level to track progress and address implementation challenges in a structured, evidence-based way.</p>
+            <p class="reveal reveal-delay-2">IDF's collaboration with the Kirinyaga County Department of Health ensured that all trained personnel were fully integrated into the County Health Management Team's supervision structures, creating sustainable systems beyond the project period and supporting the county's ongoing malaria control efforts.</p>
+
+            <div class="county-info-box county-info-box--green reveal reveal-delay-2">
+              <h4><i class="fa-solid fa-people-arrows" style="margin-right:0.4rem"></i>Lasting Partnerships</h4>
+              <p>The Global Fund project in Kirinyaga strengthened IDF's relationship with the county government health systems — creating a foundation for future collaboration on community health and disease prevention programmes in the region.</p>
+            </div>
+
+            <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap" class="reveal reveal-delay-3">
+              <a href="/pages/global-fund-malaria.html" class="btn-idf-primary">
+                <i class="fa-solid fa-arrow-right"></i>View Global Fund Project
+              </a>
+              <a href="/pages/contact.html" class="btn-idf-outline-navy">
+                <i class="fa-regular fa-envelope"></i>Get In Touch
+              </a>
+            </div>
+          </div>
+
+          <div class="county-img-wrap reveal reveal-delay-1">
+            <div class="county-badge">
+              <strong>1</strong>
+              <span>Completed</span>
+            </div>
+            <img class="county-img"
+              src="/assets/images/kirinyaga.jpg"
+              alt="Kirinyaga County where IDF implemented the Global Fund Malaria project 2018 to 2021">
+            <div class="county-img-deco"></div>
+          </div>
+
+        </div>
+
+        <div class="county-stats">
+          <div class="county-stat reveal">
+            <div class="county-stat-number">2018</div>
+            <div class="county-stat-label">Project Start Year</div>
+          </div>
+          <div class="county-stat reveal reveal-delay-1">
+            <div class="county-stat-number">2021</div>
+            <div class="county-stat-label">Project End Year</div>
+          </div>
+          <div class="county-stat reveal reveal-delay-2">
+            <div class="county-stat-number">3<span class="stat-suffix">yrs</span></div>
+            <div class="county-stat-label">Programme Duration</div>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+
+  <!-- ============================================================
+       FOOTER — inlined directly, same as about.html
+  ============================================================ -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer-container">
+      <div class="footer-grid">
+
+        <div class="footer-brand">
+          <img src="/assets/images/logo1.png"
+            alt="Integrated Development Facility logo"
+            class="footer-logo">
+          <p>A community-based NGO with Christian values, building healthy, just and empowered communities across Kenya since 1999.</p>
+          <div class="footer-contact-info">
+            <p><strong>P.O. Box 1 - 40223</strong><br>Kadongo, Homa Bay, Kenya</p>
+            <p><a href="tel:+254722250329">+254 722 250 329</a></p>
+            <p><a href="mailto:info@idfkenya.org">info@idfkenya.org</a></p>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Regions</h4>
+          <ul>
+            <li><a href="/pages/regions.html#homa-bay">Homa Bay County</a></li>
+            <li><a href="/pages/regions.html#vihiga">Vihiga County</a></li>
+            <li><a href="/pages/regions.html#nyamira">Nyamira County</a></li>
+            <li><a href="/pages/regions.html#meru">Meru County</a></li>
+            <li><a href="/pages/regions.html#tharaka-nithi">Tharaka Nithi County</a></li>
+            <li><a href="/pages/regions.html#kwale">Kwale County</a></li>
+            <li><a href="/pages/regions.html#kirinyaga">Kirinyaga County</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Our Projects</h4>
+          <ul>
+            <li><a href="/pages/usaid-nuru-ya-mtoto.html">USAID Nuru Ya Mtoto</a></li>
+            <li><a href="/pages/kuimarisha-kaunti.html">Kuimarisha Kaunti</a></li>
+            <li><a href="/pages/global-fund-malaria.html">Global Fund Malaria</a></li>
+            <li><a href="/pages/seka-kagwa.html">Seka Kagwa Water</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Stay Connected</h4>
+          <p class="footer-newsletter-desc">Subscribe for project updates and news from the field.</p>
+          <form class="footer-form" onsubmit="handleNewsletterSignup(event)">
+            <input type="email" placeholder="Your email address"
+              required aria-label="Email address">
+            <button type="submit">Subscribe</button>
+          </form>
+          <div class="footer-partners-mini">
+            <img src="/assets/images/usaid.png" alt="USAID logo">
+            <img src="/assets/images/globalfund.jpg" alt="Global Fund logo">
+            <img src="/assets/images/amref.jpeg" alt="AMREF logo">
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2024 Integrated Development Facility. All Rights Reserved. | Powered by Jasiri Labs</p>
+        <div class="footer-bottom-links">
+          <a href="/pages/policies.html">Privacy Policy</a>
+          <a href="/pages/documents.html">Documents</a>
+          <a href="/pages/contact.html">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- Scripts — component.js omitted (navbar/footer are inlined).
+       main.js, scroll.js, utils.js match index.html and about.html. -->
+  <script src="/js/main.js"></script>
+  <script src="/js/scroll.js"></script>
+  <script src="/js/utils.js"></script>
+
+</body>
+</html>
