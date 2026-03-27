@@ -1,7 +1,10 @@
 /* ==============================================
-   IDF Kenya — scroll.js
+   IDF Kenya — scroll.js (ES6 Module)
    Animated stat counters + scroll reveal
+   Exports functions for use in main.js
    ============================================== */
+
+'use strict';
 
 // --- STAT COUNTERS ---
 function animateCounter(el) {
@@ -19,7 +22,7 @@ function animateCounter(el) {
   }, 16);
 }
 
-function initCounters() {
+export function initCounters() {
   const counters = document.querySelectorAll('.counter');
   if (!counters.length) return;
 
@@ -36,7 +39,7 @@ function initCounters() {
 }
 
 // --- SCROLL REVEAL ---
-function initScrollReveal() {
+export function initScrollReveal() {
   const targets = document.querySelectorAll(
     '.project-card, .stat-card, .partner-item, .mvv-card, .page-content h2, .page-content h3'
   );
@@ -65,8 +68,3 @@ revealStyle.textContent = `
   .reveal.revealed { opacity: 1; transform: translateY(0); }
 `;
 document.head.appendChild(revealStyle);
-
-document.addEventListener('DOMContentLoaded', () => {
-  initCounters();
-  initScrollReveal();
-});

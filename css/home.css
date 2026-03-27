@@ -1,0 +1,250 @@
+/* ==============================================
+   IDF Kenya — home.css
+   Hero enhancements scoped to index.html only.
+   Load AFTER sections.css so these rules win.
+   ============================================== */
+
+
+/* ── HERO: RICH LAYERED BACKGROUND ────────────────────────────────────────
+   Three layers of CSS create a visually rich background that looks great
+   even when the photograph fails to load:
+     1. Radial "glow" spots in navy blue and green (brand warmth)
+     2. Linear base gradient (dark left → mid navy right)
+   When the photo IS present it shows through the .hero-overlay on the right.
+───────────────────────────────────────────────────────────────────────────── */
+.hero {
+  background:
+    radial-gradient(ellipse 60% 80% at 15% 55%, rgba(46,109,180,0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 50% at 85% 20%, rgba(58,125,68,0.10) 0%, transparent 60%),
+    linear-gradient(140deg, #070e1c 0%, #0d1a2e 35%, #1B2E4B 100%);
+}
+
+
+/* ── HERO LAYERS ─────────────────────────────────────────────────────────── */
+
+/* Subtle dot-grid texture — identical to .stats-section pattern */
+.hero-pattern {
+  position: absolute;
+  inset: 0;
+  z-index: 0;               /* below overlay (z1) and content (z2) */
+  background-image: radial-gradient(rgba(91,155,213,0.09) 1px, transparent 1px);
+  background-size: 30px 30px;
+  pointer-events: none;
+}
+
+/* Thin green accent stripe on the left edge */
+.hero-accent-line {
+  position: absolute;
+  left: 0;
+  top: 10%;
+  bottom: 10%;
+  width: 3px;
+  z-index: 3;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--green, #3A7D44) 30%,
+    var(--green, #3A7D44) 70%,
+    transparent 100%
+  );
+  border-radius: 0 2px 2px 0;
+}
+
+
+/* ── ENTRANCE ANIMATIONS ─────────────────────────────────────────────────── */
+
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes heroFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Stagger each element so they cascade in on page load */
+.hero-eyebrow {
+  animation: heroFadeUp 0.65s cubic-bezier(0.22,1,0.36,1) 0.15s both;
+}
+
+.hero h1 {
+  animation: heroFadeUp 0.75s cubic-bezier(0.22,1,0.36,1) 0.32s both;
+}
+
+.hero-sub {
+  animation: heroFadeUp 0.65s cubic-bezier(0.22,1,0.36,1) 0.52s both;
+}
+
+.hero-actions {
+  animation: heroFadeUp 0.65s cubic-bezier(0.22,1,0.36,1) 0.68s both;
+}
+
+.hero-impact {
+  animation: heroFadeUp 0.65s cubic-bezier(0.22,1,0.36,1) 0.85s both;
+}
+
+.hero-scroll {
+  animation: heroFadeIn 1s ease 1.2s both;
+}
+
+
+/* ── HERO INNER: wider max-width for impact strip layout ─────────────────── */
+.hero-inner {
+  max-width: 780px;   /* slightly wider than original 720px */
+}
+
+
+/* ── EYEBROW: location pill style ────────────────────────────────────────── */
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.14);
+  padding: 6px 16px 6px 12px;
+  border-radius: 20px;
+  margin-bottom: clamp(14px, 2.5vh, 24px);
+  backdrop-filter: blur(4px);
+}
+
+.hero-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green, #3A7D44);
+  box-shadow: 0 0 0 3px rgba(58,125,68,0.3);
+  flex-shrink: 0;
+}
+
+
+/* ── H1: italic accent on the key word ──────────────────────────────────── */
+.hero h1 em {
+  color: var(--blue-light, #5B9BD5);
+  font-style: italic;
+}
+
+
+/* ── IMPACT STRIP ────────────────────────────────────────────────────────── */
+
+/*
+  A row of 3 quick-hit stats inside the hero, sitting below the CTA buttons.
+  Separated from the button row by a subtle ruled line.
+*/
+.hero-impact {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(28px, 5vw, 56px);
+  margin-top: clamp(36px, 6vh, 56px);
+  padding-top: clamp(20px, 3vh, 28px);
+  border-top: 1px solid rgba(255,255,255,0.12);
+}
+
+.hero-impact-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hero-impact-stat + .hero-impact-stat {
+  padding-left: clamp(28px, 5vw, 56px);
+  border-left: 1px solid rgba(255,255,255,0.12);
+}
+
+.hero-impact-number {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.6rem, 2.5vw, 2rem);
+  font-weight: 700;
+  color: var(--white, #fff);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.hero-impact-number sup {
+  font-size: 0.55em;
+  color: var(--green-light, #52a85f);
+  vertical-align: super;
+  font-weight: 600;
+}
+
+.hero-impact-label {
+  font-size: 0.68rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.4;
+}
+
+
+/* ── BUTTON HOVER POLISH (home-page specific overrides) ──────────────────── */
+.hero .btn-primary {
+  background: var(--green, #3A7D44);
+  border-color: var(--green, #3A7D44);
+  padding: 14px 32px;
+  font-size: 0.9rem;
+}
+
+.hero .btn-primary:hover {
+  background: var(--green-light, #52a85f);
+  border-color: var(--green-light, #52a85f);
+  box-shadow: 0 8px 24px rgba(58,125,68,0.4);
+  transform: translateY(-2px);
+}
+
+.hero .btn-outline-white {
+  padding: 13px 32px;
+  font-size: 0.9rem;
+  border-color: rgba(255,255,255,0.35);
+}
+
+.hero .btn-outline-white:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.7);
+  transform: translateY(-2px);
+}
+
+
+/* ── RESPONSIVE ──────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .hero-accent-line { display: none; }
+
+  .hero-impact {
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .hero-impact-stat + .hero-impact-stat {
+    padding-left: 20px;
+  }
+
+  .hero-impact-number { font-size: 1.5rem; }
+}
+
+@media (max-width: 480px) {
+  .hero-impact {
+    gap: 0;
+    flex-direction: column;
+    border-top-color: rgba(255,255,255,0.08);
+  }
+
+  .hero-impact-stat + .hero-impact-stat {
+    padding-left: 0;
+    padding-top: 16px;
+    margin-top: 16px;
+    border-left: none;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .hero-eyebrow {
+    font-size: 0.65rem;
+  }
+}

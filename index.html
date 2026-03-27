@@ -5,44 +5,110 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Integrated Development Facility — A Healthy, Just &amp; Empowered Society</title>
   <meta name="description" content="IDF Kenya is a community-based NGO implementing projects in health, governance, and community empowerment across Kenya since 1999.">
-  <link rel="icon" href="/assets/images/logo1.png">
+  <link rel="icon" href="assets/images/logo1.png">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/idfkenya-website/css/styles.css">
-  <link rel="stylesheet" href="/idfkenya-website/css/navbar.css">
-  <link rel="stylesheet" href="/idfkenya-website/css/sections.css">
-  <link rel="stylesheet" href="/idfkenya-website/css/responsive.css">
+
+  <!-- Font Awesome — required for shared navbar icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+
+  <!-- CSS load order: base → components → sections → home (page-specific last) → responsive -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/sections.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
 
-  <!-- NAVBAR (injected by component.js) -->
   <div id="navbar-placeholder"></div>
 
-  <!-- HERO -->
-  <section class="hero">
+  <!-- ═══════════════════════════════════════════════════════════
+       HERO SECTION — Redesigned v3.1
+
+       Layer stack (bottom → top):
+         .hero             CSS gradient mesh fallback (always visible)
+         .hero-bg img      photograph (enhances when loaded)
+         .hero-overlay     directional gradient div (left dark → right light)
+         .hero-pattern     dot-grid texture
+         .hero-accent-line thin green decorative stripe
+         .hero-content     all text, buttons, and impact strip
+  ═══════════════════════════════════════════════════════════ -->
+  <section class="hero" aria-label="A Healthy, Just &amp; Empowered Society">
+
+    <!-- Layer 1: Background photograph -->
     <div class="hero-bg">
-      <img src="/idfkenya-website/assets/images/idf_home1.jpg" alt="IDF Kenya community members gathered in Homa Bay County">
-      <div class="hero-overlay"></div>
+      <img
+        src="assets/images/idf_home1.jpg"
+        alt="IDF Kenya community members gathered in Homa Bay County"
+        loading="eager"
+        fetchpriority="high"
+      >
     </div>
+
+    <!-- Layer 2: Directional gradient overlay -->
+    <div class="hero-overlay" aria-hidden="true"></div>
+
+    <!-- Layer 3: Dot-grid texture -->
+    <div class="hero-pattern" aria-hidden="true"></div>
+
+    <!-- Layer 4: Decorative green accent stripe on left edge -->
+    <div class="hero-accent-line" aria-hidden="true"></div>
+
+    <!-- Layer 5: Content -->
     <div class="hero-content">
       <div class="hero-inner">
-        <span class="hero-eyebrow">Serving Kenya since 1999</span>
-        <h1>A Healthy, Just,<br><em>&amp; Empowered Society</em></h1>
-        <p class="hero-sub">We harmonise and consolidate local efforts through community empowerment in health, education, governance, and environmental concerns.</p>
+
+        <!-- Eyebrow pill with green dot indicator -->
+        <span class="hero-eyebrow">Serving Kenya Since 1999</span>
+
+        <!-- Headline: wrap key word in em for italic blue accent -->
+        <h1>A Healthy, Just &amp;<br><em>Empowered</em> Society</h1>
+
+        <!-- Sub-headline -->
+        <p class="hero-sub">
+          We harmonise and consolidate local efforts through community empowerment
+          in health, education, governance, and environmental concerns.
+        </p>
+
+        <!-- CTA buttons -->
         <div class="hero-actions">
-          <a href="/idfkenya-website/pages/our-history.html" class="btn btn-primary">Discover Our Work</a>
-          <a href="/idfkenya-website/pages/contact.html" class="btn btn-outline-white">Get In Touch</a>
+          <a href="about.html"   class="btn btn-primary">Discover Our Work</a>
+          <a href="contact.html" class="btn btn-outline-white">Get In Touch</a>
         </div>
+
+        <!-- Impact strip: 3 key stats anchored inside the hero -->
+        <div class="hero-impact" aria-label="Quick impact summary">
+          <div class="hero-impact-stat">
+            <span class="hero-impact-number">7</span>
+            <span class="hero-impact-label">Counties<br>Reached</span>
+          </div>
+          <div class="hero-impact-stat">
+            <span class="hero-impact-number">11,610<sup>+</sup></span>
+            <span class="hero-impact-label">Beneficiaries<br>FY 2024</span>
+          </div>
+          <div class="hero-impact-stat">
+            <span class="hero-impact-number">25<sup>+</sup></span>
+            <span class="hero-impact-label">Years of<br>Service</span>
+          </div>
+        </div>
+
       </div>
     </div>
-    <div class="hero-scroll">
+
+    <!-- Scroll indicator -->
+    <div class="hero-scroll" aria-hidden="true">
       <div class="hero-scroll-line"></div>
       <span>Scroll</span>
     </div>
+
   </section>
 
-  <!-- ABOUT -->
+  <!-- ABOUT SECTION -->
   <section class="about-section" id="about">
     <div class="container">
       <div class="about-grid">
@@ -52,7 +118,7 @@
           <p>Integrated Development Facility (IDF) was founded in 1999 to address the challenges of HIV/AIDS, deteriorating education standards and reduced economic opportunities among the people of Homa Bay.</p>
           <p>Today, IDF implements life-changing projects in seven counties across Kenya — working with governments, international donors, and local communities to build lasting solutions in health, governance, water, and child welfare.</p>
           <p>We are committed to being an open, equal opportunity organization that does not discriminate on the basis of sex, race, religion, national origin or disability.</p>
-          <a href="/idfkenya-website/pages/our-history.html" class="btn btn-primary">Read Our Full History</a>
+          <a href="about.html" class="btn btn-primary">Read Our Full History</a>
           <div class="about-signature">
             <div class="about-signature-text">
               <strong>Integrated Development Facility</strong>
@@ -65,14 +131,14 @@
             <strong>Ndovu Award</strong>
             <span>Winner 2023</span>
           </div>
-          <img src="/idfkenya-website/assets/images/usaid_award.jpg" alt="IDF staff receiving the Ndovu Award 2023 for outstanding community governance work in Homa Bay County">
+          <img src="assets/images/usaid_award.jpg" alt="IDF staff receiving the Ndovu Award 2023 for outstanding community governance work in Homa Bay County">
           <div class="about-image-deco"></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- STATS -->
+  <!-- STATS SECTION -->
   <section class="stats-section" id="impact">
     <div class="container">
       <div class="section-header">
@@ -82,30 +148,30 @@
       </div>
       <div class="stats-grid" id="counter-section">
         <div class="stat-card">
-          <span class="stat-icon">&#127758;</span>
+          <span class="stat-icon">🌍</span>
           <div class="stat-number">
-            <span class="counter" data-target="7"></span>
+            <span class="counter" data-target="7">0</span>
           </div>
           <div class="stat-label">Counties Reached</div>
         </div>
         <div class="stat-card">
-          <span class="stat-icon">&#128106;</span>
+          <span class="stat-icon">👪</span>
           <div class="stat-number">
-            <span class="counter" data-target="11610"></span><span class="suffix">+</span>
+            <span class="counter" data-target="11610">0</span><span class="suffix">+</span>
           </div>
           <div class="stat-label">Beneficiaries (FY2024)</div>
         </div>
         <div class="stat-card">
-          <span class="stat-icon">&#127973;</span>
+          <span class="stat-icon">🏥</span>
           <div class="stat-number">
-            <span class="counter" data-target="114"></span>
+            <span class="counter" data-target="114">0</span>
           </div>
           <div class="stat-label">Community Health Units</div>
         </div>
         <div class="stat-card">
-          <span class="stat-icon">&#128197;</span>
+          <span class="stat-icon">📅</span>
           <div class="stat-number">
-            <span class="counter" data-target="25"></span><span class="suffix">+</span>
+            <span class="counter" data-target="25">0</span><span class="suffix">+</span>
           </div>
           <div class="stat-label">Years of Service</div>
         </div>
@@ -113,7 +179,7 @@
     </div>
   </section>
 
-  <!-- PROJECTS -->
+  <!-- PROJECTS SECTION -->
   <section class="projects-section" id="work">
     <div class="container">
       <div class="section-header">
@@ -122,60 +188,55 @@
         <p>Click any project to learn more about our impact and achievements on the ground.</p>
       </div>
       <div class="projects-grid">
-
-        <a href="/idfkenya-website/pages/usaid-nuru-ya-mtoto.html" class="project-card">
+        <a href="ourwork.html" class="project-card">
           <div class="project-img">
-            <img src="/idfkenya-website/assets/images/nuru2_8Q58Pym.png" alt="USAID Nuru Ya Mtoto project staff working with vulnerable children in Homa Bay County">
+            <img src="assets/images/nuru2_8Q58Pym.png" alt="USAID Nuru Ya Mtoto project staff working with vulnerable children">
           </div>
           <div class="project-body">
             <span class="project-tag project-tag--blue">Health &amp; OVC</span>
             <h3>USAID Nuru Ya Mtoto Project</h3>
-            <p>Supporting orphans and vulnerable children across Vihiga, Nyamira, Kisii, Homa Bay and Migori counties with HIV services and household economic support.</p>
-            <span class="project-link">Explore project</span>
+            <p>Supporting orphans and vulnerable children across Vihiga, Nyamira, Kisii, Homa Bay and Migori counties.</p>
+            <span class="project-link">Explore project →</span>
           </div>
         </a>
-
-        <a href="/idfkenya-website/pages/kuimarisha-kaunti.html" class="project-card">
+        <a href="ourwork.html" class="project-card">
           <div class="project-img">
-            <img src="/idfkenya-website/assets/images/seka2_otJQ6Q8.jpg" alt="Community members participating in a Kuimarisha Kaunti governance session in Homa Bay County">
+            <img src="assets/images/seka2_otJQ6Q8.jpg" alt="Community members participating in a governance session">
           </div>
           <div class="project-body">
             <span class="project-tag project-tag--green">Governance</span>
             <h3>Kuimarisha Kaunti Project</h3>
-            <p>Improving citizen access to county services and building governance capacity across all 8 sub-counties of Homa Bay. Winner of the 2023 Ndovu Award.</p>
-            <span class="project-link">Explore project</span>
+            <p>Improving citizen access to county services across all 8 sub-counties of Homa Bay.</p>
+            <span class="project-link">Explore project →</span>
           </div>
         </a>
-
-        <a href="/idfkenya-website/pages/global-fund-malaria.html" class="project-card">
+        <a href="ourwork.html" class="project-card">
           <div class="project-img">
-            <img src="/idfkenya-website/assets/images/county2_uWjLMiN.jpg" alt="Community health volunteers conducting malaria case management in Homa Bay County">
+            <img src="assets/images/county2_uWjLMiN.jpg" alt="Community health volunteers conducting malaria case management">
           </div>
           <div class="project-body">
             <span class="project-tag project-tag--blue">Health</span>
             <h3>Global Fund Malaria Project</h3>
-            <p>Community case management of malaria supporting 1,140 CHVs across 114 community health units in Homa Bay County. Budget: Ksh 103,247,492.</p>
-            <span class="project-link">Explore project</span>
+            <p>Community case management supporting 1,140 CHVs across 114 community health units.</p>
+            <span class="project-link">Explore project →</span>
           </div>
         </a>
-
-        <a href="/idfkenya-website/pages/seka-kagwa.html" class="project-card">
+        <a href="ourwork.html" class="project-card">
           <div class="project-img">
-            <img src="/idfkenya-website/assets/images/seka_KbmhChW.jpg" alt="Seka Kagwa community water purification system serving 15000 residents">
+            <img src="assets/images/seka_KbmhChW.jpg" alt="Seka Kagwa community water purification system">
           </div>
           <div class="project-body">
             <span class="project-tag project-tag--green">WASH</span>
             <h3>Seka Kagwa Clean Water Project</h3>
-            <p>Japan-Kenya partnership delivering 8,000 litres of clean water daily to 15,000 community members via a Yamaha natural purification system.</p>
-            <span class="project-link">Explore project</span>
+            <p>Delivering 8,000 litres of clean water daily to 15,000 community members.</p>
+            <span class="project-link">Explore project →</span>
           </div>
         </a>
-
       </div>
     </div>
   </section>
 
-  <!-- QUOTE -->
+  <!-- QUOTE SECTION -->
   <section class="quote-section">
     <div class="quote-inner">
       <span class="quote-mark">"</span>
@@ -184,7 +245,7 @@
     </div>
   </section>
 
-  <!-- PARTNERS -->
+  <!-- PARTNERS SECTION -->
   <section class="partners-section" id="partners">
     <div class="container">
       <div class="section-header">
@@ -194,55 +255,44 @@
       </div>
       <div class="partners-logos">
         <a href="https://www.path.org/" target="_blank" rel="noopener" class="partner-item">
-          <img src="/idfkenya-website/assets/images/path.jpeg" alt="PATH Kenya partner organization logo">
+          <img src="assets/images/path.jpeg" alt="PATH Kenya partner logo">
         </a>
         <a href="https://uraia.or.ke/" target="_blank" rel="noopener" class="partner-item">
-          <img src="/idfkenya-website/assets/images/uraia.jpeg" alt="Uraia Trust partner organization logo">
+          <img src="assets/images/uraia.jpeg" alt="Uraia Trust partner logo">
         </a>
         <a href="https://amref.org/" target="_blank" rel="noopener" class="partner-item">
-          <img src="/idfkenya-website/assets/images/amref.jpeg" alt="AMREF Health Africa partner organization logo">
+          <img src="assets/images/amref.jpeg" alt="AMREF Health Africa logo">
         </a>
         <div class="partner-item">
-          <img src="/idfkenya-website/assets/images/usaid.png" alt="USAID United States Agency for International Development logo">
+          <img src="assets/images/usaid.png" alt="USAID logo">
         </div>
         <a href="https://www.health.go.ke/" target="_blank" rel="noopener" class="partner-item">
-          <img src="/idfkenya-website/assets/images/moh.png" alt="Kenya Ministry of Health partner logo">
+          <img src="assets/images/moh.png" alt="Kenya Ministry of Health logo">
         </a>
         <a href="https://www.theglobalfund.org/en/" target="_blank" rel="noopener" class="partner-item">
-          <img src="/idfkenya-website/assets/images/globalfund.jpg" alt="The Global Fund partner organization logo">
-        </a>
-        <a href="https://www.ke.emb-japan.go.jp/itprtop_en/index.html" target="_blank" rel="noopener" class="partner-item">
-          <img src="/idfkenya-website/assets/images/japan2.jpg" alt="Embassy of Japan in Kenya partner logo">
-        </a>
-        <a href="https://ke.usembassy.gov/pepfar/" target="_blank" rel="noopener" class="partner-item">
-          <img src="/idfkenya-website/assets/images/pepfar.png" alt="PEPFAR US Presidents Emergency Plan for AIDS Relief logo">
-        </a>
-        <a href="https://kenya.um.dk/en/about-denmark-in-kenya/danida-en" target="_blank" rel="noopener" class="partner-item">
-          <img src="/idfkenya-website/assets/images/danida.jpg" alt="DANIDA Danish International Development Agency partner logo">
+          <img src="assets/images/globalfund.jpg" alt="The Global Fund logo">
         </a>
       </div>
     </div>
   </section>
 
-  <!-- CTA -->
+  <!-- CTA SECTION -->
   <section class="cta-section">
     <div class="cta-inner">
       <span class="label-tag">Get Involved</span>
       <h2>Ready to make a difference?</h2>
       <p>Join our network of partners, volunteers, and community advocates committed to sustainable development across Kenya.</p>
       <div class="cta-buttons">
-        <a href="/idfkenya-website/pages/contact.html" class="btn btn-primary">Contact Us</a>
-        <a href="/idfkenya-website/pages/careers.html" class="btn btn-outline-navy">View Opportunities</a>
+        <a href="contact.html" class="btn btn-primary">Contact Us</a>
+        <a href="careers.html" class="btn btn-outline-navy">View Opportunities</a>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER (injected by component.js) -->
   <div id="footer-placeholder"></div>
 
-  <script src="/idfkenya-website/js/component.js"></script>
-  <script src="/idfkenya-website/js/main.js"></script>
-  <script src="/idfkenya-website/js/scroll.js"></script>
-  <script src="/idfkenya-website/js/utils.js"></script>
+  <script src="js/components.js"></script>
+  <script type="module" src="js/main.js"></script>
+
 </body>
 </html>

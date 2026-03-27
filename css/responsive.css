@@ -1,9 +1,32 @@
 /* ==============================================
-   IDF Kenya — responsive.css
-   Mobile & tablet breakpoints
+   IDF Kenya — responsive.css  (v2 — unified)
+   Contains ALL media queries for the site.
+
+   Load order in <head> (last stylesheet):
+     styles.css -> components.css -> sections.css
+     -> about.css (page-specific) -> responsive.css
+
+   Structure:
+     A. Site-wide / index-page breakpoints
+     B. About-page (.about-hero, .about-layout,
+        .mobile-about-nav, section grids, etc.)
+
+   Breakpoints used:
+     1100px — desktop / tablet threshold (about sidenav)
+      900px — tablet portrait
+      768px — hide-mobile reveal, sections layout
+      600px — mobile about-page
+      480px — mobile index-page
+      420px — extra-small
    ============================================== */
 
-/* Tablet: ≤ 1024px */
+
+/* ==============================================
+   A. SITE-WIDE / INDEX-PAGE BREAKPOINTS
+   (originally from responsive.css v1)
+   ============================================== */
+
+/* Tablet: <= 1024px */
 @media (max-width: 1024px) {
   .about-grid    { grid-template-columns: 1fr; gap: 48px; }
   .about-image-deco { display: none; }
@@ -14,16 +37,7 @@
   .contact-grid { grid-template-columns: 1fr; gap: 40px; }
 }
 
-/* Mobile nav: ≤ 900px */
-@media (max-width: 900px) {
-  .nav-toggle { display: flex; }
-  .nav-links { display: none; }
-  .nav-links.mobile-open { display: flex; }
-  .has-dropdown:hover .dropdown { display: none; }
-  .nav-logo-sub { display: none; }
-}
-
-/* Mobile: ≤ 700px */
+/* Mobile: <= 700px */
 @media (max-width: 700px) {
   :root { font-size: 15px; }
   .container { padding: 0 18px; }
@@ -48,9 +62,145 @@
   .cta-buttons     { flex-direction: column; align-items: center; }
 }
 
-/* Extra small: ≤ 420px */
+/* Extra small: <= 420px */
 @media (max-width: 420px) {
   .stats-grid { grid-template-columns: 1fr; }
   .partners-logos { gap: 10px; }
   .partner-item { min-width: 110px; padding: 14px 18px; }
+}
+
+
+/* ==============================================
+   B. ABOUT-PAGE BREAKPOINTS
+   (extracted from about.css section 17 + utility)
+   ============================================== */
+
+/* -----------------------------------------------
+   B1. Utility: .hide-mobile reveal
+   Base state (display:none) is in about.css.
+   Reveal on tablet and above.
+   ----------------------------------------------- */
+@media (min-width: 768px) {
+  .hide-mobile { display: block; }
+}
+
+/* -----------------------------------------------
+   B2. Tablet threshold — 1099 px
+   - Hide the desktop sticky sidenav
+   - Show the mobile horizontal about nav directly
+     below the main top navbar (sticky, scrollable)
+   - Collapse layout padding / gap
+   ----------------------------------------------- */
+@media (max-width: 1099px) {
+  /* Hide desktop sidenav; mobile nav takes over */
+  .about-sidenav { display: none; }
+
+  /* Layout: single column, no gap */
+  .about-layout {
+    padding: 0 20px;
+    gap: 0;
+  }
+
+  .about-main { padding: var(--section-gap-sm, 36px) 0; }
+
+  /* Show the mobile horizontal tab nav.
+     Base layout/scrollbar/link styles live in about.css.
+     It is positioned sticky at top: var(--navbar-height)
+     so it sits flush below the main fixed top navbar.   */
+  .mobile-about-nav {
+    display: block;
+  }
+
+  /* Increase scroll offset so anchors clear both the
+     main navbar AND the sticky mobile about nav (~50 px) */
+  .about-section::before {
+    height: 130px;
+    margin-top: -130px;
+  }
+}
+
+/* -----------------------------------------------
+   B3. Tablet portrait — 900 px
+   Stack two-column layouts into single column.
+   ----------------------------------------------- */
+@media (max-width: 900px) {
+  /* History section */
+  .history-grid     { grid-template-columns: 1fr; gap: 36px; }
+  .history-img-deco { display: none; }
+  .history-badge    { left: 0; }
+
+  /* Mission & Vision */
+  .mv-cards { grid-template-columns: 1fr; }
+
+  /* Core Values: 3 col -> 2 col */
+  .values-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Team: 4 col -> 2 col */
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Join Us */
+  .join-grid    { grid-template-columns: 1fr; }
+  .join-cta-box {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .join-cta-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+/* -----------------------------------------------
+   B4. Mobile — 600 px
+   Reduce section spacing and hero height; collapse
+   remaining multi-column grids to a single column.
+   ----------------------------------------------- */
+@media (max-width: 600px) {
+  :root {
+    --section-gap:    40px;
+    --section-gap-sm: 28px;
+  }
+
+  /* Hero: compact height on small screens */
+  .about-hero { height: 320px; }
+
+  /* Hero pills hidden — mobile nav handles navigation */
+  .about-hero-nav-pills { display: none; }
+
+  /* Core Values: 2 col -> 1 col */
+  .values-grid { grid-template-columns: 1fr; }
+
+  /* Team: keep 2 col for reasonable density */
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* CTA / quote: tighten padding */
+  .join-cta-box  { padding: 32px 24px; }
+  .partner-quote { padding: 28px 24px; }
+
+  /* Timeline: reduce indent */
+  .history-timeline { padding-left: 24px; }
+}
+
+/* -----------------------------------------------
+   B5. Extra small — 420 px
+   Further collapse for very small handsets.
+   ----------------------------------------------- */
+@media (max-width: 420px) {
+  /* Team: single column on very small screens */
+  .team-grid { grid-template-columns: 1fr; }
+
+  /* CTA actions: stack vertically, full width */
+  .join-cta-actions { flex-direction: column; width: 100%; }
+
+  .btn-idf-primary,
+  .btn-idf-outline-white {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Tighter mobile nav link padding */
+  .mob-nav-link { padding: 12px 12px; }
+
+  /* Eyebrow label hidden on tiny screens */
+  .about-hero-eyebrow { display: none; }
 }

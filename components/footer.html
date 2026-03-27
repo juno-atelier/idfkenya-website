@@ -1,61 +1,69 @@
-<footer class="footer">
-  <div class="footer-container">
+<!-- ═══════════════════════════════════════════
+     components/footer.html — IDF Kenya
+     All HTML files at root level
+═══════════════════════════════════════════ -->
+
+<footer id="site-footer" class="site-footer" role="contentinfo" aria-labelledby="footer-brand-label">
+  <div class="container">
+
     <div class="footer-grid">
 
+      <!-- Brand Column -->
       <div class="footer-brand">
-        <img src="/idfkenya-website/assets/images/logo1.png" alt="Integrated Development Facility logo" class="footer-logo">
-        <p>A community-based NGO with Christian values, building healthy, just and empowered communities across Kenya since 1999.</p>
-        <div class="footer-contact-info">
-          <p><strong>P.O. Box 1 - 40223</strong><br>Kadongo, Homa Bay, Kenya</p>
-          <p><a href="tel:+254722250329">+254 722 250 329</a></p>
-          <p><a href="mailto:info@idfkenya.org">info@idfkenya.org</a></p>
-        </div>
+        <a href="index.html" class="footer-logo-link" aria-label="IDF Kenya — Home">
+          <img src="assets/images/idf-logo-white.svg" alt="IDF Kenya" class="footer-logo__img" width="180" height="54" loading="lazy" />
+        </a>
+        <p id="footer-brand-label" class="footer-tagline">
+          Empowering communities through health, education, and socio-economic development across Kenya since 1999.
+        </p>
       </div>
 
-      <div class="footer-col">
-        <h4>About Us</h4>
-        <ul>
-          <li><a href="/idfkenya-website/pages/our-history.html">Our History</a></li>
-          <li><a href="/idfkenya-website/pages/mission-vision.html">Mission &amp; Vision</a></li>
-          <li><a href="/idfkenya-website/pages/partners.html">Partners &amp; Networks</a></li>
-          <li><a href="/idfkenya-website/pages/our-team.html">Our Team</a></li>
-          <li><a href="/idfkenya-website/pages/careers.html">Join Us</a></li>
+      <!-- Quick Links -->
+      <div class="footer-links">
+        <h4 class="footer-heading">Quick Links</h4>
+        <ul class="footer-nav-list">
+          <li><a href="about.html" class="footer-link">About Us</a></li>
+          <li><a href="ourwork.html" class="footer-link">Our Work</a></li>
+          <li><a href="regions.html" class="footer-link">Regions</a></li>
+          <li><a href="resources.html" class="footer-link">Resources & News</a></li>
+          <li><a href="careers.html" class="footer-link">Careers</a></li>
         </ul>
       </div>
 
-      <div class="footer-col">
-        <h4>Our Projects</h4>
-        <ul>
-          <li><a href="/idfkenya-website/pages/usaid-nuru-ya-mtoto.html">USAID Nuru Ya Mtoto</a></li>
-          <li><a href="/idfkenya-website/pages/kuimarisha-kaunti.html">Kuimarisha Kaunti</a></li>
-          <li><a href="/idfkenya-website/pages/global-fund-malaria.html">Global Fund Malaria</a></li>
-          <li><a href="/idfkenya-website/pages/seka-kagwa.html">Seka Kagwa Water</a></li>
-        </ul>
+      <!-- Contact -->
+      <div class="footer-contact">
+        <h4 class="footer-heading">Contact Us</h4>
+        <address class="footer-address">
+          <a href="mailto:info@idfkenya.org" class="footer-link">info@idfkenya.org</a>
+          <a href="tel:+254202721234" class="footer-link">+254 20 272 1234</a>
+          <span class="footer-address-text">Nairobi, Kenya</span>
+        </address>
       </div>
 
-      <div class="footer-col">
-        <h4>Stay Connected</h4>
-        <p class="footer-newsletter-desc">Subscribe for project updates and news from the field.</p>
-        <form class="footer-form" onsubmit="handleNewsletterSignup(event)">
-          <input type="email" placeholder="Your email address" required aria-label="Email address">
-          <button type="submit">Subscribe</button>
-        </form>
-        <div class="footer-partners-mini">
-          <img src="/idfkenya-website/assets/images/usaid.png" alt="USAID logo">
-          <img src="/idfkenya-website/assets/images/globalfund.jpg" alt="Global Fund logo">
-          <img src="/idfkenya-website/assets/images/amref.jpeg" alt="AMREF logo">
+      <!-- Social -->
+      <div class="footer-social">
+        <h4 class="footer-heading">Connect</h4>
+        <div class="social-links">
+          <a href="#" class="social-link" target="_blank">X (Twitter)</a>
+          <a href="#" class="social-link" target="_blank">LinkedIn</a>
+          <a href="#" class="social-link" target="_blank">Facebook</a>
         </div>
+        <button class="back-to-top" id="backToTop">↑ Back to Top</button>
       </div>
 
     </div>
 
+    <!-- Bottom Bar -->
     <div class="footer-bottom">
-      <p>&copy; 2024 Integrated Development Facility. All Rights Reserved. | Powered by Jasiri Labs</p>
-      <div class="footer-bottom-links">
-        <a href="/idfkenya-website/pages/policies.html">Privacy Policy</a>
-        <a href="/idfkenya-website/pages/documents.html">Documents</a>
-        <a href="/idfkenya-website/pages/contact.html">Contact</a>
+      <div class="footer-bottom-left">
+        <span>&copy; <span id="footer-year"></span> IDF Kenya. All rights reserved.</span>
+        <span>|</span>
+        <a href="policies.html" class="footer-link">Privacy Policy</a>
+        <span>|</span>
+        <a href="terms.html" class="footer-link">Terms of Service</a>
       </div>
+      <p class="footer-bottom-right">Empowering communities through integrated development</p>
     </div>
+
   </div>
 </footer>

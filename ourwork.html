@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="IDF Kenya's work — USAID Nuru Ya Mtoto, Kuimarisha Kaunti, Global Fund Malaria, and Seka Kagwa Clean Water projects delivering impact across Kenya.">
+  <title>Our Work — Integrated Development Facility Kenya</title>
+  <link rel="icon" href="assets/images/logo1.png" type="image/png">
+
+  <!-- Google Fonts — identical to all other pages -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6.5.1 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+  <!--
+    FIXED: All paths now use root-level references (no ../ prefix)
+    because all HTML files are at the root level.
+  -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/sections.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <!-- Our Work page stylesheet -->
+  <link rel="stylesheet" href="css/ourwork.css">
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       REQUIRED: Navbar injected here by components.js
+       Do NOT remove or rename this div.
+  ═══════════════════════════════════════════════════════════ -->
+  <div id="navbar-placeholder"></div>
+
+
+  <!-- ============================================================
+       MOBILE HORIZONTAL SECTION NAV (visible ≤ 1100px)
+  ============================================================ -->
+  <nav class="mobile-work-nav" role="navigation" aria-label="Project sections">
+    <div class="mobile-work-nav-inner">
+      <a href="#nuru-ya-mtoto"    class="mobile-work-link" data-spy-target="nuru-ya-mtoto">
+        <i class="fa-solid fa-heart-pulse"></i>Nuru Ya Mtoto
+      </a>
+      <a href="#kuimarisha-kaunti" class="mobile-work-link" data-spy-target="kuimarisha-kaunti">
+        <i class="fa-solid fa-landmark"></i>Kuimarisha Kaunti
+      </a>
+      <a href="#global-fund-malaria" class="mobile-work-link" data-spy-target="global-fund-malaria">
+        <i class="fa-solid fa-syringe"></i>Global Fund Malaria
+      </a>
+      <a href="#seka-kagwa"       class="mobile-work-link" data-spy-target="seka-kagwa">
+        <i class="fa-solid fa-droplet"></i>Seka Kagwa Water
+      </a>
+    </div>
+  </nav>
+
+
+  <!-- ============================================================
+       PAGE HERO
+  ============================================================ -->
+  <header class="work-hero" role="banner">
+    <img class="work-hero-bg"
+      src="assets/images/nuru2_8Q58Pym.png"
+      alt="IDF Kenya field staff working with communities across Kenya"
+      loading="eager">
+    <div class="work-hero-overlay" aria-hidden="true"></div>
+    <div class="work-hero-content">
+      <span class="work-hero-eyebrow">
+        <i class="fa-solid fa-briefcase" style="margin-right:0.35rem"></i>Projects &amp; Programmes
+      </span>
+      <h1>Our Work</h1>
+      <p>Four flagship programmes. Seven counties. Hundreds of thousands of lives reached. From protecting vulnerable children to defeating malaria and delivering clean water — this is IDF Kenya's work on the ground.</p>
+      <nav class="work-hero-pills" aria-label="Jump to project">
+        <a href="#nuru-ya-mtoto"     class="work-hero-pill"><i class="fa-solid fa-heart-pulse"></i>USAID Nuru Ya Mtoto</a>
+        <a href="#kuimarisha-kaunti" class="work-hero-pill"><i class="fa-solid fa-landmark"></i>Kuimarisha Kaunti</a>
+        <a href="#global-fund-malaria" class="work-hero-pill"><i class="fa-solid fa-syringe"></i>Global Fund Malaria</a>
+        <a href="#seka-kagwa"        class="work-hero-pill"><i class="fa-solid fa-droplet"></i>Seka Kagwa Water</a>
+      </nav>
+    </div>
+  </header>
+
+
+  <!-- ============================================================
+       TWO-COLUMN LAYOUT: SIDENAV + MAIN CONTENT
+  ============================================================ -->
+  <div class="work-layout">
+
+    <!-- STICKY SIDENAV (desktop ≥ 1100px) -->
+    <aside class="work-sidenav" aria-label="Project navigation">
+      <p class="sidenav-label">Our Projects</p>
+      <ul class="sidenav-list" role="list">
+        <li>
+          <a href="#nuru-ya-mtoto" class="active" data-spy-target="nuru-ya-mtoto">
+            <i class="fa-solid fa-heart-pulse"></i>USAID Nuru Ya Mtoto
+          </a>
+        </li>
+        <li>
+          <a href="#kuimarisha-kaunti" data-spy-target="kuimarisha-kaunti">
+            <i class="fa-solid fa-landmark"></i>Kuimarisha Kaunti
+          </a>
+        </li>
+        <li>
+          <a href="#global-fund-malaria" data-spy-target="global-fund-malaria">
+            <i class="fa-solid fa-syringe"></i>Global Fund Malaria
+          </a>
+        </li>
+        <li>
+          <a href="#seka-kagwa" data-spy-target="seka-kagwa">
+            <i class="fa-solid fa-droplet"></i>Seka Kagwa Water
+          </a>
+        </li>
+      </ul>
+
+      <!-- Reading progress bar -->
+      <div class="sidenav-progress" aria-label="Page reading progress">
+        <p class="sidenav-progress-label">Reading progress</p>
+        <div class="sidenav-progress-bar"
+          role="progressbar"
+          aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+          <div class="sidenav-progress-fill" id="workProgressFill"></div>
+        </div>
+      </div>
+    </aside>
+
+
+    <!-- ========================================================
+         MAIN CONTENT
+    ========================================================= -->
+    <main class="work-main" id="workMainContent">
+
+
+      <!-- ==================================================
+           PROJECT 1 — USAID NURU YA MTOTO
+      =================================================== -->
+      <section id="nuru-ya-mtoto" class="work-section" aria-labelledby="nym-heading">
+
+        <!-- Banner -->
+        <div class="work-banner reveal">
+          <img class="work-banner-img"
+            src="assets/images/nuru2_8Q58Pym.png"
+            alt="USAID Nuru Ya Mtoto project staff and community members in Homa Bay County"
+            loading="lazy">
+          <div class="work-banner-overlay" aria-hidden="true"></div>
+
+          <span class="work-status work-status--active">
+            Active Programme
+          </span>
+
+          <div class="work-banner-meta">
+            <div class="work-banner-title-group">
+              <span class="work-banner-eyebrow">USAID-Funded · PATH Kenya Cooperative Agreement</span>
+              <h2 class="work-banner-title" id="nym-heading">USAID Nuru Ya Mtoto Project</h2>
+            </div>
+            <div class="work-banner-donors">
+              <img class="work-donor-logo" src="assets/images/usaid.png" alt="USAID logo">
+              <img class="work-donor-logo" src="assets/images/pepfar.png" alt="PEPFAR logo">
+            </div>
+          </div>
+        </div>
+
+        <!-- Body: Narrative + Metrics -->
+        <div class="work-body reveal reveal-delay-1">
+
+          <!-- Narrative -->
+          <div class="work-narrative">
+
+            <div class="work-tags">
+              <span class="work-tag work-tag--blue"><i class="fa-solid fa-heart-pulse"></i>Health &amp; OVC</span>
+              <span class="work-tag work-tag--green"><i class="fa-solid fa-children"></i>Child Welfare</span>
+              <span class="work-tag work-tag--blue"><i class="fa-solid fa-venus"></i>DREAMS/AGYW</span>
+              <span class="work-tag work-tag--navy"><i class="fa-solid fa-map-location-dot"></i>3 Counties</span>
+            </div>
+
+            <h3 class="work-headline">
+              Giving every vulnerable child the future they deserve
+            </h3>
+
+            <p class="work-lead">
+              Since March 2021, IDF Kenya has been implementing the USAID Nuru Ya Mtoto (Light of the Child) project across Homa Bay, Vihiga and Nyamira counties as a Local Implementing Partner in cooperative agreement with PATH Kenya. The programme is built around a simple but powerful conviction — that every child affected by HIV deserves to be Healthy, Safe, Stable and Schooled.
+            </p>
+
+            <p class="work-body-text">
+              IDF's field teams deliver integrated case management to orphans and vulnerable children (OVC) and their households, working in close coordination with the Directorate of Children Services, Ministry of Health, and County Government structures. The programme is directly aligned with Kenya's national target of achieving 95-95-95 HIV outcomes — ensuring 95% of people living with HIV are diagnosed, 95% receive treatment, and 95% achieve viral suppression.
+            </p>
+
+            <div class="work-callout">
+              <h4><i class="fa-solid fa-star" style="margin-right:0.35rem"></i>DREAMS Programme</h4>
+              <p>Vihiga County is a DREAMS-targeted county under NYM, providing a comprehensive HIV prevention and social support package specifically designed for adolescent girls and young women — one of the most at-risk populations in the region.</p>
+            </div>
+
+            <div class="work-outcomes">
+              <div class="work-outcome-item">
+                <div class="work-outcome-icon"><i class="fa-solid fa-check"></i></div>
+                <span>Household economic strengthening through cash transfers and livelihood support to OVC caregivers</span>
+              </div>
+              <div class="work-outcome-item">
+                <div class="work-outcome-icon"><i class="fa-solid fa-check"></i></div>
+                <span>School retention support — fees, uniforms and learning materials for vulnerable students</span>
+              </div>
+              <div class="work-outcome-item">
+                <div class="work-outcome-icon work-outcome-icon--green"><i class="fa-solid fa-check"></i></div>
+                <span>Psychosocial support and safe spaces for children and adolescents affected by HIV</span>
+              </div>
+              <div class="work-outcome-item">
+                <div class="work-outcome-icon work-outcome-icon--green"><i class="fa-solid fa-check"></i></div>
+                <span>Linkage to HIV testing, treatment and adherence services for OVC households</span>
+              </div>
+            </div>
+
+            <div class="work-actions">
+              <a href="usaid-nuru-ya-mtoto.html" class="btn-idf-primary">
+                <i class="fa-solid fa-arrow-right"></i>Full Project Details
+              </a>
+              <a href="regions.html#homa-bay" class="btn-idf-outline-navy">
+                <i class="fa-solid fa-map-location-dot"></i>View Counties
+              </a>
+            </div>
+
+          </div>
+
+          <!-- Metrics -->
+          <div class="work-metrics">
+            <p class="work-metrics-title">Impact at a glance</p>
+
+            <div class="work-metric">
+              <div class="work-metric-number">11,610<span class="suffix">+</span></div>
+              <div class="work-metric-label">Total beneficiaries reached (FY2024)</div>
+            </div>
+
+            <div class="work-metric">
+              <div class="work-metric-number">3</div>
+              <div class="work-metric-label">Counties — Homa Bay, Vihiga &amp; Nyamira</div>
+            </div>
+
+            <div class="work-metric">
+              <div class="work-metric-number">95<span class="suffix">-95-95</span></div>
+              <div class="work-metric-label">HIV strategy alignment target</div>
+            </div>
+
+            <div class="work-facts">
+              <div class="work-fact">
+                <i class="fa-solid fa-circle-dot"></i>
+                <span>Implementing Partner: PATH Kenya (USAID Cooperative Agreement)</span>
+              </div>
+              <div class="work-fact">
+                <i class="fa-solid fa-circle-dot"></i>
+                <span>Programme Period: March 2021 — March 2026</span>
+              </div>
+              <div class="work-fact">
+                <i class="fa-solid fa-circle-dot"></i>
+                <span>Focus populations: OVC, AGYW, HIV-exposed children and caregivers</span>
+              </div>
+            </div>
+
+            <div class="work-period">
+              <i class="fa-regular fa-calendar"></i>
+              <div>
+                <strong>Project Period</strong>
+                March 2021 — March 2026
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Gallery -->
+        <div class="work-gallery">
+          <div class="work-gallery-item reveal reveal-delay-1"
+            data-caption="OVC case management session — Homa Bay County">
+            <img class="work-gallery-img"
+              src="assets/images/nuru2_8Q58Pym.png"
+              alt="NYM project case management session with vulnerable children in Homa Bay">
+          </div>
+          <div class="work-gallery-item reveal reveal-delay-2"
+            data-caption="Household economic strengthening — Vihiga County">
+            <div class="gallery-placeholder">
+              <i class="fa-regular fa-image"></i>
+              <span>Household Visit<br>Vihiga County</span>
+            </div>
+          </div>
+          <div class="work-gallery-item reveal reveal-delay-3"
+            data-caption="DREAMS programme — AGYW safe space activities">
+            <div class="gallery-placeholder">
+              <i class="fa-regular fa-image"></i>
+              <span>DREAMS Programme<br>AGYW Safe Space</span>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- ==================================================
+           PROJECT 2 — KUIMARISHA KAUNTI
+      =================================================== -->
+      <section id="kuimarisha-kaunti" class="work-section" aria-labelledby="kk-heading">
+
+        <div class="work-banner reveal">
+          <img class="work-banner-img"
+            src="assets/images/seka2_otJQ6Q8.jpg"
+            alt="Community governance meeting under the Kuimarisha Kaunti project in Homa Bay County"
+            loading="lazy">
+          <div class="work-banner-overlay" aria-hidden="true"></div>
+
+          <span class="work-status work-status--active">
+            Active Programme
+          </span>
+
+          <div class="work-banner-meta">
+            <div class="work-banner-title-group">
+              <span class="work-banner-eyebrow">Governance &amp; Civic Education · Homa Bay County</span>
+              <h2 class="work-banner-title" id="kk-heading">Kuimarisha Kaunti Project</h2>
+            </div>
+            <div class="work-banner-donors">
+              <img class="work-donor-logo" src="assets/images/uraia.jpeg" alt="Uraia Trust logo">
+            </div>
+          </div>
+        </div>
+
+        <div class="work-body reveal reveal-delay-1">
+
+          <div class="work-narrative">
+
+            <div class="work-tags">
+              <span class="work-tag work-tag--green"><i class="fa-solid fa-landmark"></i>Governance</span>
+              <span class="work-tag work-tag--green"><i class="fa-solid fa-people-group"></i>Civic Education</span>
+              <span class="work-tag work-tag--navy"><i class="fa-solid fa-trophy"></i>Ndovu Award 2023</span>
+              <span class="work-tag work-tag--navy"><i class="fa-solid fa-map-location-dot"></i>Homa Bay County</span>
+            </div>
+
+            <h3 class="work-headline">
+              Empowering citizens to hold their county accountable
+            </h3>
+
+            <p class="work-lead">
+              Kuimarisha Kaunti — "Strengthening the County" — is a governance and civic engagement project operating across all eight sub-counties of Homa Bay. IDF works to bridge the gap between county government services and the communities they are meant to serve, building structures that make accountability the norm rather than the exception.
+            </p>
+
+            <p class="work-body-text">
+              The project trains community members, civil society actors and local leaders on their rights and responsibilities under devolution. IDF facilitates structured dialogue between citizens and county officials — creating platforms where service delivery failures can be raised constructively, and where government commitments are tracked and verified.
+            </p>
+
+            <div class="work-callout work-callout--green">
+              <h4><i class="fa-solid fa-trophy" style="margin-right:0.35rem"></i>Ndovu Award Winner 2023</h4>
+              <p>Presented once every ten years, the prestigious Ndovu Award was awarded to IDF for outstanding work in educating and mobilising Homa Bay citizens to actively participate in county governance and public service delivery.</p>
+            </div>
+
+            <div class="work-outcomes">
+              <div class="work-outcome-item">
+                <div class="work-outcome-icon work-outcome-icon--green"><i class="fa-solid fa-check"></i></div>
+                <span>Civic education forums delivered across all 8 sub-counties of Homa Bay</span>
+              </div>
+              <div class="work-outcome-item">
+                <div class="work-outcome-icon work-outcome-icon--green"><i class="fa-solid fa-check"></i></div>
+                <span>Community social accountability monitoring structures established and operational</span>
+              </div>
+              <div class="work-outcome-item">
+                <div class="work-outcome-icon"><i class="fa-solid fa-check"></i></div>
+                <span>Multi-stakeholder dialogues between citizens and county government officials facilitated</span>
+              </div>
+              <div class="work-outcome-item">
+                <div class="work-outcome-icon"><i class="fa-solid fa-check"></i></div>
+                <span>Citizens trained on budget tracking, service delivery standards and public participation rights</span>
+              </div>
+            </div>
+
+            <div class="work-actions">
+              <a href="kuimarisha-kaunti.html" class="btn-idf-primary">
+                <i class="fa-solid fa-arrow-right"></i>Full Project Details
+              </a>
+              <a href="regions.html#homa-bay" class="btn-idf-outline-navy">
+                <i class="fa-solid fa-map-location-dot"></i>Homa Bay County
+              </a>
+            </div>
+
+          </div>
+
+          <div class="work-metrics">
+            <p class="work-metrics-title">Impact at a glance</p>
+
+            <div class="work-metric">
+              <div class="work-metric-number">8</div>
+              <div class="work-metric-label">Sub-counties reached across Homa Bay</div>
+            </div>
+
+            <div class="work-metric">
+              <div class="work-metric-number">2023</div>
+              <div class="work-metric-label">Ndovu Award — governance excellence</div>
+            </div>
+
+            <div class="work-metric">
+              <div class="work-metric-number">1<span class="suffix">st</span></div>
+              <div class="work-metric-label">NGO recipient of the Ndovu Award in Homa Bay</div>
+            </div>
+
+            <div class="work-facts">
+              <div class="work-fact">
+                <i class="fa-solid fa-circle-dot"></i>
+                <span>Partner: Uraia Trust — national civic education programme</span>
+              </div>
+              <div class="work-fact">
+                <i class="fa-solid fa-circle-dot"></i>
+                <span>Focus: Devolution, public participation, service delivery accountability</span>
+              </div>
+              <div class="work-fact">
+                <i class="fa-solid fa-circle-dot"></i>
+                <span>Coverage: Rachuonyo East, South, North, Rangwe, Homa Bay Town, Mbita, Ndhiwa &amp; Suba</span>
+              </div>
+            </div>
+
+            <div class="work-period">
+              <i class="fa-regular fa-calendar"></i>
+              <div>
+                <strong>Status</strong>
+                Active — Ongoing Programme
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="work-gallery">
+          <div class="work-gallery-item reveal reveal-delay-1"
+            data-caption="Civic forum — Rachuonyo Sub-County">
+            <img class="work-gallery-img"
+              src="assets/images/seka2_otJQ6Q8.jpg"
+              alt="Community members at a Kuimarisha Kaunti civic engagement forum">
+          </div>
+          <div class="work-gallery-item reveal reveal-delay-2"
+            data-caption="Ndovu Award ceremony — Homa Bay 2023">
+            <img class="work-gallery-img"
+              src="assets/images/usaid_award.jpg"
+              alt="IDF staff receiving the Ndovu Award 2023 for outstanding governance work">
+          </div>
+          <div class="work-gallery-item reveal reveal-delay-3"
+            data-caption="Community dialogue — Mbita Sub-County">
+            <div class="gallery-placeholder">
+              <i class="fa-regular fa-image"></i>
+              <span>Community Dialogue<br>Mbita Sub-County</span>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- ==================================================
+           PROJECT 3 — GLOBAL FUND MALARIA
+      =================================================== -->
+      <section id="global-fund-malaria" class="work-section" aria-labelledby="gfm-heading">
+
+        <div class="work-banner reveal">
+          <img class="work-banner-img"
+            src="assets/images/county2_uWjLMiN.jpg"
+            alt="Community health volunteers conducting malaria case management during the Global Fund project"
+            loading="lazy">
+          <div class="work-banner-overlay" aria-hidden="true"></div>
+
+          <span class="work-status work-status--completed">
+            <i class="fa-solid fa-circle-check"></i>Completed 2021
+          </span>
+
+          <div class="work-banner-meta">
+            <div class="work-banner-title-group">
+              <span class="work-banner-eyebrow">Global Fund · Amref Health Africa Sub-Grant · 7 Counties</span>
+              <h2 class="work-banner-title" id="gfm-heading">Global Fund Malaria Project</h2>
+            </div>
+            <div class="work-banner-donors">
+              <img class="work-donor-logo" src="assets/images/globalfund.jpg" alt="Global Fund logo">
+              <img class="work-donor-logo" src="assets/images/amref.jpeg" alt="AMREF Health Africa logo">
+            </div>
+          </div>
+        </div>
+
+        <div class="work-body reveal reveal-delay-1">
+
+          <div class="work-narrative">
+
+            <div class="work-tags">
+              <span class="work-tag work-tag--blue"><i class="fa-solid fa-syringe"></i>Malaria Control</span>
+              <span class="work-tag work-tag--blue"><i class="fa-solid fa-microscope"></i>Community Case Mgmt</span>
+              <span class="work-tag work-tag--navy"><i class="fa-solid fa-map-location-dot"></i>7 Counties</span>
+              <span class="work-tag work-tag--amber"><i class="fa-solid fa-flag-checkered"></i>Completed</span>
+            </div>
+
+            <h3 class="work-headline">
+              Taking malaria treatment to the household doorstep
+            </h3>
+
+            <p class="work-lead">
+              Between 2018 and 2021, IDF Kenya implemented the Global Fund Malaria Project as a sub-recipient under Amref Health Africa, reaching seven counties with a community case management model that put malaria diagnosis and treatment directly in the hands of Community Health Volunteers. The programme was a major contribution to Kenya's national goal of a "Malaria Free Kenya."
+            </p>
+
+            <p class="work-body-text">
+              More than 1,140 CHVs across 114 Community Health Units were equipped with mRDT rapid diagnostic test kits and artemether-lumefantrine (AL) treatment. They were trained to identify suspected malaria cases during household visits, test on the spot, and dispense treatment — bringing the clinic to the community rather than making patients travel. The programme budget of Ksh 103,247,492 supported operations across Homa Bay, Meru, Tharaka Nithi, Kwale and Kirinyaga counties.
+            </p>
+
+            <div class="work-callout work-callout--navy">
+              <h4><i class="fa-solid fa-database" style="margin-right:0.35rem"></i>Data &amp; Quality Systems</h4>
+              <p>IDF facilitated data bundle provisions for SCHRIOs and airtime for CHEWs to maintain consistent uploads to the Kenya Health Information System (KHIS), ensuring real-time national malaria surveillance coverage across all seven project counties.</p>
+            </div>
+
+            <div class="work-outcomes">
+              <div class="work-outcome-item">
+                <div class="work-outcome-icon"><i class="fa-solid fa-check"></i></div>
+                <span>1,140+ CHVs trained in community case management of malaria (CCMm)</span>
+              </div>
+              <div class="work-outcome-item">
+                <div class="work-outcome-icon"><i class="fa-solid fa-check"></i></div>
+                <span>114 Community Health Units supplied with mRDT kits and AL treatment stock</span>
+              </div>
+              <div class="work-outcome-item">
+                <div class="work-outcome-icon work-outcome-icon--green"><i class="fa-solid fa-check"></i></div>
+                <span>Routine malaria quality audits conducted across all 7 counties</span>
+              </div>
+              <div class="work-outcome-item">
+                <div class="work-outcome-icon work-outcome-icon--green"><i class="fa-solid fa-check"></i></div>
+                <span>3,280+ pupils engaged in door-to-door malaria health mobilisation in Tharaka Nithi</span>
+              </div>
+            </div>
+
+            <div class="work-actions">
+              <a href="global-fund-malaria.html" class="btn-idf-primary">
+                <i class="fa-solid fa-arrow-right"></i>Full Project Details
+              </a>
+              <a href="regions.html" class="btn-idf-outline-navy">
+                <i class="fa-solid fa-map-location-dot"></i>View All Regions
+              </a>
+            </div>
+
+          </div>
+
+          <div class="work-metrics">
+            <p class="work-metrics-title">Project outcomes</p>
+
+            <div class="work-metric">
+              <div class="work-metric-number">1,140<span class="suffix">+</span></div>
+              <div class="work-metric-label">Community Health Volunteers trained</div>
+            </div>
+
+            <div class="work-metric">
+              <div class="work-metric-number">114</div>
+              <div class="work-metric-label">Community Health Units reached</div>
+            </div>
+
+            <div class="work-metric">
+              <div class="work-metric-number">7</div>
+              <div class="work-metric-label">Counties covered over 3 years</div>
+            </div>
+
+            <div class="work-facts">
+              <div class="work-fact">
+                <i class="fa-solid fa-circle-dot"></i>
+                <span>Principal Recipient: Amref Health Africa (Global Fund grant)</span>
+              </div>
+              <div class="work-fact">
+                <i class="fa-solid fa-circle-dot"></i>
+                <span>Project Budget: Ksh 103,247,492</span>
+              </div>
+              <div class="work-fact">
+                <i class="fa-solid fa-circle-dot"></i>
+                <span>Counties: Homa Bay, Meru, Tharaka Nithi, Kwale, Kirinyaga</span>
+              </div>
+            </div>
+
+            <div class="work-period">
+              <i class="fa-regular fa-calendar"></i>
+              <div>
+                <strong>Project Period</strong>
+                2018 — 2021 · Completed
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="work-gallery">
+          <div class="work-gallery-item reveal reveal-delay-1"
+            data-caption="CHV conducting mRDT testing — Homa Bay">
+            <img class="work-gallery-img"
+              src="assets/images/county2_uWjLMiN.jpg"
+              alt="Community health volunteer conducting malaria rapid diagnostic test in Homa Bay County">
+          </div>
+          <div class="work-gallery-item reveal reveal-delay-2"
+            data-caption="CHV training session — Meru County">
+            <div class="gallery-placeholder">
+              <i class="fa-regular fa-image"></i>
+              <span>CHV Training<br>Meru County</span>
+            </div>
+          </div>
+          <div class="work-gallery-item reveal reveal-delay-3"
+            data-caption="Malaria quality audit — Kwale County">
+            <div class="gallery-placeholder">
+              <i class="fa-regular fa-image"></i>
+              <span>Quality Audit<br>Kwale County</span>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- ==================================================
+           PROJECT 4 — SEKA KAGWA CLEAN WATER
+      =================================================== -->
+      <section id="seka-kagwa" class="work-section" aria-labelledby="sk-heading">
+
+        <div class="work-banner reveal">
+          <img class="work-banner-img"
+            src="assets/images/seka_KbmhChW.jpg"
+            alt="Seka Kagwa clean water purification system serving 15,000 residents in Homa Bay County"
+            loading="lazy">
+          <div class="work-banner-overlay" aria-hidden="true"></div>
+
+          <span class="work-status work-status--active">
+            Active Programme
+          </span>
+
+          <div class="work-banner-meta">
+            <div class="work-banner-title-group">
+              <span class="work-banner-eyebrow">Japan-Kenya Partnership · WASH · Homa Bay County</span>
+              <h2 class="work-banner-title" id="sk-heading">Seka Kagwa Clean Water Project</h2>
+            </div>
+            <div class="work-banner-donors">
+              <img class="work-donor-logo" src="assets/images/japan2.jpg" alt="Embassy of Japan in Kenya logo">
+            </div>
+          </div>
+        </div>
+
+        <div class="work-body reveal reveal-delay-1">
+
+          <div class="work-narrative">
+
+            <div class="work-tags">
+              <span class="work-tag work-tag--blue"><i class="fa-solid fa-droplet"></i>Clean Water</span>
+              <span class="work-tag work-tag--green"><i class="fa-solid fa-leaf"></i>WASH</span>
+              <span class="work-tag work-tag--green"><i class="fa-solid fa-torii-gate"></i>Japan Partnership</span>
+              <span class="work-tag work-tag--navy"><i class="fa-solid fa-map-location-dot"></i>Homa Bay County</span>
+            </div>
+
+            <h3 class="work-headline">
+              8,000 litres of clean water, every single day
+            </h3>
+
+            <p class="work-lead">
+              In the Seka Kagwa community of Homa Bay County, access to safe drinking water has been transformed through a Japan-Kenya partnership that installed a Yamaha natural purification system capable of producing 8,000 litres of clean water daily. What was once a daily struggle against waterborne disease is now a reliable community resource — serving 15,000 people.
+            </p>
+
+            <p class="work-body-text">
+              The Seka Kagwa project demonstrates how targeted infrastructure investment, combined with community management structures, can create sustainable change. The natural purification system draws on available water sources and processes them through a technology-driven filtration system with minimal chemical inputs, providing water that meets national safety standards.
+            </p>
+
+            <div class="work-callout work-callout--green">
+              <h4><i class="fa-solid fa-torii-gate" style="margin-right:0.35rem"></i>Japan-Kenya Partnership</h4>
+              <p>This project was made possible through the Embassy of Japan in Kenya's Grant Aid programme, which partners with Kenyan NGOs to deliver high-impact infrastructure projects in underserved communities — a model of bilateral cooperation at the community level.</p>
+            </div>
+
+            <div class="work-outcomes">
+              <div class="work-outcome-item">
+                <div class="work-outcome-icon work-outcome-icon--green"><i class="fa-solid fa-check"></i></div>
+                <span>15,000 residents now accessing safe, affordable drinking water daily</span>
+              </div>
+              <div class="work-outcome-item">
+                <div class="work-outcome-icon work-outcome-icon--green"><i class="fa-solid fa-check"></i></div>
+                <span>Yamaha natural water purification system producing 8,000 litres per day</span>
+              </div>
+              <div class="work-outcome-item">
+                <div class="work-outcome-icon"><i class="fa-solid fa-check"></i></div>
+                <span>Community water management committee trained and operational</span>
+              </div>
+              <div class="work-outcome-item">
+                <div class="work-outcome-icon"><i class="fa-solid fa-check"></i></div>
+                <span>Significant reduction in waterborne disease burden in Seka Kagwa community</span>
+              </div>
+            </div>
+
+            <div class="work-actions">
+              <a href="seka-kagwa.html" class="btn-idf-primary">
+                <i class="fa-solid fa-arrow-right"></i>Full Project Details
+              </a>
+              <a href="contact.html" class="btn-idf-outline-navy">
+                <i class="fa-regular fa-envelope"></i>Get In Touch
+              </a>
+            </div>
+
+          </div>
+
+          <div class="work-metrics">
+            <p class="work-metrics-title">Project impact</p>
+
+            <div class="work-metric">
+              <div class="work-metric-number">15,000</div>
+              <div class="work-metric-label">Residents served with clean water daily</div>
+            </div>
+
+            <div class="work-metric">
+              <div class="work-metric-number">8,000<span class="suffix">L</span></div>
+              <div class="work-metric-label">Daily water production capacity</div>
+            </div>
+
+            <div class="work-metric">
+              <div class="work-metric-number">1</div>
+              <div class="work-metric-label">Yamaha natural purification system installed</div>
+            </div>
+
+            <div class="work-facts">
+              <div class="work-fact">
+                <i class="fa-solid fa-circle-dot"></i>
+                <span>Donor: Embassy of Japan in Kenya — Grant Aid Programme</span>
+              </div>
+              <div class="work-fact">
+                <i class="fa-solid fa-circle-dot"></i>
+                <span>Technology: Yamaha natural water purification system</span>
+              </div>
+              <div class="work-fact">
+                <i class="fa-solid fa-circle-dot"></i>
+                <span>Location: Seka Kagwa community, Homa Bay County</span>
+              </div>
+            </div>
+
+            <div class="work-period">
+              <i class="fa-regular fa-calendar"></i>
+              <div>
+                <strong>Status</strong>
+                Active — Operational System
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="work-gallery">
+          <div class="work-gallery-item reveal reveal-delay-1"
+            data-caption="Yamaha purification system — Seka Kagwa">
+            <img class="work-gallery-img"
+              src="assets/images/seka_KbmhChW.jpg"
+              alt="Seka Kagwa water purification system installed by IDF with Japan Embassy support">
+          </div>
+          <div class="work-gallery-item reveal reveal-delay-2"
+            data-caption="Community water point — daily distribution">
+            <div class="gallery-placeholder">
+              <i class="fa-regular fa-image"></i>
+              <span>Community Water Point<br>Daily Distribution</span>
+            </div>
+          </div>
+          <div class="work-gallery-item reveal reveal-delay-3"
+            data-caption="Water management committee training">
+            <div class="gallery-placeholder">
+              <i class="fa-regular fa-image"></i>
+              <span>Management Committee<br>Training Session</span>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+
+    </main>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       REQUIRED: Footer injected here by components.js
+       Do NOT remove or rename this div.
+  ═══════════════════════════════════════════════════════════ -->
+  <div id="footer-placeholder"></div>
+
+
+  <!--
+    FIXED: Script paths now use root-level references (no ../ prefix)
+    components.js must load FIRST — it injects the navbar and footer
+    that the other scripts may depend on.
+    
+    IMPORTANT: main.js should be loaded as type="module" to match
+    Juno Atelier's working pattern.
+  -->
+  <script src="js/components.js"></script>
+  <script type="module" src="js/main.js"></script>
+  <!-- scroll.js and utils.js should be imported in main.js, not loaded separately -->
+
+</body>
+</html>

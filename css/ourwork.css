@@ -1,0 +1,967 @@
+/* ================================================
+   IDF Kenya — our-work.css
+   Scoped stylesheet for the Our Work page.
+   Loaded only on our-work.html.
+
+   DESIGN PATTERN: "Project Showcase"
+   Each project section = a full-width cinematic
+   banner image → overlapping glass content card
+   (narrative left | metrics right) → gallery strip.
+   Distinct from About (text scroll) and Regions
+   (side-by-side panels) to avoid visual repetition.
+
+   STRUCTURE MAP:
+   .work-section
+     ├── .work-banner          (full-width photo)
+     │     ├── .work-banner-img
+     │     ├── .work-banner-overlay
+     │     ├── .work-banner-meta   (title + partner strip on photo)
+     │     └── .work-status        (active / completed badge)
+     ├── .work-body            (overlapping content grid)
+     │     ├── .work-narrative     (story text + callout + CTA)
+     │     └── .work-metrics       (impact stats + key facts)
+     └── .work-gallery         (placeholder image row)
+   ================================================ */
+
+
+/* ================================================
+   1. BRAND TOKENS — mirror of about.css / regions.css
+   ================================================ */
+:root {
+  --idf-navy:         #1B2E4B;
+  --idf-navy-dark:    #0f1e33;
+  --idf-navy-light:   #2a4470;
+  --idf-blue:         #2E6DB4;
+  --idf-blue-light:   #5B9BD5;
+  --idf-blue-pale:    #EBF3FB;
+  --idf-green:        #3A7D44;
+  --idf-green-light:  #52a85f;
+  --idf-green-pale:   #EAF4EB;
+  --idf-amber:        #C97B1A;
+  --idf-amber-pale:   #FEF3E2;
+  --idf-cream:        #F8FAFF;
+  --idf-text:         #1a1a2e;
+  --idf-text-mid:     #3d4560;
+  --idf-text-muted:   #6b7280;
+  --idf-border:       rgba(27, 46, 75, 0.1);
+  --idf-shadow-sm:    0 2px 10px rgba(27, 46, 75, 0.07);
+  --idf-shadow-md:    0 8px 30px rgba(27, 46, 75, 0.13);
+  --idf-shadow-lg:    0 20px 60px rgba(27, 46, 75, 0.18);
+  --idf-shadow-xl:    0 32px 80px rgba(27, 46, 75, 0.26);
+  --section-gap:      120px;
+  --section-gap-sm:   72px;
+  --sidenav-width:    240px;
+  --font-display:     'Playfair Display', Georgia, serif;
+  --font-body:        'DM Sans', system-ui, sans-serif;
+  --r-sm:  4px;
+  --r-md:  10px;
+  --r-lg:  18px;
+  --r-xl:  28px;
+  --r-2xl: 40px;
+}
+
+
+/* ================================================
+   2. BASE RESET & GLOBALS
+   ================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--idf-text-mid);
+  background: #fff;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--idf-text);
+  line-height: 1.2;
+}
+
+h1 { font-size: clamp(2.4rem, 5vw, 4rem);    font-weight: 700; }
+h2 { font-size: clamp(1.8rem, 3vw, 2.8rem);  font-weight: 600; }
+h3 { font-size: clamp(1.1rem, 2vw, 1.45rem); font-weight: 600; }
+
+p            { margin-bottom: 1rem; }
+p:last-child { margin-bottom: 0; }
+img          { display: block; max-width: 100%; }
+a            { color: inherit; text-decoration: none; transition: color 0.25s; }
+ul           { list-style: none; }
+
+
+/* ================================================
+   3. PAGE LAYOUT WRAPPER
+   Sidenav + main — identical to regions-layout.
+   ================================================ */
+.work-layout {
+  display: flex;
+  align-items: flex-start;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 28px;
+  gap: 56px;
+}
+
+
+/* ================================================
+   5. PAGE HERO
+   ================================================ */
+.work-hero {
+  position: relative;
+  height: 440px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  margin-top: 72px;
+}
+
+.work-hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+}
+
+.work-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    108deg,
+    rgba(11, 20, 38, 0.92) 0%,
+    rgba(27, 46, 75, 0.72) 40%,
+    rgba(27, 46, 75, 0.28) 100%
+  );
+}
+
+.work-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 28px 52px;
+}
+
+.work-hero-eyebrow {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--idf-blue-light);
+  margin-bottom: 14px;
+}
+
+.work-hero-content h1 { color: #fff; margin-bottom: 14px; }
+
+.work-hero-content p {
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 1.08rem;
+  max-width: 600px;
+  line-height: 1.75;
+  margin: 0;
+}
+
+.work-hero-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 28px;
+}
+
+.work-hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  padding: 5px 13px;
+  border-radius: 20px;
+  backdrop-filter: blur(6px);
+  transition: all 0.25s;
+  cursor: pointer;
+}
+
+.work-hero-pill:hover {
+  background: var(--idf-blue);
+  border-color: var(--idf-blue);
+  color: #fff;
+}
+
+
+/* ================================================
+   6. STICKY DESKTOP SIDENAV — identical to regions
+   ================================================ */
+.work-sidenav {
+  position: sticky;
+  top: 96px;
+  width: var(--sidenav-width);
+  flex-shrink: 0;
+  align-self: flex-start;
+  padding: 28px 0;
+}
+
+.sidenav-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--idf-text-muted);
+  margin-bottom: 16px;
+  padding-left: 16px;
+}
+
+.sidenav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-left: 2px solid var(--idf-border);
+}
+
+.sidenav-list li a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px;
+  font-size: 0.84rem;
+  font-weight: 400;
+  color: var(--idf-text-muted);
+  border-left: 2px solid transparent;
+  margin-left: -2px;
+  transition: all 0.25s ease;
+  line-height: 1.3;
+}
+
+.sidenav-list li a i {
+  font-size: 0.78rem;
+  width: 16px;
+  text-align: center;
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: opacity 0.25s;
+}
+
+.sidenav-list li a:hover { color: var(--idf-blue); border-left-color: var(--idf-blue-light); }
+.sidenav-list li a:hover i { opacity: 1; }
+.sidenav-list li a.active { color: var(--idf-blue); border-left-color: var(--idf-blue); font-weight: 600; background: var(--idf-blue-pale); }
+.sidenav-list li a.active i { opacity: 1; color: var(--idf-blue); }
+
+/* Reading progress bar */
+.sidenav-progress { margin-top: 28px; padding-left: 16px; }
+.sidenav-progress-label { font-size: 0.68rem; color: var(--idf-text-muted); margin-bottom: 6px; }
+.sidenav-progress-bar { height: 3px; background: var(--idf-border); border-radius: 3px; overflow: hidden; }
+.sidenav-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--idf-blue), var(--idf-green));
+  border-radius: 3px;
+  transition: width 0.2s ease;
+  width: 0%;
+}
+
+
+/* ================================================
+   7. MAIN CONTENT COLUMN
+   ================================================ */
+.work-main {
+  flex: 1;
+  min-width: 0;
+  padding: var(--section-gap) 0;
+}
+
+
+/* ================================================
+   8. PROJECT SECTION WRAPPER
+   ================================================ */
+.work-section {
+  margin-bottom: var(--section-gap);
+  padding-bottom: var(--section-gap);
+  border-bottom: 1px solid var(--idf-border);
+}
+
+.work-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+/* Anchor offset for fixed navbar */
+.work-section::before {
+  content: '';
+  display: block;
+  height: 96px;
+  margin-top: -96px;
+  pointer-events: none;
+}
+
+
+/* ================================================
+   9. FULL-WIDTH PROJECT BANNER
+   Each project has a cinematic header image with
+   an overlay title block. The banner height is
+   fixed and the image covers with object-fit.
+   ================================================ */
+.work-banner {
+  position: relative;
+  height: 420px;
+  border-radius: var(--r-2xl);
+  overflow: hidden;
+  margin-bottom: 0; /* content card overlaps from below */
+}
+
+.work-banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+}
+
+.work-section:hover .work-banner-img {
+  transform: scale(1.04);
+}
+
+/* Gradient overlay — heavier at the bottom for the meta strip */
+.work-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(11, 20, 38, 0.20) 0%,
+    rgba(11, 20, 38, 0.88) 100%
+  );
+}
+
+/* Title + donor strip on photo */
+.work-banner-meta {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 28px 36px;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.work-banner-title-group {
+  flex: 1;
+}
+
+.work-banner-eyebrow {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--idf-blue-light);
+  margin-bottom: 8px;
+}
+
+.work-banner-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  margin: 0;
+}
+
+/* Donor / partner logo row on the right side of banner */
+.work-banner-donors {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.work-donor-logo {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: 0.85;
+  transition: opacity 0.25s;
+}
+
+.work-donor-logo:hover { opacity: 1; }
+
+/* Status badge — top right corner */
+.work-status {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 6px 14px;
+  border-radius: 20px;
+  z-index: 3;
+}
+
+.work-status--active {
+  background: var(--idf-green);
+  color: #fff;
+}
+
+.work-status--active::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.8);
+  animation: statusPulse 1.8s ease-in-out infinite;
+}
+
+.work-status--completed {
+  background: rgba(27,46,75,0.75);
+  backdrop-filter: blur(8px);
+  color: rgba(255,255,255,0.9);
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.45; transform: scale(0.7); }
+}
+
+
+/* ================================================
+   10. PROJECT BODY — two-column content below banner
+   Narrative left + Metrics right.
+   The card overlaps the banner by 40px (negative
+   margin-top) to create a connected feel.
+   ================================================ */
+.work-body {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 0;
+  margin-top: -40px; /* overlap the banner */
+  position: relative;
+  z-index: 2;
+}
+
+/* ── NARRATIVE COLUMN ───────────────────────── */
+.work-narrative {
+  background: #fff;
+  border-radius: 0 0 0 var(--r-xl);
+  padding: 48px 40px 48px 48px;
+  box-shadow: var(--idf-shadow-xl);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Accent bar at top of narrative card */
+.work-narrative::before {
+  content: '';
+  position: absolute;
+  top: 40px; /* aligns to top of narrative card (0 + 40px overlap) */
+  left: 0;
+  width: 4px;
+  height: 64px;
+  border-radius: 0 2px 2px 0;
+  background: linear-gradient(to bottom, var(--idf-blue), var(--idf-green));
+}
+
+/* Project tag row */
+.work-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 20px;
+}
+
+.work-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.work-tag--blue   { background: var(--idf-blue-pale);  color: var(--idf-blue); }
+.work-tag--green  { background: var(--idf-green-pale); color: var(--idf-green); }
+.work-tag--navy   { background: rgba(27,46,75,0.08);   color: var(--idf-navy); }
+.work-tag--amber  { background: var(--idf-amber-pale); color: var(--idf-amber); }
+
+/* Headline */
+.work-headline {
+  font-size: clamp(1.3rem, 2.2vw, 1.75rem);
+  font-weight: 700;
+  color: var(--idf-navy);
+  line-height: 1.3;
+  margin-bottom: 18px;
+}
+
+/* Lead paragraph */
+.work-lead {
+  font-size: 1rem;
+  line-height: 1.82;
+  color: var(--idf-text-mid);
+  margin-bottom: 14px;
+}
+
+/* Body paragraphs */
+.work-body-text {
+  font-size: 0.92rem;
+  line-height: 1.8;
+  color: var(--idf-text-muted);
+  margin-bottom: 14px;
+}
+
+/* Callout / highlight box */
+.work-callout {
+  background: var(--idf-cream);
+  border-left: 4px solid var(--idf-blue);
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  padding: 16px 20px;
+  margin: 20px 0;
+}
+
+.work-callout--green  { border-left-color: var(--idf-green); }
+.work-callout--navy   { border-left-color: var(--idf-navy); }
+.work-callout--amber  { border-left-color: var(--idf-amber); background: var(--idf-amber-pale); }
+
+.work-callout h4 {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--idf-navy);
+  margin-bottom: 6px;
+}
+
+.work-callout--green h4  { color: var(--idf-green); }
+.work-callout--amber h4  { color: var(--idf-amber); }
+
+.work-callout p {
+  font-size: 0.87rem;
+  color: var(--idf-text-mid);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* Key outcomes list */
+.work-outcomes {
+  margin: 18px 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.work-outcome-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.9rem;
+  color: var(--idf-text-mid);
+  line-height: 1.6;
+}
+
+.work-outcome-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--idf-blue-pale);
+  color: var(--idf-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.work-outcome-icon--green { background: var(--idf-green-pale); color: var(--idf-green); }
+
+/* CTA buttons */
+.work-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 24px;
+}
+
+.btn-idf-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--idf-blue);
+  color: #fff;
+  border: 2px solid var(--idf-blue);
+  padding: 10px 22px;
+  border-radius: var(--r-sm);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.26s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-idf-primary:hover {
+  background: var(--idf-navy);
+  border-color: var(--idf-navy);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(46, 109, 180, 0.38);
+}
+
+.btn-idf-outline-navy {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--idf-navy);
+  border: 2px solid var(--idf-navy);
+  padding: 10px 22px;
+  border-radius: var(--r-sm);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.26s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-idf-outline-navy:hover { background: var(--idf-navy); color: #fff; }
+
+
+/* ── METRICS COLUMN ─────────────────────────── */
+.work-metrics {
+  background: var(--idf-navy);
+  border-radius: 0 0 var(--r-xl) 0;
+  padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.work-metrics-title {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 24px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Individual metric card */
+.work-metric {
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.work-metric:last-of-type { border-bottom: none; }
+
+.work-metric-number {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.work-metric-number .suffix { color: var(--idf-blue-light); font-size: 0.6em; }
+
+.work-metric-label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.4;
+}
+
+/* Key facts list */
+.work-facts {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.work-fact {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.5;
+}
+
+.work-fact i {
+  color: var(--idf-blue-light);
+  font-size: 0.75rem;
+  width: 14px;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+/* Duration / period label */
+.work-period {
+  margin-top: 20px;
+  background: rgba(255,255,255,0.06);
+  border-radius: var(--r-md);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.7);
+}
+
+.work-period i { color: var(--idf-blue-light); }
+
+.work-period strong {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 2px;
+  font-weight: 600;
+}
+
+
+/* ================================================
+   11. PHOTO GALLERY STRIP
+   Placeholder grid for 3 photos. Replace
+   .gallery-placeholder divs with real <img> tags
+   when images are available.
+   ================================================ */
+.work-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.work-gallery-item {
+  position: relative;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: var(--idf-cream);
+  border: 1px solid var(--idf-border);
+  cursor: pointer;
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+.work-gallery-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--idf-shadow-md);
+}
+
+/* Real gallery image */
+.work-gallery-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.work-gallery-item:hover .work-gallery-img { transform: scale(1.06); }
+
+/* Placeholder when no image is available */
+.gallery-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--idf-text-muted);
+  background: var(--idf-cream);
+}
+
+.gallery-placeholder i { font-size: 1.6rem; opacity: 0.35; }
+.gallery-placeholder span { font-size: 0.72rem; text-align: center; line-height: 1.4; opacity: 0.5; }
+
+/* Gallery caption overlay on hover */
+.work-gallery-item::after {
+  content: attr(data-caption);
+  position: absolute;
+  inset: 0;
+  background: rgba(27,46,75,0.72);
+  color: rgba(255,255,255,0.9);
+  font-size: 0.78rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 12px;
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+
+.work-gallery-item:hover::after { opacity: 1; }
+
+
+/* ================================================
+   12. SCROLL REVEAL — identical to about & regions
+   ================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-delay-3 { transition-delay: 0.24s; }
+.reveal-delay-4 { transition-delay: 0.32s; }
+
+/* Slide up for gallery items */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.reveal-up.visible { opacity: 1; transform: translateY(0); }
+
+
+/* ================================================
+   13. MOBILE HORIZONTAL SECTION NAV
+   ================================================ */
+.mobile-work-nav {
+  display: none;
+  position: sticky;
+  top: 72px;
+  z-index: 200;
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--idf-border);
+  box-shadow: var(--idf-shadow-sm);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.mobile-work-nav::-webkit-scrollbar { display: none; }
+
+.mobile-work-nav-inner {
+  display: flex;
+  gap: 0;
+  padding: 0 16px;
+  min-width: max-content;
+}
+
+.mobile-work-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 13px 14px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--idf-text-muted);
+  border-bottom: 2px solid transparent;
+  transition: all 0.22s ease;
+  white-space: nowrap;
+}
+
+.mobile-work-link:hover { color: var(--idf-blue); }
+.mobile-work-link.active {
+  color: var(--idf-blue);
+  border-bottom-color: var(--idf-blue);
+  font-weight: 600;
+}
+
+
+/* ================================================
+   14. RESPONSIVE BREAKPOINTS
+   ================================================ */
+
+/* Tablet — hide sidenav, show mobile nav */
+@media (max-width: 1100px) {
+  .work-sidenav    { display: none; }
+  .mobile-work-nav { display: block; }
+  .work-layout     { padding: 0 20px; gap: 0; }
+  .work-main       { padding: var(--section-gap-sm) 0; }
+}
+
+/* Tablet portrait — stack body columns */
+@media (max-width: 960px) {
+  .work-body {
+    grid-template-columns: 1fr;
+    margin-top: 0;
+  }
+
+  .work-banner { border-radius: var(--r-xl) var(--r-xl) 0 0; }
+
+  .work-narrative {
+    border-radius: 0;
+    padding: 36px 28px;
+    box-shadow: none;
+    border: 1px solid var(--idf-border);
+    border-top: none;
+    border-bottom: none;
+  }
+
+  .work-narrative::before { display: none; }
+
+  .work-metrics {
+    border-radius: 0 0 var(--r-xl) var(--r-xl);
+    padding: 32px 28px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+
+  .work-metrics-title { width: 100%; }
+
+  .work-metric {
+    flex: 1 1 calc(50% - 12px);
+    padding: 12px;
+  }
+
+  .work-facts { flex-direction: row; flex-wrap: wrap; }
+  .work-fact  { flex: 1 1 calc(50% - 6px); }
+
+  .work-gallery { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  :root {
+    --section-gap: 60px;
+    --section-gap-sm: 48px;
+  }
+
+  .work-hero          { height: 340px; }
+  .work-hero-pills    { display: none; }
+  .work-banner        { height: 260px; }
+  .work-banner-donors { display: none; }
+  .work-narrative     { padding: 28px 20px; }
+  .work-metrics       { flex-direction: column; }
+  .work-gallery       { grid-template-columns: 1fr 1fr; }
+  .work-actions       { flex-direction: column; }
+  .btn-idf-primary,
+  .btn-idf-outline-navy { justify-content: center; }
+}

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,67 +5,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="About Integrated Development Facility — Our history, mission, values, team, partners and career opportunities.">
   <title>About Us — Integrated Development Facility Kenya</title>
-  <link rel="icon" href="../assets/images/logo1.png" type="image/png">
+  <link rel="icon" href="assets/images/logo1.png" type="image/png">
 
-  <!-- Google Fonts — identical to index.html -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  <!-- Font Awesome 6.5.1 — icons used throughout this page -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <!-- Font Awesome 6.5.1 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
 
-  <!-- Site-wide stylesheets — same order as index.html -->
-  <link rel="stylesheet" href="/css/styles.css">
-  <link rel="stylesheet" href="/css/navbar.css">
-  <link rel="stylesheet" href="/css/sections.css">
-  <link rel="stylesheet" href="/css/responsive.css">
-
-  <!-- About Us page-scoped styles (loaded last so overrides are safe) -->
-  <link rel="stylesheet" href="/css/about.css">
+  <!--
+    Stylesheet load order:
+      1. styles.css     — global reset, typography, shared tokens
+      2. components.css — site navbar, footer
+      3. sections.css   — shared section patterns (hero, stats, cards, etc.)
+      4. about.css      — scoped styles for this page only (non-responsive)
+      5. responsive.css — ALL media queries (site-wide + about-page breakpoints)
+  -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/sections.css">
+  <link rel="stylesheet" href="css/about.css">
+  <link rel="stylesheet" href="css/responsive.css">
 </head>
 
 <body>
 
-  <!-- NAVBAR (injected by component.js) -->
+  <!-- Navbar injected by components.js — do NOT remove -->
   <div id="navbar-placeholder"></div>
 
 
   <!-- ============================================================
-       MOBILE HORIZONTAL SECTION NAV  (visible ≤ 1100px)
-       data-spy-target values must match the section id attributes
-       below — initAboutScrollSpy() in main.js reads them.
-  ============================================================ -->
-  <nav class="mobile-about-nav" role="navigation" aria-label="About page sections">
-    <div class="mobile-nav-inner">
-      <a href="#history"  class="mobile-nav-link" data-spy-target="history">
-        <i class="fa-regular fa-clock"></i>History
-      </a>
-      <a href="#mission"  class="mobile-nav-link" data-spy-target="mission">
-        <i class="fa-solid fa-bullseye"></i>Mission
-      </a>
-      <a href="#values"   class="mobile-nav-link" data-spy-target="values">
-        <i class="fa-solid fa-gem"></i>Values
-      </a>
-      <a href="#partners" class="mobile-nav-link" data-spy-target="partners">
-        <i class="fa-solid fa-handshake"></i>Partners
-      </a>
-      <a href="#team"     class="mobile-nav-link" data-spy-target="team">
-        <i class="fa-solid fa-users"></i>Team
-      </a>
-      <a href="#careers"  class="mobile-nav-link" data-spy-target="careers">
-        <i class="fa-solid fa-briefcase"></i>Join Us
-      </a>
-    </div>
-  </nav>
-
-
-  <!-- ============================================================
        PAGE HERO
+       Image displayed at: 100vw × 420 px (CSS).
+       Source dimensions (HTML attrs): 1920 × 960 px.
+       object-fit: cover; object-position: center 35% (in about.css).
   ============================================================ -->
   <header class="about-hero" role="banner">
-    <img class="about-hero-bg" src="../assets/images/idf_home1.jpg"
-      alt="IDF Kenya community members gathered in Homa Bay County" loading="eager">
+    <img
+      class="about-hero-bg"
+      src="assets/images/idf_home1.jpg"
+      alt="IDF Kenya community members gathered in Homa Bay County"
+      width="1920"
+      height="960"
+      loading="eager"
+      fetchpriority="high">
     <div class="about-hero-overlay" aria-hidden="true"></div>
     <div class="about-hero-content">
       <span class="about-hero-eyebrow">
@@ -74,6 +59,7 @@
       </span>
       <h1>Who We Are</h1>
       <p>A community-based Non-Governmental Organization with Christian values — building healthy, just and empowered communities across Kenya since 1999.</p>
+      <!-- Hero nav pills — desktop only; hidden on mobile via responsive.css -->
       <nav class="about-hero-nav-pills" aria-label="Jump to section">
         <a href="#history"  class="hero-pill"><i class="fa-regular fa-clock"></i>Our History</a>
         <a href="#mission"  class="hero-pill"><i class="fa-solid fa-bullseye"></i>Mission &amp; Vision</a>
@@ -87,11 +73,44 @@
 
 
   <!-- ============================================================
+       MOBILE / TABLET ABOUT NAV
+       Hidden on desktop (>= 1100 px) — shown as a sticky horizontal
+       scrollable tab bar on viewports < 1100 px, positioned directly
+       below the main top navbar. Overflow-x: auto with hidden
+       scrollbars keeps the layout clean.
+       The same scroll-spy JS in main.js that drives the desktop
+       sidenav also handles data-spy-target on these links.
+  ============================================================ -->
+  <nav class="mobile-about-nav" aria-label="About page sections">
+    <div class="mobile-about-nav-inner">
+      <a href="#history"  class="mob-nav-link active" data-spy-target="history">
+        <i class="fa-regular fa-clock"></i>Our History
+      </a>
+      <a href="#mission"  class="mob-nav-link" data-spy-target="mission">
+        <i class="fa-solid fa-bullseye"></i>Mission &amp; Vision
+      </a>
+      <a href="#values"   class="mob-nav-link" data-spy-target="values">
+        <i class="fa-solid fa-gem"></i>Core Values
+      </a>
+      <a href="#partners" class="mob-nav-link" data-spy-target="partners">
+        <i class="fa-solid fa-handshake"></i>Partners &amp; Networks
+      </a>
+      <a href="#team"     class="mob-nav-link" data-spy-target="team">
+        <i class="fa-solid fa-users"></i>Our Team
+      </a>
+      <a href="#careers"  class="mob-nav-link" data-spy-target="careers">
+        <i class="fa-solid fa-briefcase"></i>Join Us
+      </a>
+    </div>
+  </nav>
+
+
+  <!-- ============================================================
        TWO-COLUMN LAYOUT: SIDENAV + MAIN CONTENT
   ============================================================ -->
   <div class="about-layout">
 
-    <!-- STICKY SIDENAV  (desktop ≥ 1100px) -->
+    <!-- STICKY SIDENAV (visible >= 1100 px) -->
     <aside class="about-sidenav" aria-label="Page section navigation">
       <p class="sidenav-label">On this page</p>
       <ul class="sidenav-list" role="list">
@@ -127,14 +146,14 @@
         </li>
       </ul>
 
-      <!-- Reading progress bar — filled by initAboutProgressBar() -->
+      <!-- Reading progress bar — updated by initAboutProgressBar() in main.js -->
       <div class="sidenav-progress" aria-label="Page reading progress">
         <p class="sidenav-progress-label">Reading progress</p>
         <div class="sidenav-progress-bar"
-          role="progressbar"
-          aria-valuenow="0"
-          aria-valuemin="0"
-          aria-valuemax="100">
+             role="progressbar"
+             aria-valuenow="0"
+             aria-valuemin="0"
+             aria-valuemax="100">
           <div class="sidenav-progress-fill" id="progressFill"></div>
         </div>
       </div>
@@ -147,7 +166,6 @@
 
       <!-- ================================================
            SECTION 1 — OUR HISTORY
-           id="history" must match data-spy-target values
       ================================================ -->
       <section id="history" class="about-section" aria-labelledby="history-heading">
 
@@ -170,9 +188,18 @@
               <strong>1999</strong>
               <span>Founded</span>
             </div>
-            <img class="history-img"
-              src="../assets/images/usaid_award.jpg"
-              alt="IDF staff receiving the Ndovu Award 2023 for outstanding community governance work in Homa Bay County">
+            <!--
+              History image:
+                Optimal source: 1280 x 840 px (2x retina for a ~640 x 420 px display slot)
+                Displayed at: ~50% column width (max ~600 px) x 420 px fixed height.
+                width/height attributes reflect the display intrinsic ratio (3:2).
+            -->
+            <img
+              class="history-img"
+              src="assets/images/usaid_award.jpg"
+              alt="IDF staff receiving the Ndovu Award 2023 for outstanding community governance work in Homa Bay County"
+              width="640"
+              height="420">
             <div class="history-img-deco hide-mobile"></div>
           </div>
 
@@ -259,43 +286,36 @@
         </div>
 
         <div class="values-grid">
-
           <div class="value-card reveal">
             <div class="value-icon"><i class="fa-solid fa-award"></i></div>
             <h3>Professionalism</h3>
             <p>We uphold the highest standards of conduct, competence and integrity in all our work and interactions with partners and communities.</p>
           </div>
-
           <div class="value-card reveal reveal-delay-1">
             <div class="value-icon"><i class="fa-solid fa-scale-balanced"></i></div>
             <h3>Accountability</h3>
             <p>We take responsibility for our actions and decisions, ensuring transparency in the use of resources entrusted to us by donors and communities.</p>
           </div>
-
           <div class="value-card reveal reveal-delay-2">
             <div class="value-icon"><i class="fa-solid fa-seedling"></i></div>
             <h3>Stewardship</h3>
             <p>We manage all resources — financial, human and environmental — with care and wisdom, ensuring long-term sustainability for the communities we serve.</p>
           </div>
-
           <div class="value-card reveal reveal-delay-3">
             <div class="value-icon"><i class="fa-solid fa-people-group"></i></div>
             <h3>Teamwork</h3>
             <p>We believe in the power of collaboration — working together internally and with partners to achieve more than any one organization can alone.</p>
           </div>
-
           <div class="value-card reveal reveal-delay-4">
             <div class="value-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
             <h3>Transparency</h3>
             <p>We are open and honest in all our communications, operations and reporting — building trust with communities, donors and government partners alike.</p>
           </div>
-
           <div class="value-card value-card--dark reveal reveal-delay-5">
             <div class="value-icon"><i class="fa-solid fa-heart"></i></div>
             <h3>Christian Values</h3>
             <p>Our work is guided by Christian principles of compassion, dignity, justice and service to the most vulnerable members of society.</p>
           </div>
-
         </div>
 
       </section>
@@ -317,31 +337,31 @@
 
         <div class="partners-logos">
           <a href="https://www.path.org/" target="_blank" rel="noopener noreferrer" class="partner-chip reveal">
-            <img src="../assets/images/path.jpeg" alt="PATH Kenya partner logo" loading="lazy">
+            <img src="assets/images/path.jpeg"       alt="PATH Kenya partner logo"             width="200" height="80" loading="lazy">
           </a>
           <a href="https://uraia.or.ke/" target="_blank" rel="noopener noreferrer" class="partner-chip reveal reveal-delay-1">
-            <img src="../assets/images/uraia.jpeg" alt="Uraia Trust partner logo" loading="lazy">
+            <img src="assets/images/uraia.jpeg"      alt="Uraia Trust partner logo"            width="200" height="80" loading="lazy">
           </a>
           <a href="https://amref.org/" target="_blank" rel="noopener noreferrer" class="partner-chip reveal reveal-delay-2">
-            <img src="../assets/images/amref.jpeg" alt="AMREF Health Africa partner logo" loading="lazy">
+            <img src="assets/images/amref.jpeg"      alt="AMREF Health Africa partner logo"    width="200" height="80" loading="lazy">
           </a>
           <div class="partner-chip reveal reveal-delay-3">
-            <img src="../assets/images/usaid.png" alt="USAID partner logo" loading="lazy">
+            <img src="assets/images/usaid.png"       alt="USAID partner logo"                  width="200" height="80" loading="lazy">
           </div>
           <a href="https://www.health.go.ke/" target="_blank" rel="noopener noreferrer" class="partner-chip reveal reveal-delay-4">
-            <img src="../assets/images/moh.png" alt="Kenya Ministry of Health logo" loading="lazy">
+            <img src="assets/images/moh.png"         alt="Kenya Ministry of Health logo"       width="200" height="80" loading="lazy">
           </a>
           <a href="https://www.theglobalfund.org/en/" target="_blank" rel="noopener noreferrer" class="partner-chip reveal">
-            <img src="../assets/images/globalfund.jpg" alt="The Global Fund logo" loading="lazy">
+            <img src="assets/images/globalfund.jpg"  alt="The Global Fund logo"                width="200" height="80" loading="lazy">
           </a>
           <a href="https://www.ke.emb-japan.go.jp/itprtop_en/index.html" target="_blank" rel="noopener noreferrer" class="partner-chip reveal reveal-delay-1">
-            <img src="../assets/images/japan2.jpg" alt="Embassy of Japan in Kenya logo" loading="lazy">
+            <img src="assets/images/japan2.jpg"      alt="Embassy of Japan in Kenya logo"      width="200" height="80" loading="lazy">
           </a>
           <a href="https://ke.usembassy.gov/pepfar/" target="_blank" rel="noopener noreferrer" class="partner-chip reveal reveal-delay-2">
-            <img src="../assets/images/pepfar.png" alt="PEPFAR logo" loading="lazy">
+            <img src="assets/images/pepfar.png"      alt="PEPFAR logo"                         width="200" height="80" loading="lazy">
           </a>
           <a href="https://kenya.um.dk/en/about-denmark-in-kenya/danida-en" target="_blank" rel="noopener noreferrer" class="partner-chip reveal reveal-delay-3">
-            <img src="../assets/images/danida.jpg" alt="DANIDA logo" loading="lazy">
+            <img src="assets/images/danida.jpg"      alt="DANIDA logo"                         width="200" height="80" loading="lazy">
           </a>
         </div>
 
@@ -369,7 +389,6 @@
 
         <div class="team-groups">
 
-          <!-- Board of Management -->
           <div>
             <div class="team-group-label reveal">
               <h3>
@@ -379,30 +398,13 @@
               <div class="team-group-line"></div>
             </div>
             <div class="team-grid">
-              <div class="team-card reveal">
-                <div class="team-avatar avatar-navy">BM</div>
-                <h4>Board Member</h4>
-                <p>Board of Management</p>
-              </div>
-              <div class="team-card reveal reveal-delay-1">
-                <div class="team-avatar avatar-navy">BM</div>
-                <h4>Board Member</h4>
-                <p>Board of Management</p>
-              </div>
-              <div class="team-card reveal reveal-delay-2">
-                <div class="team-avatar avatar-navy">BM</div>
-                <h4>Board Member</h4>
-                <p>Board of Management</p>
-              </div>
-              <div class="team-card reveal reveal-delay-3">
-                <div class="team-avatar avatar-navy">BM</div>
-                <h4>Board Member</h4>
-                <p>Board of Management</p>
-              </div>
+              <div class="team-card reveal"><div class="team-avatar avatar-navy">BM</div><h4>Board Member</h4><p>Board of Management</p></div>
+              <div class="team-card reveal reveal-delay-1"><div class="team-avatar avatar-navy">BM</div><h4>Board Member</h4><p>Board of Management</p></div>
+              <div class="team-card reveal reveal-delay-2"><div class="team-avatar avatar-navy">BM</div><h4>Board Member</h4><p>Board of Management</p></div>
+              <div class="team-card reveal reveal-delay-3"><div class="team-avatar avatar-navy">BM</div><h4>Board Member</h4><p>Board of Management</p></div>
             </div>
           </div>
 
-          <!-- Senior Management Team -->
           <div>
             <div class="team-group-label reveal">
               <h3>
@@ -412,30 +414,13 @@
               <div class="team-group-line"></div>
             </div>
             <div class="team-grid">
-              <div class="team-card reveal">
-                <div class="team-avatar avatar-blue">SM</div>
-                <h4>Senior Manager</h4>
-                <p>Senior Management Team</p>
-              </div>
-              <div class="team-card reveal reveal-delay-1">
-                <div class="team-avatar avatar-blue">SM</div>
-                <h4>Senior Manager</h4>
-                <p>Senior Management Team</p>
-              </div>
-              <div class="team-card reveal reveal-delay-2">
-                <div class="team-avatar avatar-blue">SM</div>
-                <h4>Senior Manager</h4>
-                <p>Senior Management Team</p>
-              </div>
-              <div class="team-card reveal reveal-delay-3">
-                <div class="team-avatar avatar-blue">SM</div>
-                <h4>Senior Manager</h4>
-                <p>Senior Management Team</p>
-              </div>
+              <div class="team-card reveal"><div class="team-avatar avatar-blue">SM</div><h4>Senior Manager</h4><p>Senior Management Team</p></div>
+              <div class="team-card reveal reveal-delay-1"><div class="team-avatar avatar-blue">SM</div><h4>Senior Manager</h4><p>Senior Management Team</p></div>
+              <div class="team-card reveal reveal-delay-2"><div class="team-avatar avatar-blue">SM</div><h4>Senior Manager</h4><p>Senior Management Team</p></div>
+              <div class="team-card reveal reveal-delay-3"><div class="team-avatar avatar-blue">SM</div><h4>Senior Manager</h4><p>Senior Management Team</p></div>
             </div>
           </div>
 
-          <!-- Field & Support Teams -->
           <div>
             <div class="team-group-label reveal">
               <h3>
@@ -445,26 +430,10 @@
               <div class="team-group-line"></div>
             </div>
             <div class="team-grid">
-              <div class="team-card reveal">
-                <div class="team-avatar avatar-green">CM</div>
-                <h4>Case Manager</h4>
-                <p>Case Management Team</p>
-              </div>
-              <div class="team-card reveal reveal-delay-1">
-                <div class="team-avatar avatar-green">FA</div>
-                <h4>Finance Officer</h4>
-                <p>Finance &amp; Administration</p>
-              </div>
-              <div class="team-card reveal reveal-delay-2">
-                <div class="team-avatar avatar-blue">ME</div>
-                <h4>M&amp;E Officer</h4>
-                <p>Monitoring &amp; Evaluation</p>
-              </div>
-              <div class="team-card reveal reveal-delay-3">
-                <div class="team-avatar avatar-navy">PO</div>
-                <h4>Programme Officer</h4>
-                <p>Programmes Team</p>
-              </div>
+              <div class="team-card reveal"><div class="team-avatar avatar-green">CM</div><h4>Case Manager</h4><p>Case Management Team</p></div>
+              <div class="team-card reveal reveal-delay-1"><div class="team-avatar avatar-green">FA</div><h4>Finance Officer</h4><p>Finance &amp; Administration</p></div>
+              <div class="team-card reveal reveal-delay-2"><div class="team-avatar avatar-blue">ME</div><h4>M&amp;E Officer</h4><p>Monitoring &amp; Evaluation</p></div>
+              <div class="team-card reveal reveal-delay-3"><div class="team-avatar avatar-navy">PO</div><h4>Programme Officer</h4><p>Programmes Team</p></div>
             </div>
           </div>
 
@@ -472,7 +441,7 @@
 
         <div class="team-note reveal">
           <i class="fa-solid fa-circle-info" style="color:var(--idf-blue);margin-right:0.5rem"></i>
-          Team member details are managed privately. To request information or arrange an official visit, please <a href="/pages/contact.html">contact our office</a> directly.
+          Team member details are managed privately. To request information or arrange an official visit, please <a href="contact.html">contact our office</a> directly.
         </div>
 
       </section>
@@ -493,47 +462,34 @@
         </div>
 
         <div class="join-grid">
-
           <div class="join-reason reveal">
-            <div class="join-reason-icon">
-              <i class="fa-solid fa-earth-africa"></i>
-            </div>
+            <div class="join-reason-icon"><i class="fa-solid fa-earth-africa"></i></div>
             <div>
               <h4>Real Community Impact</h4>
               <p>Your work directly improves the lives of thousands of beneficiaries across seven counties in Kenya.</p>
             </div>
           </div>
-
           <div class="join-reason reveal reveal-delay-1">
-            <div class="join-reason-icon join-reason-icon--green">
-              <i class="fa-solid fa-graduation-cap"></i>
-            </div>
+            <div class="join-reason-icon join-reason-icon--green"><i class="fa-solid fa-graduation-cap"></i></div>
             <div>
               <h4>Learning &amp; Growth</h4>
               <p>Access training, capacity building and professional development programs supported by our international partners.</p>
             </div>
           </div>
-
           <div class="join-reason reveal reveal-delay-2">
-            <div class="join-reason-icon">
-              <i class="fa-solid fa-handshake-angle"></i>
-            </div>
+            <div class="join-reason-icon"><i class="fa-solid fa-handshake-angle"></i></div>
             <div>
               <h4>Global Partnerships</h4>
               <p>Work alongside USAID, Global Fund, PATH, AMREF and other leading international development organizations.</p>
             </div>
           </div>
-
           <div class="join-reason reveal reveal-delay-3">
-            <div class="join-reason-icon join-reason-icon--green">
-              <i class="fa-solid fa-heart"></i>
-            </div>
+            <div class="join-reason-icon join-reason-icon--green"><i class="fa-solid fa-heart"></i></div>
             <div>
               <h4>Values-Led Culture</h4>
               <p>Join a team that lives its values — professional, accountable, transparent and deeply committed to community welfare.</p>
             </div>
           </div>
-
         </div>
 
         <div class="join-cta-box reveal">
@@ -542,10 +498,10 @@
             <p>View current opportunities or reach out to express your interest in joining the IDF Kenya team.</p>
           </div>
           <div class="join-cta-actions">
-            <a href="/pages/careers.html" class="btn-idf-primary">
+            <a href="careers.html" class="btn-idf-primary">
               <i class="fa-solid fa-briefcase"></i>View Open Roles
             </a>
-            <a href="/pages/contact.html" class="btn-idf-outline-white">
+            <a href="contact.html" class="btn-idf-outline-white">
               <i class="fa-regular fa-envelope"></i>Contact Us
             </a>
           </div>
@@ -557,15 +513,11 @@
   </div>
 
 
-  <!-- FOOTER (injected by component.js) -->
+  <!-- Footer injected by components.js — do NOT remove -->
   <div id="footer-placeholder"></div>
 
-
-  <!-- Scripts — component.js injects navbar + footer, must load first -->
-  <script src="/js/component.js"></script>
-  <script src="/js/main.js"></script>
-  <script src="/js/scroll.js"></script>
-  <script src="/js/utils.js"></script>
+  <script src="js/components.js"></script>
+  <script type="module" src="js/main.js"></script>
 
 </body>
 </html>

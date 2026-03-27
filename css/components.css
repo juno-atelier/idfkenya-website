@@ -1,0 +1,1052 @@
+/* =====================================================
+   components.css — IDF Kenya v3.0
+   Unified component styles for navbar + footer
+   Fixed for root-level HTML files (all .html at root)
+   
+   Key improvements:
+     · Glass navigation effect (transparent to blurred white on scroll)
+     · Fixed asset paths (../assets/ instead of /assets/)
+     · Removed all /pages/ references
+     · Separate desktop and mobile navigation
+     · Max-height animations for mobile drawer
+     · Proper touch targets (44px minimum)
+     · Unified scroll handling with .is-scrolled class
+     · Responsive grid-based footer layout
+     · Logo with full text: IDF + Integrated Development Facility + Kenya
+     · Active link styling with .is-active class
+   ===================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+
+/* =====================================================
+   DESIGN TOKENS
+   ===================================================== */
+:root {
+  /* Brand Colors - IDF Kenya Palette */
+  --idf-navy:         #1B2E4B;
+  --idf-navy-dark:    #0f1e33;
+  --idf-blue:         #2E6DB4;
+  --idf-blue-light:   #5B9BD5;
+  --idf-blue-pale:    #EBF3FB;
+  --idf-green:        #3A7D44;
+  --idf-green-light:  #52a85f;
+  --idf-cream:        #F8FAFF;
+  --idf-white:        #FFFFFF;
+  --idf-gray-light:   #F5F7FA;
+  --idf-gray-mid:     #6B7280;
+  --idf-gray-dark:    #374151;
+  
+  /* Header */
+  --header-height:    4.5rem;
+  --header-z:         1000;
+  --logo-width-desktop: 180px;
+  --logo-height-desktop: 54px;
+  --logo-width-tablet: 140px;
+  --logo-height-tablet: 42px;
+  
+  /* Container */
+  --container-max:    1280px;
+  --container-pad:    clamp(1rem, 5vw, 2rem);
+  
+  /* Transitions */
+  --transition-fast:  0.2s ease;
+  --transition-mid:   0.3s ease;
+  --transition-slow:  0.4s ease;
+  --transition-drawer: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Footer */
+  --footer-bg:        #112236;
+  --footer-text:      rgba(255, 255, 255, 0.85);
+  --footer-text-mid:  rgba(255, 255, 255, 0.65);
+  --footer-text-light: rgba(255, 255, 255, 0.45);
+  --footer-border:    rgba(255, 255, 255, 0.1);
+  --footer-hover:     #52a85f;
+}
+
+
+/* =====================================================
+   RESET & BASE
+   ===================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+
+/* =====================================================
+   HEADER / NAVBAR — GLOBAL GLASS NAVIGATION
+   ===================================================== */
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: var(--header-z);
+  background-color: rgba(255, 255, 255, 0); /* Start Transparent */
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 20px 0;
+  border-bottom: none;
+}
+
+/* Scrolled State (Triggered by components.js) */
+.site-header.is-scrolled {
+  background-color: rgba(255, 255, 255, 0.94) !important;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  padding: 12px 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Logo scaling on scroll */
+.site-header.is-scrolled .logo__img {
+  width: calc(var(--logo-width-desktop) * 0.85);
+  height: calc(var(--logo-height-desktop) * 0.85);
+}
+
+/* Logo text scaling on scroll */
+.site-header.is-scrolled .logo__primary {
+  font-size: 1rem;
+}
+
+.site-header.is-scrolled .logo__full {
+  font-size: 0.6rem;
+}
+
+.site-header.is-scrolled .logo__tagline {
+  font-size: 0.55rem;
+}
+
+/* Nav Inner Container */
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+  position: relative;
+  transition: height var(--transition-mid);
+}
+
+
+/* =====================================================
+   LOGO WITH TEXT
+   ===================================================== */
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  flex-shrink: 0;
+  opacity: 1;
+  transition: opacity var(--transition-fast);
+}
+
+.logo:hover {
+  opacity: 0.85;
+}
+
+.logo:focus-visible {
+  outline: 2px solid var(--idf-blue-light);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* Logo Image */
+.logo__picture {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.logo__img {
+  width: var(--logo-width-desktop);
+  height: var(--logo-height-desktop);
+  display: block;
+  object-fit: contain;
+  transition: width var(--transition-mid), height var(--transition-mid);
+  filter: brightness(0) invert(1); /* White on transparent hero */
+}
+
+/* Scrolled state - logo becomes navy */
+.site-header.is-scrolled .logo__img {
+  filter: none; /* Original colors when scrolled */
+}
+
+/* Logo Text Container */
+.logo__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  margin-left: 0.25rem;
+}
+
+/* Primary Text "IDF" */
+.logo__primary {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #FFFFFF !important;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  transition: font-size var(--transition-mid), color var(--transition-mid);
+}
+
+/* Full Text "Integrated Development Facility" */
+.logo__full {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #FFFFFF !important;
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+  white-space: nowrap;
+  transition: font-size var(--transition-mid), color var(--transition-mid);
+}
+
+/* Tagline "Kenya" */
+.logo__tagline {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: var(--idf-blue-light);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  transition: font-size var(--transition-mid), color var(--transition-mid);
+}
+
+/* Scrolled state text colors (navy) */
+.site-header.is-scrolled .logo__primary,
+.site-header.is-scrolled .logo__full {
+  color: var(--idf-navy) !important;
+}
+
+.site-header.is-scrolled .logo__tagline {
+  color: var(--idf-blue);
+}
+
+/* Fallback when image fails to load */
+.logo--img-error .logo__img {
+  display: none;
+}
+
+.logo--img-error .logo__fallback {
+  display: flex;
+}
+
+.logo__fallback {
+  display: none;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.logo__fallback-primary {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: inherit;
+  letter-spacing: -0.01em;
+}
+
+.logo__accent {
+  color: var(--idf-green);
+}
+
+.logo__fallback-tag {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+
+/* =====================================================
+   DESKTOP NAVIGATION
+   ===================================================== */
+
+.desktop-nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-left: auto;
+}
+
+/* Default: White text over hero */
+.nav-link {
+  position: relative;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #FFFFFF !important;
+  text-decoration: none;
+  padding: 0.5rem 0;
+  transition: color var(--transition-fast);
+  cursor: pointer;
+}
+
+/* Scrolled: Navy text */
+.site-header.is-scrolled .nav-link {
+  color: var(--idf-navy) !important;
+}
+
+/* Animated underline — uses green for hover/active states */
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--idf-green);
+  border-radius: 2px;
+  transition: width 0.25s ease;
+}
+
+/* Active and hover states for nav links */
+.nav-link:hover,
+.nav-link.is-active {
+  color: var(--idf-blue-light) !important;
+}
+
+/* Scrolled state active/hover colors */
+.site-header.is-scrolled .nav-link:hover,
+.site-header.is-scrolled .nav-link.is-active {
+  color: var(--idf-blue) !important;
+}
+
+/* Underline animation for hover and active states */
+.nav-link:hover::after,
+.nav-link.is-active::after {
+  width: 100%;
+}
+
+.nav-link:focus-visible {
+  outline: 2px solid var(--idf-green);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+
+/* =====================================================
+   CTA BUTTON
+   ===================================================== */
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: var(--idf-green);
+  color: var(--idf-white);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.cta-btn:hover {
+  background: var(--idf-green-light);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(58, 125, 68, 0.3);
+}
+
+.cta-btn:focus-visible {
+  outline: 2px solid var(--idf-green);
+  outline-offset: 2px;
+}
+
+.cta-btn svg {
+  transition: transform var(--transition-fast);
+}
+
+.cta-btn:hover svg {
+  transform: translateX(3px);
+}
+
+.desktop-cta {
+  flex-shrink: 0;
+}
+
+
+/* =====================================================
+   HAMBURGER BUTTON (Mobile Only)
+   ===================================================== */
+
+.hamburger-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.5rem;
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  cursor: pointer;
+  color: #FFFFFF;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.hamburger-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Scrolled state hamburger */
+.site-header.is-scrolled .hamburger-btn {
+  color: var(--idf-navy);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+.site-header.is-scrolled .hamburger-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.3);
+}
+
+.hamburger-btn[aria-expanded="true"] {
+  background: rgba(58, 125, 68, 0.15);
+  border-color: var(--idf-green);
+}
+
+.hamburger-btn:focus-visible {
+  outline: 2px solid var(--idf-green);
+  outline-offset: 2px;
+}
+
+/* Hamburger Icon Lines */
+.hamburger-icon {
+  display: block;
+}
+
+.hamburger-line {
+  transition: transform 0.28s ease, opacity 0.2s ease;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.hamburger-btn[aria-expanded="true"] .hamburger-line--top {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-btn[aria-expanded="true"] .hamburger-line--mid {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.hamburger-btn[aria-expanded="true"] .hamburger-line--bottom {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+
+/* =====================================================
+   MOBILE DRAWER — REFACTORED FOR GLASS EFFECT
+   ===================================================== */
+
+.mobile-drawer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.98) !important;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+  max-height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  transition: max-height var(--transition-drawer), visibility var(--transition-drawer);
+  z-index: calc(var(--header-z) - 1);
+}
+
+.mobile-drawer.is-open {
+  max-height: 80vh;
+  overflow-y: auto;
+  visibility: visible;
+}
+
+/* Mobile Navigation Links — Navy text for white menu */
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 1.5rem;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--idf-navy) !important;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all var(--transition-fast);
+  min-height: 52px;
+}
+
+.mobile-nav-link:hover {
+  background: var(--idf-blue-pale);
+  color: var(--idf-blue) !important;
+  padding-left: 1.75rem;
+}
+
+.mobile-nav-link.is-active {
+  color: var(--idf-blue) !important;
+  font-weight: 600;
+}
+
+.mobile-nav-link:focus-visible {
+  outline: 2px solid var(--idf-green);
+  outline-offset: -2px;
+}
+
+/* Active dot indicator */
+.mobile-nav-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: transparent;
+  transition: background var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.mobile-nav-link.is-active .mobile-nav-dot {
+  background: var(--idf-blue);
+}
+
+/* Mobile CTA Wrapper */
+.mobile-cta-wrap {
+  padding: 1rem 1.5rem 1.5rem;
+}
+
+.cta-btn--full {
+  width: 100%;
+  justify-content: center;
+  background: var(--idf-green);
+}
+
+
+/* =====================================================
+   FOOTER
+   ===================================================== */
+
+.site-footer {
+  background: var(--footer-bg);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  position: relative;
+  margin-top: auto;
+}
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
+}
+
+/* Footer Grid Layout */
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr 1.2fr;
+  gap: 2.5rem;
+  padding: 4rem 0 3rem;
+  border-bottom: 1px solid var(--footer-border);
+}
+
+/* Brand Column */
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footer-logo-link {
+  display: inline-flex;
+  text-decoration: none;
+  margin-bottom: 0.5rem;
+}
+
+.footer-logo__img {
+  width: 180px;
+  height: auto;
+  display: block;
+  filter: brightness(0) invert(1);
+  transition: opacity var(--transition-fast);
+}
+
+.footer-logo-link:hover .footer-logo__img {
+  opacity: 0.85;
+}
+
+.footer-logo__fallback {
+  display: none;
+}
+
+.footer-tagline {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--footer-text-mid);
+  margin: 0;
+}
+
+.footer-desc {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--footer-text-light);
+  margin: 0;
+}
+
+/* Footer Headings */
+.footer-heading {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--footer-text-light);
+  margin: 0 0 1.25rem 0;
+}
+
+/* Footer Navigation Lists */
+.footer-nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-link {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.875rem;
+  color: var(--footer-text-mid);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer-link:hover {
+  color: var(--footer-hover);
+}
+
+/* Contact Section */
+.footer-contact {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-address {
+  font-style: normal;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.footer-contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.footer-contact-link svg {
+  flex-shrink: 0;
+}
+
+.footer-address-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-size: 0.875rem;
+  color: var(--footer-text-mid);
+}
+
+/* Social Links */
+.footer-social {
+  display: flex;
+  flex-direction: column;
+}
+
+.social-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.875rem;
+  color: var(--footer-text-mid);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.social-link:hover {
+  color: var(--footer-hover);
+  transform: translateX(4px);
+}
+
+.social-link svg {
+  flex-shrink: 0;
+}
+
+.social-link-label {
+  line-height: 1;
+}
+
+/* Back to Top Button */
+.back-to-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--footer-border);
+  border-radius: 8px;
+  color: var(--footer-text-mid);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  width: fit-content;
+}
+
+.back-to-top:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--footer-text);
+  transform: translateY(-2px);
+}
+
+.back-to-top svg {
+  transition: transform var(--transition-fast);
+}
+
+.back-to-top:hover svg {
+  transform: translateY(-2px);
+}
+
+/* Footer Bottom Bar */
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--footer-border);
+}
+
+.footer-bottom-left {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  color: var(--footer-text-light);
+}
+
+.footer-legal-divider {
+  color: var(--footer-text-light);
+}
+
+.footer-legal-links {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.footer-legal-link {
+  font-size: 0.75rem;
+  color: var(--footer-text-light);
+}
+
+.footer-legal-link:hover {
+  color: var(--footer-hover);
+}
+
+.footer-bottom-right {
+  font-size: 0.75rem;
+  color: var(--footer-text-light);
+  margin: 0;
+}
+
+/* Credit Strip */
+.credit-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 0;
+  font-size: 0.7rem;
+  color: var(--footer-text-light);
+}
+
+.credit-strip__link {
+  color: var(--footer-text-mid);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--transition-fast);
+}
+
+.credit-strip__link:hover {
+  color: var(--footer-hover);
+}
+
+.credit-strip__heart {
+  color: #e25555;
+  display: inline-block;
+  animation: heartbeat 1.5s ease infinite;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+
+/* =====================================================
+   RESPONSIVE BREAKPOINTS
+   ===================================================== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .desktop-nav {
+    gap: 1.5rem;
+  }
+  
+  .nav-link {
+    font-size: 0.8125rem;
+  }
+  
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+  
+  .site-header.is-scrolled .logo__img {
+    width: calc(var(--logo-width-tablet) * 0.85);
+    height: calc(var(--logo-height-tablet) * 0.85);
+  }
+  
+  /* Tablet logo text adjustments */
+  .logo__full {
+    font-size: 0.65rem;
+  }
+  
+  .logo__tagline {
+    font-size: 0.55rem;
+  }
+  
+  .site-header.is-scrolled .logo__primary {
+    font-size: 0.9rem;
+  }
+  
+  .site-header.is-scrolled .logo__full {
+    font-size: 0.55rem;
+  }
+}
+
+/* Mobile (Show Hamburger, Hide Desktop Nav) */
+@media (max-width: 820px) {
+  .desktop-nav,
+  .desktop-cta {
+    display: none;
+  }
+  
+  .hamburger-btn {
+    display: flex;
+  }
+  
+  .nav-inner {
+    gap: 1rem;
+  }
+  
+  .logo__img {
+    width: var(--logo-width-tablet);
+    height: var(--logo-height-tablet);
+  }
+  
+  /* Hide full text on mobile, keep IDF + Kenya */
+  .logo__full {
+    display: none;
+  }
+  
+  .logo__tagline {
+    font-size: 0.5rem;
+  }
+  
+  .logo__primary {
+    font-size: 1rem;
+  }
+  
+  .logo {
+    gap: 0.5rem;
+  }
+  
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+  }
+  
+  .footer-brand {
+    align-items: center;
+    text-align: center;
+  }
+  
+  .footer-logo-link {
+    justify-content: center;
+  }
+  
+  .footer-nav-list {
+    align-items: center;
+  }
+  
+  .footer-address {
+    align-items: center;
+  }
+  
+  .social-links {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .back-to-top {
+    margin: 0 auto;
+  }
+  
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .footer-bottom-left {
+    justify-content: center;
+  }
+  
+  .footer-legal-links {
+    justify-content: center;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .nav-inner {
+    padding-inline: 1rem;
+  }
+  
+  .logo__img {
+    width: 100px;
+    height: auto;
+  }
+  
+  /* Hide tagline on very small screens, show only IDF */
+  .logo__tagline {
+    display: none;
+  }
+  
+  .logo__primary {
+    font-size: 0.9rem;
+  }
+  
+  .mobile-nav-link {
+    padding: 0.75rem 1rem;
+    font-size: 0.9375rem;
+  }
+  
+  .footer-grid {
+    padding: 2.5rem 0 2rem;
+    gap: 1.75rem;
+  }
+  
+  .footer-logo__img {
+    width: 140px;
+  }
+}
+
+
+/* =====================================================
+   UTILITY CLASSES
+   ===================================================== */
+
+/* Visually hidden (for screen readers only) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Container utility */
+.container-fluid {
+  width: 100%;
+  padding-inline: var(--container-pad);
+}
+
+/* Hide scrollbar on mobile drawer when closed */
+.mobile-drawer {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Smooth focus transitions */
+*:focus-visible {
+  outline: 2px solid var(--idf-green);
+  outline-offset: 2px;
+}
+
+
+/* =====================================================
+   FALLBACK STYLES (for when components fail to load)
+   ===================================================== */
+
+.component-fallback {
+  padding: 2rem;
+  text-align: center;
+  background: var(--idf-gray-light);
+  border: 1px solid #ddd;
+  margin: 1rem;
+}
+
+.component-fallback a {
+  color: var(--idf-green);
+  text-decoration: none;
+}
+
+.component-fallback a:hover {
+  text-decoration: underline;
+}
