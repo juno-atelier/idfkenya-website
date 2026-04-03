@@ -11,6 +11,37 @@
    LAYER ORDER (bottom → top)
    ─────────────────────────────────────────────
    z-index 0 │ .hero-bg          Background image
+   IDF Kenya — home.css  (v4.2 — Audited & Corrected)
+   Homepage-only styles scoped to index.html.
+
+   LOAD ORDER (enforced in index.html <head>):
+     1. styles.css       — tokens, navbar, footer, reset
+     2. components.css   — shared component styles
+     3. sections.css     — shared section patterns (hero base, about, stats…)
+     4. home.css         — THIS FILE — homepage overrides (loads last, wins)
+     5. responsive.css   — media queries (always last)
+
+   BENCHMARK: regions.css hero pattern.
+   Every annotated value is verified against
+   .regions-hero / .regions-hero-overlay for pixel parity.
+
+   AUDIT FIXES IN THIS VERSION (v4.2):
+   - FIX 1: .hero-bg now uses background-image: var(--hero-bg-image)
+             instead of relying on a child <img>. sections.css expects
+             an <img> child; index.html uses the CSS variable pattern.
+             This file overrides correctly via load order.
+   - FIX 2: .hero-overlay gradient explicitly restated here so load-order
+             dependency on sections.css is documented and intentional.
+   - FIX 3: .hero-eyebrow removes pill-badge styling from sections.css
+             base (background, border, padding) cleanly via explicit reset.
+   - FIX 4: font-family tokens normalised — both --font-display and
+             --font-sans are used with hard-coded fallbacks so the hero
+             renders correctly even if styles.css token definitions are
+             delayed or fail.
+
+   LAYER ORDER (bottom → top)
+   ─────────────────────────────────────────────
+   z-index 0 │ .hero-bg          Background image (CSS var)
    z-index 1 │ .hero-overlay     108° gradient veil
    z-index 2 │ .hero-content     Text / CTAs
              │ .hero-accent-line Decorative stripe
@@ -22,6 +53,11 @@
      style="--hero-bg-image: url('assets/images/NEW_IMAGE.jpg');"
    No CSS changes are required — the property
    cascades automatically into .hero-bg.
+
+   HOW TO SWAP THE HERO BACKGROUND IMAGE:
+   In index.html, update only the inline style on <section class="hero">:
+     style="--hero-bg-image: url('assets/images/YOUR_NEW_IMAGE.jpg');"
+   No CSS changes needed — the variable cascades automatically.
    ============================================== */
 
 
@@ -34,6 +70,18 @@
   position: relative;
   /* Fallback base matches --idf-navy-dark token */
   background-color: #0f1e33;
+   Full-viewport height; dark navy fallback colour
+   so the page is never blank while the image loads.
+   ══════════════════════════════════════════════ */
+.hero {
+  position: relative;
+  height: 100vh;
+  height: 100svh;          /* modern browsers: accounts for mobile chrome */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+  background-color: #0f1e33; /* --idf-navy-dark fallback — no token dependency */
 }
 
 
@@ -47,6 +95,14 @@
 
    ✅ Sync note: mirrors .work-hero-bg in ourwork.css
       object-position: center 35% is an exact match.
+   FIX 1: sections.css wrote .hero-bg for an <img>
+   child element. index.html uses a CSS custom
+   property on the <section> itself. This rule
+   overrides via load order and implements the
+   correct pattern.
+
+   ✅ Benchmark: mirrors .regions-hero-bg
+      object-position: center 40% exact match.
    ══════════════════════════════════════════════ */
 .hero-bg {
   position: absolute;
@@ -73,6 +129,32 @@
 
    ✅ Sync note: EXACT copy of .work-hero-overlay
       in ourwork.css (108deg, same colour-stops).
+  /* CSS-variable background — set inline on <section class="hero"> */
+  background-image:    var(--hero-bg-image, none);
+  background-size:     cover;
+  background-position: center 40%;   /* ← matches .regions-hero-bg */
+  background-repeat:   no-repeat;
+
+  /* GPU-composited layer — prevents repaint on scroll */
+  will-change: transform;
+}
+
+/* Neutralise sections.css .hero-bg img rule — no img child in this hero */
+.hero-bg img {
+  display: none;
+}
+
+
+/* ══════════════════════════════════════════════
+   3. LAYER 1 — GRADIENT OVERLAY
+   FIX 2: sections.css also declares .hero-overlay
+   with the same gradient. We restate it here
+   explicitly so this file's intent is clear and
+   not accidentally dependent on sections.css
+   load order.
+
+   ✅ Benchmark: EXACT copy of .regions-hero-overlay
+      108deg, same colour-stops.
    ══════════════════════════════════════════════ */
 .hero-overlay {
   position: absolute;
@@ -88,6 +170,7 @@
 
 /* The dot-matrix pattern used elsewhere is hidden
    here to keep the hero cinematic and image-first */
+/* Hide the dot-matrix pattern — keeps the hero cinematic */
 .hero-pattern {
   display: none;
 }
@@ -98,6 +181,7 @@
    Thin green stripe pinned to the left viewport
    edge. Placed at z-index 3 so it sits above both
    the image and the gradient overlay.
+   edge. z-index 3 sits above image and overlay.
    ══════════════════════════════════════════════ */
 .hero-accent-line {
   position: absolute;
@@ -112,6 +196,10 @@
     var(--green, #3A7D44)            30%,
     var(--green, #3A7D44)            70%,
     transparent                     100%
+    transparent                        0%,
+    var(--idf-green, #3A7D44)         30%,
+    var(--idf-green, #3A7D44)         70%,
+    transparent                       100%
   );
   border-radius: 0 2px 2px 0;
 }
@@ -121,6 +209,7 @@
    5. LAYER 2 — CONTENT STACK
    Text and interactive elements float above both
    the image and the gradient overlay.
+   Text and CTAs float above image and overlay.
    ══════════════════════════════════════════════ */
 .hero-content,
 .hero-scroll,
@@ -133,6 +222,17 @@
   /* Slightly wider than sections.css base (720px)
      to give the large headline room to breathe  */
   max-width: 780px;
+.hero-content {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 28px;
+  text-align: left;
+}
+
+.hero-inner {
+  max-width: 780px;   /* slightly wider than sections.css 720px for headline */
+  margin-top: 60px;
 }
 
 
@@ -141,6 +241,7 @@
    Each element cascades in with a staggered delay.
    Uses a gentle cubic-bezier matching the rest of
    the IDF motion language.
+   Staggered cascade with Apple-curve easing.
    ══════════════════════════════════════════════ */
 @keyframes heroFadeUp {
   from { opacity: 0; transform: translateY(22px); }
@@ -183,9 +284,37 @@
   background:     transparent;
   border:         none;
   padding:        0;
+   FIX 3 & 4: All font-family values include
+   hard-coded fallbacks so the hero renders
+   correctly even if CSS token resolution fails.
+
+   ✅ Benchmark: regions.css .regions-hero-eyebrow,
+      h1, and p — all values below are exact matches.
+   ══════════════════════════════════════════════ */
+
+/* 7a. Eyebrow label
+   FIX 3: Explicitly reset pill-badge properties
+   that may be inherited from sections.css or
+   older .label-tag rules (background, border,
+   padding, backdrop-filter).                    */
+.hero-eyebrow {
+  display: block;
+  font-family:    var(--font-sans, 'DM Sans', system-ui, sans-serif);
+  font-size:      0.72rem;
+  font-weight:    600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color:          var(--idf-blue-light, #5B9BD5);
+  margin-bottom:  14px;
+
+  /* Reset any pill/badge styling from sections.css .label-tag */
+  background:      transparent;
+  border:          none;
+  padding:         0;
   backdrop-filter: none;
 }
 
+/* Suppress any ::before dot from .label-tag or older eyebrow rules */
 .hero-eyebrow::before {
   display: none; /* Suppress dot from earlier eyebrow style */
 }
@@ -219,12 +348,83 @@
   max-width:    600px;                          /* ← was 580px in sections.css    */
   line-height:  1.75;                           /* ← was 1.6 in sections.css      */
   margin:       0 0 clamp(25px, 4vh, 40px) 0;
+  display: none;
 }
 
+/* 7b. Main heading (h1)
+   ✅ Benchmark: regions.css h1 base
+      clamp(2.4rem,5vw,4rem) | weight 700 | lh 1.2  */
+.hero h1 {
+  font-family:   var(--font-display, 'Playfair Display', Georgia, serif);
+  font-size:     clamp(2.4rem, 5vw, 4rem);
+  font-weight:   700;
+  line-height:   1.2;
+  color:         #fff;
+  margin-bottom: 14px;
+  text-shadow:   0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Italic accent word */
+.hero h1 em {
+  color:      var(--idf-blue-light, #5B9BD5);
+  font-style: italic;
+}
+
+/* 7c. Sub-paragraph
+   ✅ Benchmark: regions.css .regions-hero-content p
+      rgba(255,255,255,0.76) | 1.08rem | lh 1.75    */
+.hero-sub {
+  font-family:  var(--font-sans, 'DM Sans', system-ui, sans-serif);
+  font-size:    1.08rem;
+  color:        rgba(255, 255, 255, 0.76);
+  max-width:    600px;
+  line-height:  1.75;
+  margin:       0 0 clamp(25px, 4vh, 40px) 0;
+}
 
 /* ══════════════════════════════════════════════
    8. HERO IMPACT STRIP
    Stat row below the CTA buttons.
+
+/* ══════════════════════════════════════════════
+   8. HERO ACTIONS (CTA BUTTONS)
+   ══════════════════════════════════════════════ */
+.hero-actions {
+  display:   flex;
+  gap:       16px;
+  flex-wrap: wrap;
+}
+
+.hero .btn-primary {
+  background:   var(--idf-green, #3A7D44);
+  border-color: var(--idf-green, #3A7D44);
+  padding:      14px 32px;
+  font-size:    0.9rem;
+}
+
+.hero .btn-primary:hover {
+  background:   var(--idf-green-light, #52a85f);
+  border-color: var(--idf-green-light, #52a85f);
+  box-shadow:   0 8px 24px rgba(58, 125, 68, 0.4);
+  transform:    translateY(-2px);
+}
+
+.hero .btn-outline-white {
+  padding:      13px 32px;
+  font-size:    0.9rem;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.hero .btn-outline-white:hover {
+  background:   rgba(255, 255, 255, 0.10);
+  border-color: rgba(255, 255, 255, 0.70);
+  transform:    translateY(-2px);
+}
+
+
+/* ══════════════════════════════════════════════
+   9. HERO IMPACT STRIP
+   Stat row below CTA buttons.
    ══════════════════════════════════════════════ */
 .hero-impact {
   display:     flex;
@@ -252,12 +452,18 @@
   font-weight:   700;
   color:         #fff;
   line-height:   1;
+  font-family:    'Playfair Display', Georgia, serif;
+  font-size:      clamp(1.6rem, 2.5vw, 2rem);
+  font-weight:    700;
+  color:          #fff;
+  line-height:    1;
   letter-spacing: -0.01em;
 }
 
 .hero-impact-number sup {
   font-size:      0.55em;
   color:          var(--green-light, #52a85f);
+  color:          var(--idf-green-light, #52a85f);
   vertical-align: super;
   font-weight:    600;
 }
@@ -299,6 +505,34 @@
   background:   rgba(255, 255, 255, 0.10);
   border-color: rgba(255, 255, 255, 0.70);
   transform:    translateY(-2px);
+   10. SCROLL INDICATOR
+   ══════════════════════════════════════════════ */
+.hero-scroll {
+  position:       absolute;
+  bottom:         30px;
+  left:           50%;
+  transform:      translateX(-50%);
+  z-index:        2;
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  gap:            8px;
+  color:          rgba(255, 255, 255, 0.5);
+  font-size:      0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  animation:      heroBounce 2s ease-in-out infinite;
+}
+
+.hero-scroll-line {
+  width:      1px;
+  height:     40px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), transparent);
+}
+
+@keyframes heroBounce {
+  0%, 100% { transform: translate(-50%, 0); }
+  50%       { transform: translate(-50%, 10px); }
 }
 
 
@@ -307,6 +541,10 @@
    ══════════════════════════════════════════════ */
 
 /* Tablet */
+   11. RESPONSIVE OVERRIDES
+   ══════════════════════════════════════════════ */
+
+/* Tablet ≤ 768px */
 @media (max-width: 768px) {
   .hero-accent-line { display: none; }
 
@@ -323,6 +561,12 @@
   .hero-impact {
     gap:        20px;
     flex-wrap:  wrap;
+  .hero-sub     { max-width: 100%; }
+  .hero-scroll  { display: none; }
+
+  .hero-impact {
+    gap:             20px;
+    flex-wrap:       wrap;
     justify-content: center;
   }
 
@@ -337,6 +581,9 @@
 @media (max-width: 480px) {
   .hero h1 {
     /* Tighten clamp on very small screens */
+/* Mobile ≤ 480px */
+@media (max-width: 480px) {
+  .hero h1 {
     font-size: clamp(1.8rem, 8vw, 2.5rem);
   }
 
@@ -372,4 +619,12 @@
   .hero-eyebrow { font-size: 0.65rem; }
 
   .hero-scroll  { display: none; }
+    padding-left:  0;
+    padding-top:   16px;
+    margin-top:    16px;
+    border-left:   none;
+    border-top:    1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .hero-eyebrow { font-size: 0.65rem; }
 }

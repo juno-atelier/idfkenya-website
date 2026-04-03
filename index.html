@@ -5,20 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Integrated Development Facility — A Healthy, Just &amp; Empowered Society</title>
   <meta name="description" content="IDF Kenya is a community-based NGO implementing projects in health, governance, and community empowerment across Kenya since 1999.">
+
   <link rel="icon" href="assets/images/logo1.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer">
 
+  <!-- CSS load order is intentional — do not reorder -->
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/sections.css">
-  <link rel="stylesheet" href="css/home.css">
   <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
@@ -38,6 +39,32 @@
     <div class="hero-content">
       <div class="hero-inner">
 
+  <!-- ═══════════════════════════════════════════════════════════════
+       HERO — Full-screen (100vh).
+       Background image: index-hero.svg → replace with actual photo.
+
+       IMAGE SPEC:
+         File:        assets/images/index-hero.svg  (or .jpg/.webp)
+         Dimensions:  1920 × 1080 px  (16:9, full-HD)
+         Format:      SVG preferred; JPEG/WebP accepted
+         Subject:     Wide community / landscape shot — people, environment
+         Notes:       Image is object-fit:cover so edges may crop.
+                      Safe zone is centre ~1200×800 px.
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="hero" aria-label="A Healthy, Just &amp; Empowered Society">
+
+    <!-- Background image — position: absolute, fills full hero height (100vh) -->
+    <img class="hero-bg-img"
+         src="assets/images/index-hero.svg"
+         alt="IDF Kenya community impact"
+         width="1920"
+         height="1080"
+         loading="eager">
+
+    <div class="hero-overlay" aria-hidden="true"></div>
+
+    <div class="hero-content">
+      <div class="hero-inner">
         <span class="hero-eyebrow">Serving Kenya Since 1999</span>
 
         <h1>A Healthy, Just &amp;<br><em>Empowered</em> Society</h1>
@@ -48,7 +75,7 @@
         </p>
 
         <div class="hero-actions">
-          <a href="about.html"   class="btn btn-primary">Discover Our Work</a>
+          <a href="about.html" class="btn btn-primary">Discover Our Work</a>
           <a href="contact.html" class="btn btn-outline-white">Get In Touch</a>
         </div>
 
@@ -66,7 +93,6 @@
             <span class="hero-impact-label">Years of<br>Service</span>
           </div>
         </div>
-
       </div>
     </div>
 
@@ -77,6 +103,12 @@
 
   </section>
 
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       ABOUT SECTION
+       ═══════════════════════════════════════════════════════════════ -->
   <section class="about-section" id="about">
     <div class="container">
       <div class="about-grid">
@@ -94,18 +126,38 @@
             </div>
           </div>
         </div>
+
         <div class="about-image-wrap">
           <div class="award-card">
             <strong>Ndovu Award</strong>
             <span>Winner 2023</span>
           </div>
-          <img src="assets/images/usaid_award.jpg" alt="IDF staff receiving the Ndovu Award 2023 for outstanding community governance work in Homa Bay County">
+
+          <!--
+            ABOUT / AWARD PHOTO
+            File:       assets/images/index-about.svg  (or .jpg/.webp)
+            Dimensions: 800 × 600 px  (4:3)
+            Format:     SVG preferred; JPEG accepted
+            Subject:    IDF staff receiving the Ndovu Award 2023, Homa Bay County
+            CSS height: 480px (object-fit:cover clips top/bottom evenly)
+          -->
+          <img
+            src="assets/images/index-about.svg"
+            alt="IDF staff receiving the Ndovu Award 2023 for outstanding community governance work in Homa Bay County"
+            width="800"
+            height="600"
+            loading="lazy"
+          >
           <div class="about-image-deco"></div>
         </div>
       </div>
     </div>
   </section>
 
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       STATS / IMPACT SECTION
+       ═══════════════════════════════════════════════════════════════ -->
   <section class="stats-section" id="impact">
     <div class="container">
       <div class="section-header">
@@ -146,6 +198,11 @@
     </div>
   </section>
 
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       PROJECTS SECTION
+       All project images: 800 × 500 px (16:10)
+       ═══════════════════════════════════════════════════════════════ -->
   <section class="projects-section" id="work">
     <div class="container">
       <div class="section-header">
@@ -154,9 +211,20 @@
         <p>Click any project to learn more about our impact and achievements on the ground.</p>
       </div>
       <div class="projects-grid">
+
+        <!--
+          PROJECT IMAGE 1 — USAID Nuru Ya Mtoto
+          File:       assets/images/index-project-nuru.svg
+          Dimensions: 800 × 500 px  (16:10)
+          Format:     SVG preferred; PNG/JPEG accepted
+          Subject:    USAID Nuru Ya Mtoto project staff with vulnerable children
+        -->
         <a href="ourwork.html" class="project-card">
           <div class="project-img">
-            <img src="assets/images/nuru2_8Q58Pym.png" alt="USAID Nuru Ya Mtoto project staff working with vulnerable children">
+            <img src="assets/images/index-project-nuru.svg"
+                 alt="USAID Nuru Ya Mtoto project staff working with vulnerable children"
+                 width="800" height="500"
+                 loading="lazy">
           </div>
           <div class="project-body">
             <span class="project-tag project-tag--blue">Health &amp; OVC</span>
@@ -165,9 +233,20 @@
             <span class="project-link">Explore project →</span>
           </div>
         </a>
+
+        <!--
+          PROJECT IMAGE 2 — Kuimarisha Kaunti
+          File:       assets/images/index-project-kuimarisha.svg
+          Dimensions: 800 × 500 px  (16:10)
+          Format:     SVG preferred; JPEG accepted
+          Subject:    Community members in a governance / public participation session
+        -->
         <a href="ourwork.html" class="project-card">
           <div class="project-img">
-            <img src="assets/images/seka2_otJQ6Q8.jpg" alt="Community members participating in a governance session">
+            <img src="assets/images/index-project-kuimarisha.svg"
+                 alt="Community members participating in a governance session"
+                 width="800" height="500"
+                 loading="lazy">
           </div>
           <div class="project-body">
             <span class="project-tag project-tag--green">Governance</span>
@@ -176,9 +255,20 @@
             <span class="project-link">Explore project →</span>
           </div>
         </a>
+
+        <!--
+          PROJECT IMAGE 3 — Global Fund Malaria
+          File:       assets/images/index-project-malaria.svg
+          Dimensions: 800 × 500 px  (16:10)
+          Format:     SVG preferred; JPEG accepted
+          Subject:    Community health volunteers conducting malaria case management
+        -->
         <a href="ourwork.html" class="project-card">
           <div class="project-img">
-            <img src="assets/images/county2_uWjLMiN.jpg" alt="Community health volunteers conducting malaria case management">
+            <img src="assets/images/index-project-malaria.svg"
+                 alt="Community health volunteers conducting malaria case management"
+                 width="800" height="500"
+                 loading="lazy">
           </div>
           <div class="project-body">
             <span class="project-tag project-tag--blue">Health</span>
@@ -187,9 +277,20 @@
             <span class="project-link">Explore project →</span>
           </div>
         </a>
+
+        <!--
+          PROJECT IMAGE 4 — Seka Kagwa Clean Water
+          File:       assets/images/index-project-seka.svg
+          Dimensions: 800 × 500 px  (16:10)
+          Format:     SVG preferred; JPEG accepted
+          Subject:    Seka Kagwa water purification system / community water access
+        -->
         <a href="ourwork.html" class="project-card">
           <div class="project-img">
-            <img src="assets/images/seka_KbmhChW.jpg" alt="Seka Kagwa community water purification system">
+            <img src="assets/images/index-project-seka.svg"
+                 alt="Seka Kagwa community water purification system"
+                 width="800" height="500"
+                 loading="lazy">
           </div>
           <div class="project-body">
             <span class="project-tag project-tag--green">WASH</span>
@@ -198,18 +299,29 @@
             <span class="project-link">Explore project →</span>
           </div>
         </a>
+
       </div>
     </div>
   </section>
 
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       QUOTE SECTION
+       ═══════════════════════════════════════════════════════════════ -->
   <section class="quote-section">
     <div class="quote-inner">
       <span class="quote-mark">"</span>
-      <blockquote>We envision a healthy, just, and empowered society — one community at a time, one life at a time.</blockquote>
+      <blockquote cite="IDF Kenya Mission Statement">We envision a healthy, just, and empowered society — one community at a time, one life at a time.</blockquote>
       <p class="quote-attribution">— IDF Kenya Mission Statement</p>
     </div>
   </section>
 
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       PARTNERS SECTION
+       All partner logos: 240 × 80 px (3:1 landscape)
+       Light background — logos use white/neutral palette.
+       ═══════════════════════════════════════════════════════════════ -->
   <section class="partners-section" id="partners">
     <div class="container">
       <div class="section-header">
@@ -218,28 +330,89 @@
         <p>Our partners provide the technical and financial support that makes sustainable community development possible.</p>
       </div>
       <div class="partners-logos">
+
+        <!--
+          PARTNER LOGO 1 — PATH Kenya
+          File:       assets/images/index-partner-path.svg
+          Dimensions: 240 × 80 px  (3:1)
+          Format:     SVG preferred; JPEG accepted
+          Notes:      CSS constrains max-height to 50px; keep logo centred in canvas
+        -->
         <a href="https://www.path.org/" target="_blank" rel="noopener" class="partner-item">
-          <img src="assets/images/path.jpeg" alt="PATH Kenya partner logo">
+          <img src="assets/images/index-partner-path.svg"
+               alt="PATH Kenya partner logo"
+               width="240" height="80"
+               loading="lazy">
         </a>
+
+        <!--
+          PARTNER LOGO 2 — Uraia Trust
+          File:       assets/images/index-partner-uraia.svg
+          Dimensions: 240 × 80 px  (3:1)
+        -->
         <a href="https://uraia.or.ke/" target="_blank" rel="noopener" class="partner-item">
-          <img src="assets/images/uraia.jpeg" alt="Uraia Trust partner logo">
+          <img src="assets/images/index-partner-uraia.svg"
+               alt="Uraia Trust partner logo"
+               width="240" height="80"
+               loading="lazy">
         </a>
+
+        <!--
+          PARTNER LOGO 3 — AMREF Health Africa
+          File:       assets/images/index-partner-amref.svg
+          Dimensions: 240 × 80 px  (3:1)
+        -->
         <a href="https://amref.org/" target="_blank" rel="noopener" class="partner-item">
-          <img src="assets/images/amref.jpeg" alt="AMREF Health Africa logo">
+          <img src="assets/images/index-partner-amref.svg"
+               alt="AMREF Health Africa logo"
+               width="240" height="80"
+               loading="lazy">
         </a>
+
+        <!--
+          PARTNER LOGO 4 — USAID
+          File:       assets/images/index-partner-usaid.svg
+          Dimensions: 240 × 80 px  (3:1)
+        -->
         <div class="partner-item">
-          <img src="assets/images/usaid.png" alt="USAID logo">
+          <img src="assets/images/index-partner-usaid.svg"
+               alt="USAID logo"
+               width="240" height="80"
+               loading="lazy">
         </div>
+
+        <!--
+          PARTNER LOGO 5 — Kenya Ministry of Health
+          File:       assets/images/index-partner-moh.svg
+          Dimensions: 240 × 80 px  (3:1)
+        -->
         <a href="https://www.health.go.ke/" target="_blank" rel="noopener" class="partner-item">
-          <img src="assets/images/moh.png" alt="Kenya Ministry of Health logo">
+          <img src="assets/images/index-partner-moh.svg"
+               alt="Kenya Ministry of Health logo"
+               width="240" height="80"
+               loading="lazy">
         </a>
+
+        <!--
+          PARTNER LOGO 6 — The Global Fund
+          File:       assets/images/index-partner-globalfund.svg
+          Dimensions: 240 × 80 px  (3:1)
+        -->
         <a href="https://www.theglobalfund.org/en/" target="_blank" rel="noopener" class="partner-item">
-          <img src="assets/images/globalfund.jpg" alt="The Global Fund logo">
+          <img src="assets/images/index-partner-globalfund.svg"
+               alt="The Global Fund logo"
+               width="240" height="80"
+               loading="lazy">
         </a>
+
       </div>
     </div>
   </section>
 
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       CTA SECTION
+       ═══════════════════════════════════════════════════════════════ -->
   <section class="cta-section">
     <div class="cta-inner">
       <span class="label-tag">Get Involved</span>
@@ -247,7 +420,7 @@
       <p>Join our network of partners, volunteers, and community advocates committed to sustainable development across Kenya.</p>
       <div class="cta-buttons">
         <a href="contact.html" class="btn btn-primary">Contact Us</a>
-        <a href="careers.html" class="btn btn-outline-navy">View Opportunities</a>
+        <a href="contact.html" class="btn btn-outline-navy">View Opportunities</a>
       </div>
     </div>
   </section>
