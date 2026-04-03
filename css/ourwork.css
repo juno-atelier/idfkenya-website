@@ -10,6 +10,10 @@
    Distinct from About (text scroll) and Regions
    (side-by-side panels) to avoid visual repetition.
 
+   REFACTOR NOTES:
+     · Side navigation & mobile tabs extracted to sidenav.css
+     · Responsive breakpoint adjusted to handle layout only
+
    STRUCTURE MAP:
    .work-section
      ├── .work-banner          (full-width photo)
@@ -48,8 +52,8 @@
   --idf-shadow-md:    0 8px 30px rgba(27, 46, 75, 0.13);
   --idf-shadow-lg:    0 20px 60px rgba(27, 46, 75, 0.18);
   --idf-shadow-xl:    0 32px 80px rgba(27, 46, 75, 0.26);
-  --section-gap:      120px;
-  --section-gap-sm:   72px;
+  --section-gap:      72px;
+  --section-gap-sm:   44px;
   --sidenav-width:    240px;
   --font-display:     'Playfair Display', Georgia, serif;
   --font-body:        'DM Sans', system-ui, sans-serif;
@@ -199,82 +203,12 @@ ul           { list-style: none; }
 
 
 /* ================================================
-   6. STICKY DESKTOP SIDENAV — identical to regions
-   ================================================ */
-.work-sidenav {
-  position: sticky;
-  top: 96px;
-  width: var(--sidenav-width);
-  flex-shrink: 0;
-  align-self: flex-start;
-  padding: 28px 0;
-}
-
-.sidenav-label {
-  font-size: 0.68rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--idf-text-muted);
-  margin-bottom: 16px;
-  padding-left: 16px;
-}
-
-.sidenav-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  border-left: 2px solid var(--idf-border);
-}
-
-.sidenav-list li a {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 16px;
-  font-size: 0.84rem;
-  font-weight: 400;
-  color: var(--idf-text-muted);
-  border-left: 2px solid transparent;
-  margin-left: -2px;
-  transition: all 0.25s ease;
-  line-height: 1.3;
-}
-
-.sidenav-list li a i {
-  font-size: 0.78rem;
-  width: 16px;
-  text-align: center;
-  flex-shrink: 0;
-  opacity: 0.6;
-  transition: opacity 0.25s;
-}
-
-.sidenav-list li a:hover { color: var(--idf-blue); border-left-color: var(--idf-blue-light); }
-.sidenav-list li a:hover i { opacity: 1; }
-.sidenav-list li a.active { color: var(--idf-blue); border-left-color: var(--idf-blue); font-weight: 600; background: var(--idf-blue-pale); }
-.sidenav-list li a.active i { opacity: 1; color: var(--idf-blue); }
-
-/* Reading progress bar */
-.sidenav-progress { margin-top: 28px; padding-left: 16px; }
-.sidenav-progress-label { font-size: 0.68rem; color: var(--idf-text-muted); margin-bottom: 6px; }
-.sidenav-progress-bar { height: 3px; background: var(--idf-border); border-radius: 3px; overflow: hidden; }
-.sidenav-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--idf-blue), var(--idf-green));
-  border-radius: 3px;
-  transition: width 0.2s ease;
-  width: 0%;
-}
-
-
-/* ================================================
    7. MAIN CONTENT COLUMN
    ================================================ */
 .work-main {
   flex: 1;
   min-width: 0;
-  padding: var(--section-gap) 0;
+  padding-top: 40px; 
 }
 
 
@@ -346,7 +280,7 @@ ul           { list-style: none; }
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 28px 36px;
+  padding-bottom: 76px;
   z-index: 2;
   display: flex;
   align-items: flex-end;
@@ -436,7 +370,7 @@ ul           { list-style: none; }
 
 @keyframes statusPulse {
   0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 0.45; transform: scale(0.7); }
+  50%        { opacity: 0.45; transform: scale(0.7); }
 }
 
 
@@ -450,7 +384,7 @@ ul           { list-style: none; }
   display: grid;
   grid-template-columns: 1fr 340px;
   gap: 0;
-  margin-top: -40px; /* overlap the banner */
+  margin-top: -24px; /* overlap the banner */
   position: relative;
   z-index: 2;
 }
@@ -470,7 +404,7 @@ ul           { list-style: none; }
 .work-narrative::before {
   content: '';
   position: absolute;
-  top: 40px; /* aligns to top of narrative card (0 + 40px overlap) */
+  top: 24px; /* aligns to top of narrative card (0 + 40px overlap) */
   left: 0;
   width: 4px;
   height: 64px;
@@ -750,9 +684,6 @@ ul           { list-style: none; }
 
 /* ================================================
    11. PHOTO GALLERY STRIP
-   Placeholder grid for 3 photos. Replace
-   .gallery-placeholder divs with real <img> tags
-   when images are available.
    ================================================ */
 .work-gallery {
   display: grid;
@@ -824,7 +755,7 @@ ul           { list-style: none; }
 
 
 /* ================================================
-   12. SCROLL REVEAL — identical to about & regions
+   12. SCROLL REVEAL
    ================================================ */
 .reveal {
   opacity: 0;
@@ -848,60 +779,11 @@ ul           { list-style: none; }
 
 
 /* ================================================
-   13. MOBILE HORIZONTAL SECTION NAV
-   ================================================ */
-.mobile-work-nav {
-  display: none;
-  position: sticky;
-  top: 72px;
-  z-index: 200;
-  background: rgba(255, 255, 255, 0.97);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--idf-border);
-  box-shadow: var(--idf-shadow-sm);
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.mobile-work-nav::-webkit-scrollbar { display: none; }
-
-.mobile-work-nav-inner {
-  display: flex;
-  gap: 0;
-  padding: 0 16px;
-  min-width: max-content;
-}
-
-.mobile-work-link {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 13px 14px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--idf-text-muted);
-  border-bottom: 2px solid transparent;
-  transition: all 0.22s ease;
-  white-space: nowrap;
-}
-
-.mobile-work-link:hover { color: var(--idf-blue); }
-.mobile-work-link.active {
-  color: var(--idf-blue);
-  border-bottom-color: var(--idf-blue);
-  font-weight: 600;
-}
-
-
-/* ================================================
    14. RESPONSIVE BREAKPOINTS
    ================================================ */
 
-/* Tablet — hide sidenav, show mobile nav */
+/* Tablet — adjust layout */
 @media (max-width: 1100px) {
-  .work-sidenav    { display: none; }
-  .mobile-work-nav { display: block; }
   .work-layout     { padding: 0 20px; gap: 0; }
   .work-main       { padding: var(--section-gap-sm) 0; }
 }
@@ -913,7 +795,10 @@ ul           { list-style: none; }
     margin-top: 0;
   }
 
-  .work-banner { border-radius: var(--r-xl) var(--r-xl) 0 0; }
+  .work-banner-meta {
+    padding-bottom: 32px; /* reset to comfortable value — no overlap at this bp */
+  }
+
 
   .work-narrative {
     border-radius: 0;
@@ -924,7 +809,9 @@ ul           { list-style: none; }
     border-bottom: none;
   }
 
-  .work-narrative::before { display: none; }
+  .work-narrative::before {
+    top: 0;
+  }
 
   .work-metrics {
     border-radius: 0 0 var(--r-xl) var(--r-xl);
@@ -954,9 +841,13 @@ ul           { list-style: none; }
     --section-gap-sm: 48px;
   }
 
+
+
   .work-hero          { height: 340px; }
   .work-hero-pills    { display: none; }
-  .work-banner        { height: 260px; }
+  .work-banner-meta {
+    padding: 16px 20px 28px; /* compact but safe */
+  }
   .work-banner-donors { display: none; }
   .work-narrative     { padding: 28px 20px; }
   .work-metrics       { flex-direction: column; }

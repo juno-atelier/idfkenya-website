@@ -11,12 +11,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  <!-- Font Awesome — required for shared navbar icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer">
 
-  <!-- CSS load order: base → components → sections → home (page-specific last) → responsive -->
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/sections.css">
@@ -27,61 +25,33 @@
 
   <div id="navbar-placeholder"></div>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       HERO SECTION — Redesigned v3.1
+  <section class="hero" aria-label="A Healthy, Just &amp; Empowered Society" style="--hero-bg-image: url('assets/images/new_photo.jpg');">
 
-       Layer stack (bottom → top):
-         .hero             CSS gradient mesh fallback (always visible)
-         .hero-bg img      photograph (enhances when loaded)
-         .hero-overlay     directional gradient div (left dark → right light)
-         .hero-pattern     dot-grid texture
-         .hero-accent-line thin green decorative stripe
-         .hero-content     all text, buttons, and impact strip
-  ═══════════════════════════════════════════════════════════ -->
-  <section class="hero" aria-label="A Healthy, Just &amp; Empowered Society">
+    <div class="hero-bg" aria-hidden="true"></div>
 
-    <!-- Layer 1: Background photograph -->
-    <div class="hero-bg">
-      <img
-        src="assets/images/idf_home1.jpg"
-        alt="IDF Kenya community members gathered in Homa Bay County"
-        loading="eager"
-        fetchpriority="high"
-      >
-    </div>
-
-    <!-- Layer 2: Directional gradient overlay -->
     <div class="hero-overlay" aria-hidden="true"></div>
 
-    <!-- Layer 3: Dot-grid texture -->
     <div class="hero-pattern" aria-hidden="true"></div>
 
-    <!-- Layer 4: Decorative green accent stripe on left edge -->
     <div class="hero-accent-line" aria-hidden="true"></div>
 
-    <!-- Layer 5: Content -->
     <div class="hero-content">
       <div class="hero-inner">
 
-        <!-- Eyebrow pill with green dot indicator -->
         <span class="hero-eyebrow">Serving Kenya Since 1999</span>
 
-        <!-- Headline: wrap key word in em for italic blue accent -->
         <h1>A Healthy, Just &amp;<br><em>Empowered</em> Society</h1>
 
-        <!-- Sub-headline -->
         <p class="hero-sub">
           We harmonise and consolidate local efforts through community empowerment
           in health, education, governance, and environmental concerns.
         </p>
 
-        <!-- CTA buttons -->
         <div class="hero-actions">
           <a href="about.html"   class="btn btn-primary">Discover Our Work</a>
           <a href="contact.html" class="btn btn-outline-white">Get In Touch</a>
         </div>
 
-        <!-- Impact strip: 3 key stats anchored inside the hero -->
         <div class="hero-impact" aria-label="Quick impact summary">
           <div class="hero-impact-stat">
             <span class="hero-impact-number">7</span>
@@ -100,7 +70,6 @@
       </div>
     </div>
 
-    <!-- Scroll indicator -->
     <div class="hero-scroll" aria-hidden="true">
       <div class="hero-scroll-line"></div>
       <span>Scroll</span>
@@ -108,7 +77,6 @@
 
   </section>
 
-  <!-- ABOUT SECTION -->
   <section class="about-section" id="about">
     <div class="container">
       <div class="about-grid">
@@ -138,7 +106,6 @@
     </div>
   </section>
 
-  <!-- STATS SECTION -->
   <section class="stats-section" id="impact">
     <div class="container">
       <div class="section-header">
@@ -179,7 +146,6 @@
     </div>
   </section>
 
-  <!-- PROJECTS SECTION -->
   <section class="projects-section" id="work">
     <div class="container">
       <div class="section-header">
@@ -236,7 +202,6 @@
     </div>
   </section>
 
-  <!-- QUOTE SECTION -->
   <section class="quote-section">
     <div class="quote-inner">
       <span class="quote-mark">"</span>
@@ -245,7 +210,6 @@
     </div>
   </section>
 
-  <!-- PARTNERS SECTION -->
   <section class="partners-section" id="partners">
     <div class="container">
       <div class="section-header">
@@ -276,7 +240,6 @@
     </div>
   </section>
 
-  <!-- CTA SECTION -->
   <section class="cta-section">
     <div class="cta-inner">
       <span class="label-tag">Get Involved</span>

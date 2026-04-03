@@ -11,38 +11,23 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  <!-- Font Awesome 6.5.1 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer">
 
-  <!--
-    Stylesheet load order:
-      1. styles.css     — global reset, typography, shared tokens
-      2. components.css — site navbar, footer
-      3. sections.css   — shared section patterns (hero, stats, cards, etc.)
-      4. about.css      — scoped styles for this page only (non-responsive)
-      5. responsive.css — ALL media queries (site-wide + about-page breakpoints)
-  -->
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/sections.css">
+  <link rel="stylesheet" href="css/sidenav.css">
   <link rel="stylesheet" href="css/about.css">
   <link rel="stylesheet" href="css/responsive.css">
 </head>
 
 <body>
 
-  <!-- Navbar injected by components.js — do NOT remove -->
   <div id="navbar-placeholder"></div>
 
 
-  <!-- ============================================================
-       PAGE HERO
-       Image displayed at: 100vw × 420 px (CSS).
-       Source dimensions (HTML attrs): 1920 × 960 px.
-       object-fit: cover; object-position: center 35% (in about.css).
-  ============================================================ -->
   <header class="about-hero" role="banner">
     <img
       class="about-hero-bg"
@@ -59,7 +44,6 @@
       </span>
       <h1>Who We Are</h1>
       <p>A community-based Non-Governmental Organization with Christian values — building healthy, just and empowered communities across Kenya since 1999.</p>
-      <!-- Hero nav pills — desktop only; hidden on mobile via responsive.css -->
       <nav class="about-hero-nav-pills" aria-label="Jump to section">
         <a href="#history"  class="hero-pill"><i class="fa-regular fa-clock"></i>Our History</a>
         <a href="#mission"  class="hero-pill"><i class="fa-solid fa-bullseye"></i>Mission &amp; Vision</a>
@@ -72,101 +56,83 @@
   </header>
 
 
-  <!-- ============================================================
-       MOBILE / TABLET ABOUT NAV
-       Hidden on desktop (>= 1100 px) — shown as a sticky horizontal
-       scrollable tab bar on viewports < 1100 px, positioned directly
-       below the main top navbar. Overflow-x: auto with hidden
-       scrollbars keeps the layout clean.
-       The same scroll-spy JS in main.js that drives the desktop
-       sidenav also handles data-spy-target on these links.
-  ============================================================ -->
-  <nav class="mobile-about-nav" aria-label="About page sections">
-    <div class="mobile-about-nav-inner">
-      <a href="#history"  class="mob-nav-link active" data-spy-target="history">
+  <nav class="mobile-tab-nav" aria-label="About page sections">
+    <div class="mobile-tab-nav__inner">
+      <a href="#history"  class="mobile-tab-nav__link mobile-tab-nav__link--active" data-spy-target="history">
         <i class="fa-regular fa-clock"></i>Our History
       </a>
-      <a href="#mission"  class="mob-nav-link" data-spy-target="mission">
+      <a href="#mission"  class="mobile-tab-nav__link" data-spy-target="mission">
         <i class="fa-solid fa-bullseye"></i>Mission &amp; Vision
       </a>
-      <a href="#values"   class="mob-nav-link" data-spy-target="values">
+      <a href="#values"   class="mobile-tab-nav__link" data-spy-target="values">
         <i class="fa-solid fa-gem"></i>Core Values
       </a>
-      <a href="#partners" class="mob-nav-link" data-spy-target="partners">
+      <a href="#partners" class="mobile-tab-nav__link" data-spy-target="partners">
         <i class="fa-solid fa-handshake"></i>Partners &amp; Networks
       </a>
-      <a href="#team"     class="mob-nav-link" data-spy-target="team">
+      <a href="#team"     class="mobile-tab-nav__link" data-spy-target="team">
         <i class="fa-solid fa-users"></i>Our Team
       </a>
-      <a href="#careers"  class="mob-nav-link" data-spy-target="careers">
+      <a href="#careers"  class="mobile-tab-nav__link" data-spy-target="careers">
         <i class="fa-solid fa-briefcase"></i>Join Us
       </a>
     </div>
   </nav>
 
 
-  <!-- ============================================================
-       TWO-COLUMN LAYOUT: SIDENAV + MAIN CONTENT
-  ============================================================ -->
   <div class="about-layout">
 
-    <!-- STICKY SIDENAV (visible >= 1100 px) -->
-    <aside class="about-sidenav" aria-label="Page section navigation">
-      <p class="sidenav-label">On this page</p>
-      <ul class="sidenav-list" role="list">
-        <li>
-          <a href="#history" class="active" data-spy-target="history">
-            <i class="fa-regular fa-clock"></i>Our History
+    <aside class="sidenav" aria-label="Page section navigation">
+      <p class="sidenav__heading">On this page</p>
+      <ul class="sidenav__list" role="list">
+        <li class="sidenav__item">
+          <a href="#history" class="sidenav__link sidenav__link--active" data-spy-target="history">
+            <i class="fa-regular fa-clock sidenav__icon"></i>Our History
           </a>
         </li>
-        <li>
-          <a href="#mission" data-spy-target="mission">
-            <i class="fa-solid fa-bullseye"></i>Mission &amp; Vision
+        <li class="sidenav__item">
+          <a href="#mission" class="sidenav__link" data-spy-target="mission">
+            <i class="fa-solid fa-bullseye sidenav__icon"></i>Mission &amp; Vision
           </a>
         </li>
-        <li>
-          <a href="#values" data-spy-target="values">
-            <i class="fa-solid fa-gem"></i>Core Values
+        <li class="sidenav__item">
+          <a href="#values" class="sidenav__link" data-spy-target="values">
+            <i class="fa-solid fa-gem sidenav__icon"></i>Core Values
           </a>
         </li>
-        <li>
-          <a href="#partners" data-spy-target="partners">
-            <i class="fa-solid fa-handshake"></i>Partners &amp; Networks
+        <li class="sidenav__item">
+          <a href="#partners" class="sidenav__link" data-spy-target="partners">
+            <i class="fa-solid fa-handshake sidenav__icon"></i>Partners &amp; Networks
           </a>
         </li>
-        <li>
-          <a href="#team" data-spy-target="team">
-            <i class="fa-solid fa-users"></i>Our Team
+        <li class="sidenav__item">
+          <a href="#team" class="sidenav__link" data-spy-target="team">
+            <i class="fa-solid fa-users sidenav__icon"></i>Our Team
           </a>
         </li>
-        <li>
-          <a href="#careers" data-spy-target="careers">
-            <i class="fa-solid fa-briefcase"></i>Join Us
+        <li class="sidenav__item">
+          <a href="#careers" class="sidenav__link" data-spy-target="careers">
+            <i class="fa-solid fa-briefcase sidenav__icon"></i>Join Us
           </a>
         </li>
       </ul>
 
-      <!-- Reading progress bar — updated by initAboutProgressBar() in main.js -->
-      <div class="sidenav-progress" aria-label="Page reading progress">
-        <p class="sidenav-progress-label">Reading progress</p>
-        <div class="sidenav-progress-bar"
+      <div class="sidenav__progress" aria-label="Page reading progress">
+        <p class="sidenav__progress-label">Reading progress</p>
+        <div class="sidenav__progress-bar"
              role="progressbar"
              aria-valuenow="0"
              aria-valuemin="0"
              aria-valuemax="100">
-          <div class="sidenav-progress-fill" id="progressFill"></div>
+          <div class="sidenav__progress-fill" id="progressFill"></div>
         </div>
       </div>
     </aside>
 
 
-    <!-- MAIN CONTENT -->
     <main class="about-main" id="mainContent">
 
 
-      <!-- ================================================
-           SECTION 1 — OUR HISTORY
-      ================================================ -->
       <section id="history" class="about-section" aria-labelledby="history-heading">
 
         <span class="section-label section-label-blue reveal">
@@ -188,12 +154,6 @@
               <strong>1999</strong>
               <span>Founded</span>
             </div>
-            <!--
-              History image:
-                Optimal source: 1280 x 840 px (2x retina for a ~640 x 420 px display slot)
-                Displayed at: ~50% column width (max ~600 px) x 420 px fixed height.
-                width/height attributes reflect the display intrinsic ratio (3:2).
-            -->
             <img
               class="history-img"
               src="assets/images/usaid_award.jpg"
@@ -235,9 +195,6 @@
       </section>
 
 
-      <!-- ================================================
-           SECTION 2 — MISSION & VISION
-      ================================================ -->
       <section id="mission" class="about-section" aria-labelledby="mission-heading">
 
         <span class="section-label section-label-navy reveal">
@@ -271,9 +228,6 @@
       </section>
 
 
-      <!-- ================================================
-           SECTION 3 — CORE VALUES
-      ================================================ -->
       <section id="values" class="about-section" aria-labelledby="values-heading">
 
         <span class="section-label section-label-blue reveal">
@@ -321,9 +275,6 @@
       </section>
 
 
-      <!-- ================================================
-           SECTION 4 — PARTNERS & NETWORKS
-      ================================================ -->
       <section id="partners" class="about-section" aria-labelledby="partners-heading">
 
         <span class="section-label section-label-green reveal">
@@ -373,9 +324,6 @@
       </section>
 
 
-      <!-- ================================================
-           SECTION 5 — OUR TEAM
-      ================================================ -->
       <section id="team" class="about-section" aria-labelledby="team-heading">
 
         <span class="section-label section-label-navy reveal">
@@ -447,9 +395,6 @@
       </section>
 
 
-      <!-- ================================================
-           SECTION 6 — JOIN US (CAREERS)
-      ================================================ -->
       <section id="careers" class="about-section" aria-labelledby="careers-heading">
 
         <span class="section-label section-label-green reveal">
@@ -513,7 +458,6 @@
   </div>
 
 
-  <!-- Footer injected by components.js — do NOT remove -->
   <div id="footer-placeholder"></div>
 
   <script src="js/components.js"></script>

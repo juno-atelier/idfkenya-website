@@ -1,5 +1,5 @@
 <!-- ═══════════════════════════════════════════
-     components/footer.html — IDF Kenya
+     components/footer.html — IDF Kenya Premium Redesign
      All HTML files at root level
 ═══════════════════════════════════════════ -->
 
@@ -34,21 +34,38 @@
       <div class="footer-contact">
         <h4 class="footer-heading">Contact Us</h4>
         <address class="footer-address">
-          <a href="mailto:info@idfkenya.org" class="footer-link">info@idfkenya.org</a>
-          <a href="tel:+254202721234" class="footer-link">+254 20 272 1234</a>
+          <a href="mailto:info@idfkenya.org" class="footer-link footer-link--contact">
+            <span class="footer-link__text">info@idfkenya.org</span>
+          </a>
+          <a href="tel:+254202721234" class="footer-link footer-link--contact">
+            <span class="footer-link__text">+254 20 272 1234</span>
+          </a>
           <span class="footer-address-text">Nairobi, Kenya</span>
         </address>
       </div>
 
-      <!-- Social -->
+      <!-- Social & Utilities -->
       <div class="footer-social">
         <h4 class="footer-heading">Connect</h4>
         <div class="social-links">
-          <a href="#" class="social-link" target="_blank">X (Twitter)</a>
-          <a href="#" class="social-link" target="_blank">LinkedIn</a>
-          <a href="#" class="social-link" target="_blank">Facebook</a>
+          <a href="#" class="social-link" target="_blank" rel="noopener noreferrer">
+            <span class="social-link-label">X (Twitter)</span>
+          </a>
+          <a href="#" class="social-link" target="_blank" rel="noopener noreferrer">
+            <span class="social-link-label">LinkedIn</span>
+          </a>
+          <a href="#" class="social-link" target="_blank" rel="noopener noreferrer">
+            <span class="social-link-label">Facebook</span>
+          </a>
         </div>
-        <button class="back-to-top" id="backToTop">↑ Back to Top</button>
+        
+        <!-- Elevated Back to Top Button -->
+        <button class="back-to-top" id="backToTop" aria-label="Scroll back to top">
+          <span class="back-to-top__text">Top</span>
+          <svg class="back-to-top__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 19V5M5 12l7-7 7 7"/>
+          </svg>
+        </button>
       </div>
 
     </div>
@@ -56,11 +73,12 @@
     <!-- Bottom Bar -->
     <div class="footer-bottom">
       <div class="footer-bottom-left">
-        <span>&copy; <span id="footer-year"></span> IDF Kenya. All rights reserved.</span>
-        <span>|</span>
-        <a href="policies.html" class="footer-link">Privacy Policy</a>
-        <span>|</span>
-        <a href="terms.html" class="footer-link">Terms of Service</a>
+        <span class="footer-copyright">&copy; <span id="footer-year"></span> IDF Kenya. All rights reserved.</span>
+        <div class="footer-legal-links">
+          <a href="policies.html" class="footer-legal-link">Privacy Policy</a>
+          <span class="footer-separator" aria-hidden="true">·</span>
+          <a href="terms.html" class="footer-legal-link">Terms of Service</a>
+        </div>
       </div>
       <p class="footer-bottom-right">Empowering communities through integrated development</p>
     </div>

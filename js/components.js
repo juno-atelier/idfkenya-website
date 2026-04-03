@@ -1,8 +1,6 @@
 // =============================================================================
-//  components.js — IDF Kenya v3.1  (PATCHED)
-//  Fix: setActiveNavLink() now adds/removes 'is-active' (was 'active')
-//       to match the CSS selectors in components.css:
-//         .nav-link.is-active  /  .mobile-nav-link.is-active
+//  components.js — IDF Kenya Premium Redesign
+//  Preserved exact functional logic, formatted cleanly.
 // =============================================================================
 
 'use strict';
@@ -20,10 +18,8 @@ function log(...args) {
 const qs  = (sel, ctx = document) => ctx.querySelector(sel);
 const qsa = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 
-// Global state for menu to prevent ReferenceError on unload
 let _isMenuOpen = false;
 
-// All HTML files are at root level — no path prefix needed
 function getPathPrefix() {
   return '';
 }
@@ -56,7 +52,7 @@ async function loadComponent(url, selector) {
 // =============================================================================
 
 function initMobileMenu() {
-  const toggleBtn = qs('.hamburger-btn');    // matches components.css selector
+  const toggleBtn = qs('.hamburger-btn');
   const drawer    = qs('#mobile-drawer');
 
   if (!toggleBtn || !drawer) {
@@ -67,19 +63,15 @@ function initMobileMenu() {
   toggleBtn.addEventListener('click', () => {
     _isMenuOpen = !_isMenuOpen;
 
-    // ARIA
     toggleBtn.setAttribute('aria-expanded', String(_isMenuOpen));
     drawer.setAttribute('aria-hidden', String(!_isMenuOpen));
-
-    // Visual classes
+    
     drawer.classList.toggle('is-open', _isMenuOpen);
     toggleBtn.classList.toggle('is-active', _isMenuOpen);
-
-    // Body scroll lock
+    
     document.body.style.overflow = _isMenuOpen ? 'hidden' : '';
   });
 
-  // Close drawer on outside click
   document.addEventListener('click', (e) => {
     if (_isMenuOpen && !e.target.closest('#site-header')) {
       _isMenuOpen = false;
@@ -91,7 +83,6 @@ function initMobileMenu() {
     }
   });
 
-  // Close on Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && _isMenuOpen) {
       _isMenuOpen = false;
@@ -105,18 +96,11 @@ function initMobileMenu() {
   });
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-//  FIX: was using 'active', must use 'is-active' to match components.css rules:
-//    .nav-link.is-active { color: var(--idf-blue-light) !important; }
-//    .mobile-nav-link.is-active { color: var(--idf-blue) !important; }
-// ─────────────────────────────────────────────────────────────────────────────
 function setActiveNavLink() {
   const currentPath = window.location.pathname.split('/').pop() || 'index.html';
 
   qsa('.nav-link, .mobile-nav-link').forEach(link => {
     const isActive = link.dataset.page === currentPath;
-
-    // ✅ FIXED: use 'is-active', not 'active'
     link.classList.toggle('is-active', isActive);
 
     if (isActive) {
@@ -130,7 +114,6 @@ function setActiveNavLink() {
 }
 
 function initStickyHeader() {
-  // The navbar HTML must use id="site-header" on the <header> element
   const header = qs('#site-header');
   if (!header) {
     log('site-header not found — sticky scroll skipped');
@@ -142,7 +125,7 @@ function initStickyHeader() {
   };
 
   window.addEventListener('scroll', window._idfStickyHandler, { passive: true });
-  window._idfStickyHandler(); // run immediately on load
+  window._idfStickyHandler(); 
 }
 
 function initFooterYear() {
@@ -173,7 +156,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const prefix = getPathPrefix();
 
-  // Load Navbar + Footer concurrently
   const [navLoaded, footerLoaded] = await Promise.all([
     loadComponent(`${prefix}components/navbar.html`,  '#navbar-placeholder'),
     loadComponent(`${prefix}components/footer.html`,  '#footer-placeholder'),
@@ -196,7 +178,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   log('componentsReady dispatched ✓');
 });
 
-// Cleanup on unload
 window.addEventListener('beforeunload', () => {
   if (window._idfStickyHandler) {
     window.removeEventListener('scroll', window._idfStickyHandler);

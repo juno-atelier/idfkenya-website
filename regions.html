@@ -11,57 +11,50 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  <!-- Font Awesome 6.5.1 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
 
-  <!--
-    FIXED: All paths now use root-level references (no ../ prefix)
-    because all HTML files are at the root level.
-  -->
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/sections.css">
+  <link rel="stylesheet" href="css/sidenav.css">
   <link rel="stylesheet" href="css/responsive.css">
   <link rel="stylesheet" href="css/regions.css">
 </head>
 
 <body>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       REQUIRED: Navbar injected here by components.js
-       Do NOT remove or rename this div.
-  ═══════════════════════════════════════════════════════════ -->
   <div id="navbar-placeholder"></div>
 
 
-  <!-- ============================================================
-       MOBILE SECTION NAV
-  ============================================================ -->
-  <nav class="mobile-regions-nav" role="navigation" aria-label="County sections">
-    <div class="mobile-regions-nav-inner">
-      <a href="#homa-bay"      class="mobile-regions-link" data-spy-target="homa-bay"><i class="fa-solid fa-location-dot"></i>Homa Bay</a>
-      <a href="#vihiga"        class="mobile-regions-link" data-spy-target="vihiga"><i class="fa-solid fa-location-dot"></i>Vihiga</a>
-      <a href="#nyamira"       class="mobile-regions-link" data-spy-target="nyamira"><i class="fa-solid fa-location-dot"></i>Nyamira</a>
-      <a href="#meru"          class="mobile-regions-link" data-spy-target="meru"><i class="fa-solid fa-location-dot"></i>Meru</a>
-      <a href="#tharaka-nithi" class="mobile-regions-link" data-spy-target="tharaka-nithi"><i class="fa-solid fa-location-dot"></i>Tharaka Nithi</a>
-      <a href="#kwale"         class="mobile-regions-link" data-spy-target="kwale"><i class="fa-solid fa-location-dot"></i>Kwale</a>
-      <a href="#kirinyaga"     class="mobile-regions-link" data-spy-target="kirinyaga"><i class="fa-solid fa-location-dot"></i>Kirinyaga</a>
+  <!-- Mobile horizontal tab navigation — sticky below navbar -->
+  <nav class="mobile-tab-nav" role="navigation" aria-label="County sections">
+    <div class="mobile-tab-nav__inner">
+      <a href="#homa-bay"      class="mobile-tab-nav__link mobile-tab-nav__link--active" data-spy-target="homa-bay"><i class="fa-solid fa-location-dot"></i>Homa Bay</a>
+      <a href="#vihiga"        class="mobile-tab-nav__link" data-spy-target="vihiga"><i class="fa-solid fa-location-dot"></i>Vihiga</a>
+      <a href="#nyamira"       class="mobile-tab-nav__link" data-spy-target="nyamira"><i class="fa-solid fa-location-dot"></i>Nyamira</a>
+      <a href="#meru"          class="mobile-tab-nav__link" data-spy-target="meru"><i class="fa-solid fa-location-dot"></i>Meru</a>
+      <a href="#tharaka-nithi" class="mobile-tab-nav__link" data-spy-target="tharaka-nithi"><i class="fa-solid fa-location-dot"></i>Tharaka Nithi</a>
+      <a href="#kwale"         class="mobile-tab-nav__link" data-spy-target="kwale"><i class="fa-solid fa-location-dot"></i>Kwale</a>
+      <a href="#kirinyaga"     class="mobile-tab-nav__link" data-spy-target="kirinyaga"><i class="fa-solid fa-location-dot"></i>Kirinyaga</a>
     </div>
   </nav>
 
 
-  <!-- ============================================================
-       PAGE HERO
-  ============================================================ -->
+  <!-- Page hero — explicit width/height set in CSS; src image has w/h attrs for preload hints -->
   <header class="regions-hero" role="banner">
-    <img class="regions-hero-bg" src="assets/images/idf_home1.jpg" alt="IDF Kenya community members in Homa Bay County" loading="eager">
+    <!-- width/height prevent layout shift while the image loads -->
+    <img class="regions-hero-bg"
+      src="assets/images/regions-hero.svg"
+      alt="IDF Kenya community members in Homa Bay County"
+      width="1920" height="600"
+      loading="eager">
     <div class="regions-hero-overlay" aria-hidden="true"></div>
     <div class="regions-hero-content">
       <span class="regions-hero-eyebrow">
         <i class="fa-solid fa-map-location-dot" style="margin-right:0.35rem"></i>Our Operational Regions
       </span>
       <h1>Where We Work</h1>
-      <p>IDF Kenya implements projects across seven counties — from the shores of Lake Victoria to the slopes of Mount Kenya — delivering lasting impact in health, governance and water access.</p>
+      <p>IDF Kenya implements projects across seven counties from the shores of Lake Victoria to the slopes of Mount Kenya delivering lasting impact in health, governance and water access.</p>
       <nav class="regions-hero-pills" aria-label="Jump to county">
         <a href="#homa-bay"      class="regions-hero-pill"><i class="fa-solid fa-location-dot"></i>Homa Bay</a>
         <a href="#vihiga"        class="regions-hero-pill"><i class="fa-solid fa-location-dot"></i>Vihiga</a>
@@ -75,55 +68,68 @@
   </header>
 
 
-  <!-- ============================================================
-       TWO-COLUMN LAYOUT: SIDENAV + MAIN CONTENT
-  ============================================================ -->
   <div class="regions-layout">
 
-    <!-- STICKY SIDENAV -->
-    <aside class="regions-sidenav" aria-label="County navigation">
-      <p class="sidenav-label">Counties</p>
-      <ul class="sidenav-list" role="list">
-        <li><a href="#homa-bay"      class="active" data-spy-target="homa-bay"><i class="fa-solid fa-location-dot"></i>Homa Bay County</a></li>
-        <li><a href="#vihiga"        data-spy-target="vihiga"><i class="fa-solid fa-location-dot"></i>Vihiga County</a></li>
-        <li><a href="#nyamira"       data-spy-target="nyamira"><i class="fa-solid fa-location-dot"></i>Nyamira County</a></li>
-        <li><a href="#meru"          data-spy-target="meru"><i class="fa-solid fa-location-dot"></i>Meru County</a></li>
-        <li><a href="#tharaka-nithi" data-spy-target="tharaka-nithi"><i class="fa-solid fa-location-dot"></i>Tharaka Nithi County</a></li>
-        <li><a href="#kwale"         data-spy-target="kwale"><i class="fa-solid fa-location-dot"></i>Kwale County</a></li>
-        <li><a href="#kirinyaga"     data-spy-target="kirinyaga"><i class="fa-solid fa-location-dot"></i>Kirinyaga County</a></li>
+    <!-- Desktop sticky side-navigation -->
+    <aside class="sidenav" aria-label="County navigation">
+      <p class="sidenav__heading">Counties</p>
+      <ul class="sidenav__list" role="list">
+        <li class="sidenav__item"><a href="#homa-bay"      class="sidenav__link sidenav__link--active" data-spy-target="homa-bay"><i class="fa-solid fa-location-dot sidenav__icon"></i>Homa Bay County</a></li>
+        <li class="sidenav__item"><a href="#vihiga"        class="sidenav__link" data-spy-target="vihiga"><i class="fa-solid fa-location-dot sidenav__icon"></i>Vihiga County</a></li>
+        <li class="sidenav__item"><a href="#nyamira"       class="sidenav__link" data-spy-target="nyamira"><i class="fa-solid fa-location-dot sidenav__icon"></i>Nyamira County</a></li>
+        <li class="sidenav__item"><a href="#meru"          class="sidenav__link" data-spy-target="meru"><i class="fa-solid fa-location-dot sidenav__icon"></i>Meru County</a></li>
+        <li class="sidenav__item"><a href="#tharaka-nithi" class="sidenav__link" data-spy-target="tharaka-nithi"><i class="fa-solid fa-location-dot sidenav__icon"></i>Tharaka Nithi County</a></li>
+        <li class="sidenav__item"><a href="#kwale"         class="sidenav__link" data-spy-target="kwale"><i class="fa-solid fa-location-dot sidenav__icon"></i>Kwale County</a></li>
+        <li class="sidenav__item"><a href="#kirinyaga"     class="sidenav__link" data-spy-target="kirinyaga"><i class="fa-solid fa-location-dot sidenav__icon"></i>Kirinyaga County</a></li>
       </ul>
-      <div class="sidenav-progress" aria-label="Page reading progress">
-        <p class="sidenav-progress-label">Reading progress</p>
-        <div class="sidenav-progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-          <div class="sidenav-progress-fill" id="regionsProgressFill"></div>
+      <div class="sidenav__progress" aria-label="Page reading progress">
+        <p class="sidenav__progress-label">Reading progress</p>
+        <div class="sidenav__progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+          <div class="sidenav__progress-fill" id="regionsProgressFill"></div>
         </div>
       </div>
     </aside>
 
 
-    <!-- ========================================================
-         MAIN CONTENT
-    ========================================================= -->
     <main class="regions-main" id="regionsMainContent">
 
 
-      <!-- ===================================================
-           COUNTY 1 — HOMA BAY
-      ==================================================== -->
+      <!-- ===================== HOMA BAY ===================== -->
       <section id="homa-bay" class="county-section" aria-labelledby="homa-bay-heading">
 
         <article class="story-card reveal">
 
           <div class="story-img-panel">
+            <!--
+              Story image — SVG accepted; width/height attrs prevent layout shift.
+              For SVG: <img src="assets/images/homabay.svg" width="1200" height="800" ...>
+              Dimensions: 1200×800px (3:2 ratio, standard landscape photo)
+            -->
             <img class="story-img"
-              src="assets/images/homabay.jpg"
+              src="assets/images/regions-homa-bay.svg"
               alt="Community members in Homa Bay County — IDF's founding county and headquarters"
+              width="1200" height="800"
               loading="lazy">
             <div class="story-img-overlay" aria-hidden="true"></div>
-            <span class="story-status story-status--active">
-              <i class="fa-solid fa-circle-dot" style="font-size:0.5rem"></i>4 Active Projects
-            </span>
+
+            <!-- County SVG Emblem — 72×72px fixed dimensions prevent layout shift -->
+            <div class="county-svg-emblem" aria-hidden="true">
+              <img src="assets/images/regions-homabay-emblem.svg"
+                   width="72" height="72"
+                   alt="">
+            </div>
+
             <span class="story-photo-label" aria-hidden="true">Homa Bay County</span>
+          </div>
+
+          <!--
+            .image-badge-group — flex container anchored to the top-left of the
+            image area. Groups the status pill and county emblem as one unit so
+            both elements share a single positioned ancestor. No individual
+            absolute positioning is needed on pill or emblem themselves.
+          -->
+          <div class="image-badge-group">
+            <span class="story-status story-status--active">4 Active Projects</span>
             <div class="story-emblem" aria-hidden="true">
               <div class="story-emblem-inner emblem--blue">
                 <i class="fa-solid fa-house-flag"></i>
@@ -178,23 +184,34 @@
       </section>
 
 
-      <!-- ===================================================
-           COUNTY 2 — VIHIGA
-      ==================================================== -->
+      <!-- ===================== VIHIGA ===================== -->
       <section id="vihiga" class="county-section" aria-labelledby="vihiga-heading">
 
         <article class="story-card story-card--flip reveal">
 
           <div class="story-img-panel">
+            <!--
+              SVG accepted. Vihiga story image — 1200×800px (3:2 landscape)
+            -->
             <img class="story-img"
-              src="assets/images/vihiga.png"
+              src="assets/images/regions-vihiga.svg"
               alt="Vihiga County community — USAID Nuru Ya Mtoto project serves families and youth here"
+              width="1200" height="800"
               loading="lazy">
             <div class="story-img-overlay" aria-hidden="true"></div>
-            <span class="story-status story-status--active">
-              <i class="fa-solid fa-circle-dot" style="font-size:0.5rem"></i>Active Project
-            </span>
+
+            <!-- County SVG Emblem — 72×72px fixed dimensions prevent layout shift -->
+            <div class="county-svg-emblem" aria-hidden="true">
+              <img src="assets/images/regions-vihiga-emblem.svg"
+                   width="72" height="72"
+                   alt="">
+            </div>
+
             <span class="story-photo-label" aria-hidden="true">Vihiga County</span>
+          </div>
+
+          <div class="image-badge-group">
+            <span class="story-status story-status--active">Active Project</span>
             <div class="story-emblem" aria-hidden="true">
               <div class="story-emblem-inner emblem--green">
                 <i class="fa-solid fa-children"></i>
@@ -244,23 +261,34 @@
       </section>
 
 
-      <!-- ===================================================
-           COUNTY 3 — NYAMIRA
-      ==================================================== -->
+      <!-- ===================== NYAMIRA ===================== -->
       <section id="nyamira" class="county-section" aria-labelledby="nyamira-heading">
 
         <article class="story-card reveal">
 
           <div class="story-img-panel">
+            <!--
+              SVG accepted. Nyamira story image — 1200×800px (3:2 landscape)
+            -->
             <img class="story-img"
-              src="assets/images/nyamira.jpg"
+              src="assets/images/regions-nyamira.svg"
               alt="Nyamira County — IDF works to safeguard children and adolescents affected by HIV"
+              width="1200" height="800"
               loading="lazy">
             <div class="story-img-overlay" aria-hidden="true"></div>
-            <span class="story-status story-status--active">
-              <i class="fa-solid fa-circle-dot" style="font-size:0.5rem"></i>Active Project
-            </span>
+
+            <!-- County SVG Emblem — 72×72px fixed dimensions prevent layout shift -->
+            <div class="county-svg-emblem" aria-hidden="true">
+              <img src="assets/images/regions-nyamira-emblem.svg"
+                   width="72" height="72"
+                   alt="">
+            </div>
+
             <span class="story-photo-label" aria-hidden="true">Nyamira County</span>
+          </div>
+
+          <div class="image-badge-group">
+            <span class="story-status story-status--active">Active Project</span>
             <div class="story-emblem" aria-hidden="true">
               <div class="story-emblem-inner emblem--blue">
                 <i class="fa-solid fa-graduation-cap"></i>
@@ -309,23 +337,36 @@
       </section>
 
 
-      <!-- ===================================================
-           COUNTY 4 — MERU
-      ==================================================== -->
+      <!-- ===================== MERU ===================== -->
       <section id="meru" class="county-section" aria-labelledby="meru-heading">
 
         <article class="story-card story-card--flip reveal">
 
           <div class="story-img-panel">
+            <!--
+              SVG accepted. Meru story image — 1200×800px (3:2 landscape)
+            -->
             <img class="story-img"
-              src="assets/images/meru.png"
+              src="assets/images/regions-Meru-county.svg"
               alt="Meru County — IDF implemented the Global Fund Malaria project 2018 to 2021"
+              width="1200" height="800"
               loading="lazy">
             <div class="story-img-overlay" aria-hidden="true"></div>
+
+            <!-- County SVG Emblem — 72×72px fixed dimensions prevent layout shift -->
+            <div class="county-svg-emblem" aria-hidden="true">
+              <img src="assets/images/regions-Meru-emblem.svg"
+                   width="72" height="72"
+                   alt="">
+            </div>
+
+            <span class="story-photo-label" aria-hidden="true">Meru County</span>
+          </div>
+
+          <div class="image-badge-group">
             <span class="story-status story-status--completed">
               <i class="fa-solid fa-circle-check"></i>Completed 2021
             </span>
-            <span class="story-photo-label" aria-hidden="true">Meru County</span>
             <div class="story-emblem" aria-hidden="true">
               <div class="story-emblem-inner emblem--navy">
                 <i class="fa-solid fa-syringe"></i>
@@ -377,23 +418,36 @@
       </section>
 
 
-      <!-- ===================================================
-           COUNTY 5 — THARAKA NITHI
-      ==================================================== -->
+      <!-- ===================== THARAKA NITHI ===================== -->
       <section id="tharaka-nithi" class="county-section" aria-labelledby="tharaka-heading">
 
         <article class="story-card reveal">
 
           <div class="story-img-panel">
+            <!--
+              SVG accepted. Tharaka Nithi story image — 1200×800px (3:2 landscape)
+            -->
             <img class="story-img"
-              src="assets/images/tharaka.png"
+              src="assets/images/regions-Tharaka-county.svg"
               alt="Tharaka Nithi County — IDF delivered malaria community case management 2018 to 2021"
+              width="1200" height="800"
               loading="lazy">
             <div class="story-img-overlay" aria-hidden="true"></div>
+
+            <!-- County SVG Emblem — 72×72px fixed dimensions prevent layout shift -->
+            <div class="county-svg-emblem" aria-hidden="true">
+              <img src="assets/images/regions-Tharaka-emblem.svg"
+                   width="72" height="72"
+                   alt="">
+            </div>
+
+            <span class="story-photo-label" aria-hidden="true">Tharaka Nithi County</span>
+          </div>
+
+          <div class="image-badge-group">
             <span class="story-status story-status--completed">
               <i class="fa-solid fa-circle-check"></i>Completed 2021
             </span>
-            <span class="story-photo-label" aria-hidden="true">Tharaka Nithi County</span>
             <div class="story-emblem" aria-hidden="true">
               <div class="story-emblem-inner emblem--navy">
                 <i class="fa-solid fa-microscope"></i>
@@ -445,23 +499,36 @@
       </section>
 
 
-      <!-- ===================================================
-           COUNTY 6 — KWALE
-      ==================================================== -->
+      <!-- ===================== KWALE ===================== -->
       <section id="kwale" class="county-section" aria-labelledby="kwale-heading">
 
         <article class="story-card story-card--flip reveal">
 
           <div class="story-img-panel">
+            <!--
+              SVG accepted. Kwale story image — 1200×800px (3:2 landscape)
+            -->
             <img class="story-img"
-              src="assets/images/kwale.jpg"
+              src="assets/images/regions-Kwale-county.svg"
               alt="Kwale County on the Kenyan coast — IDF delivered malaria community health services here"
+              width="1200" height="800"
               loading="lazy">
             <div class="story-img-overlay" aria-hidden="true"></div>
+
+            <!-- County SVG Emblem — 72×72px fixed dimensions prevent layout shift -->
+            <div class="county-svg-emblem" aria-hidden="true">
+              <img src="assets/images/regions-Kwale-emblem.svg"
+                   width="72" height="72"
+                   alt="">
+            </div>
+
+            <span class="story-photo-label" aria-hidden="true">Kwale County</span>
+          </div>
+
+          <div class="image-badge-group">
             <span class="story-status story-status--completed">
               <i class="fa-solid fa-circle-check"></i>Completed 2021
             </span>
-            <span class="story-photo-label" aria-hidden="true">Kwale County</span>
             <div class="story-emblem" aria-hidden="true">
               <div class="story-emblem-inner emblem--navy">
                 <i class="fa-solid fa-database"></i>
@@ -513,23 +580,36 @@
       </section>
 
 
-      <!-- ===================================================
-           COUNTY 7 — KIRINYAGA
-      ==================================================== -->
+      <!-- ===================== KIRINYAGA ===================== -->
       <section id="kirinyaga" class="county-section" aria-labelledby="kirinyaga-heading">
 
         <article class="story-card reveal">
 
           <div class="story-img-panel">
+            <!--
+              SVG accepted. Kirinyaga story image — 1200×800px (3:2 landscape)
+            -->
             <img class="story-img"
-              src="assets/images/kirinyaga.jpg"
+              src="assets/images/regions-kirinyaga-county.svg"
               alt="Kirinyaga County near Mount Kenya — IDF built lasting community health capacity here"
+              width="1200" height="800"
               loading="lazy">
             <div class="story-img-overlay" aria-hidden="true"></div>
+
+            <!-- County SVG Emblem — 72×72px fixed dimensions prevent layout shift -->
+            <div class="county-svg-emblem" aria-hidden="true">
+              <img src="assets/images/regions-Kirinyaga-emblem.svg"
+                   width="72" height="72"
+                   alt="">
+            </div>
+
+            <span class="story-photo-label" aria-hidden="true">Kirinyaga County</span>
+          </div>
+
+          <div class="image-badge-group">
             <span class="story-status story-status--completed">
               <i class="fa-solid fa-circle-check"></i>Completed 2021
             </span>
-            <span class="story-photo-label" aria-hidden="true">Kirinyaga County</span>
             <div class="story-emblem" aria-hidden="true">
               <div class="story-emblem-inner emblem--green">
                 <i class="fa-solid fa-people-arrows"></i>
@@ -585,11 +665,9 @@
   </div>
 
 
-  
   <div id="footer-placeholder"></div>
 
 
- 
   <script src="js/components.js"></script>
   <script type="module" src="js/main.js"></script>
 

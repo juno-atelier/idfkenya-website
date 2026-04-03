@@ -1,36 +1,42 @@
 /* ================================================
-   IDF Kenya — regions.css  (REDESIGNED)
+   IDF Kenya — regions.css  (REFACTORED v4.1)
    Storytelling magazine-spread layout for county sections.
 
-   WHAT THIS FILE CONTROLS:
-   - Only the .county-section content blocks
-   - The page hero, sidenav, mobile nav, and footer
-     are carried over from the original unchanged.
-   - All class names prefixed story-* are new and
-     scoped to this file — zero collision risk.
+   KEY CHANGES FROM v4.0:
+   - --section-gap reduced 120px → 72px for tighter vertical rhythm
+   - .story-status & .story-emblem repositioned as direct .story-card
+     children (moved in HTML) — percentage-based anchoring at the
+     image/content grid boundary eliminates overflow:hidden clipping
+     and z-index stacking ambiguity vs. .story-content (z-index: 2)
+   - .county-svg-emblem placeholder added: fixed 72×72px container
+     above each .story-photo-label for county SVG emblems
+   - Redundant / conflicting rules removed (duplicate transition, old
+     story-img-panel overflow hacks for emblem/status)
+   - Mobile breakpoints updated to match new status/emblem DOM position
 
    STRUCTURE MAP:
    .county-section
      └── .story-card  (.story-card--flip for even sections)
            ├── .story-img-panel
-           │     ├── .story-img          (hero photo)
-           │     ├── .story-img-overlay  (gradient veil)
-           │     ├── .story-emblem       (county icon badge)
-           │     └── .story-status       (active / completed)
-           └── .story-content            (floating glass card)
-                 ├── .story-eyebrow      (county label + chips)
-                 ├── .story-headline     (h2)
-                 ├── .story-lead         (first para)
-                 ├── .story-body         (remaining paras)
-                 ├── .story-callout      (info box)
-                 ├── .story-stats        (3-stat row)
-                 └── .story-actions      (CTA buttons)
+           │     ├── .story-img            (hero photo — SVG or raster)
+           │     ├── .story-img-overlay    (gradient veil)
+           │     ├── .county-svg-emblem    (NEW: 72×72px SVG placeholder)
+           │     └── .story-photo-label   (county watermark)
+           ├── .story-status              (MOVED: now a .story-card child)
+           ├── .story-emblem              (MOVED: now a .story-card child)
+           └── .story-content             (floating glass card)
+                 ├── .story-eyebrow       (county label + chips)
+                 ├── .story-headline      (h2)
+                 ├── .story-lead          (first para)
+                 ├── .story-body          (remaining paras)
+                 ├── .story-callout       (info box)
+                 ├── .story-stats         (3-stat row)
+                 └── .story-actions       (CTA buttons)
    ================================================ */
 
 
 /* ================================================
    1. BRAND TOKENS
-   Identical to about.css — do not edit independently.
    ================================================ */
 :root {
   --idf-navy:          #1B2E4B;
@@ -51,8 +57,11 @@
   --idf-shadow-md:     0 8px 30px rgba(27, 46, 75, 0.13);
   --idf-shadow-lg:     0 20px 60px rgba(27, 46, 75, 0.18);
   --idf-shadow-xl:     0 32px 80px rgba(27, 46, 75, 0.26);
-  --section-gap:       120px;
-  --section-gap-sm:    72px;
+
+  /* CHANGED: tighter vertical rhythm — was 120px / 72px */
+  --section-gap:       72px;
+  --section-gap-sm:    48px;
+
   --sidenav-width:     240px;
   --font-display:      'Playfair Display', Georgia, serif;
   --font-body:         'DM Sans', system-ui, sans-serif;
@@ -61,6 +70,10 @@
   --r-lg:  18px;
   --r-xl:  28px;
   --r-2xl: 40px;
+
+  /* Grid split percentages — single source of truth for status/emblem positioning */
+  --story-img-pct: 58%;  /* image panel width in 2-column layout */
+  --story-cnt-pct: 42%;  /* content panel width (100% - 58%) */
 }
 
 
@@ -97,7 +110,6 @@ ul           { list-style: none; }
 
 /* ================================================
    3. PAGE LAYOUT WRAPPER
-   Sidenav + main — unchanged from original.
    ================================================ */
 .regions-layout {
   display: flex;
@@ -110,7 +122,7 @@ ul           { list-style: none; }
 
 
 /* ================================================
-   5. PAGE HERO
+   4. PAGE HERO
    ================================================ */
 .regions-hero {
   position: relative;
@@ -118,9 +130,10 @@ ul           { list-style: none; }
   display: flex;
   align-items: flex-end;
   overflow: hidden;
-  margin-top: 72px;
+  margin-top: 72px; /* accounts for fixed navbar */
 }
 
+/* Hero background image — explicit dimensions prevent layout shift */
 .regions-hero-bg {
   position: absolute;
   inset: 0;
@@ -201,63 +214,7 @@ ul           { list-style: none; }
 
 
 /* ================================================
-   6. STICKY DESKTOP SIDENAV — unchanged
-   ================================================ */
-.regions-sidenav {
-  position: sticky;
-  top: 96px;
-  width: var(--sidenav-width);
-  flex-shrink: 0;
-  align-self: flex-start;
-  padding: 28px 0;
-}
-
-.sidenav-label {
-  font-size: 0.68rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--idf-text-muted);
-  margin-bottom: 16px;
-  padding-left: 16px;
-}
-
-.sidenav-list { list-style: none; padding: 0; margin: 0; border-left: 2px solid var(--idf-border); }
-
-.sidenav-list li a {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 16px;
-  font-size: 0.84rem;
-  font-weight: 400;
-  color: var(--idf-text-muted);
-  border-left: 2px solid transparent;
-  margin-left: -2px;
-  transition: all 0.25s ease;
-  line-height: 1.3;
-}
-
-.sidenav-list li a i { font-size: 0.78rem; width: 16px; text-align: center; flex-shrink: 0; opacity: 0.6; transition: opacity 0.25s; }
-.sidenav-list li a:hover { color: var(--idf-blue); border-left-color: var(--idf-blue-light); }
-.sidenav-list li a:hover i { opacity: 1; }
-.sidenav-list li a.active { color: var(--idf-blue); border-left-color: var(--idf-blue); font-weight: 600; background: var(--idf-blue-pale); }
-.sidenav-list li a.active i { opacity: 1; color: var(--idf-blue); }
-
-.sidenav-progress { margin-top: 28px; padding-left: 16px; }
-.sidenav-progress-label { font-size: 0.68rem; color: var(--idf-text-muted); margin-bottom: 6px; }
-.sidenav-progress-bar { height: 3px; background: var(--idf-border); border-radius: 3px; overflow: hidden; }
-.sidenav-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--idf-blue), var(--idf-green));
-  border-radius: 3px;
-  transition: width 0.2s ease;
-  width: 0%;
-}
-
-
-/* ================================================
-   7. MAIN CONTENT COLUMN
+   5. MAIN CONTENT COLUMN
    ================================================ */
 .regions-main {
   flex: 1;
@@ -267,11 +224,10 @@ ul           { list-style: none; }
 
 
 /* ================================================
-   8. COUNTY SECTION WRAPPER
-   The scroll-offset trick and border are kept.
-   Only the inner content layout changes.
+   6. COUNTY SECTION WRAPPER
    ================================================ */
 .county-section {
+  /* Uniform vertical gap between all sections */
   margin-bottom: var(--section-gap);
   padding-bottom: var(--section-gap);
   border-bottom: 1px solid var(--idf-border);
@@ -282,7 +238,7 @@ ul           { list-style: none; }
   margin-bottom: 0;
 }
 
-/* Anchor offset for fixed navbar */
+/* Anchor offset for fixed navbar — prevents heading hiding under nav */
 .county-section::before {
   content: '';
   display: block;
@@ -293,25 +249,23 @@ ul           { list-style: none; }
 
 
 /* ================================================
-   9. STORY CARD — magazine-spread layout
-   The main redesign. Each county becomes a
-   cinematic two-panel card with overlapping layers.
+   7. STORY CARD — magazine-spread layout
    ================================================ */
 .story-card {
   display: grid;
-  /* Image panel: 58% | Content card: 42% with -60px overlap */
-  grid-template-columns: 58% 1fr;
+  /* Image panel: 58% | Content card: 42% — values mirror --story-img-pct */
+  grid-template-columns: var(--story-img-pct) 1fr;
   grid-template-rows: 1fr;
   align-items: stretch;
   min-height: 520px;
   border-radius: var(--r-2xl);
-  overflow: visible; /* allow emblem to bleed out */
+  overflow: visible; /* allows emblem/status to render above content card */
   position: relative;
 }
 
-/* FLIPPED layout for even-numbered counties */
+/* Flipped layout for alternate counties */
 .story-card--flip {
-  grid-template-columns: 1fr 58%;
+  grid-template-columns: 1fr var(--story-img-pct);
 }
 
 .story-card--flip .story-img-panel {
@@ -328,21 +282,16 @@ ul           { list-style: none; }
   border-radius: var(--r-xl) 0 0 var(--r-xl);
 }
 
-.story-card--flip .story-emblem {
-  left: auto;
-  right: -20px;
-}
-
 
 /* ── IMAGE PANEL ─────────────────────────────── */
 .story-img-panel {
   position: relative;
   border-radius: var(--r-2xl) 0 0 var(--r-2xl);
-  overflow: hidden;
+  overflow: hidden; /* clips the photo zoom effect on hover */
   min-height: 520px;
 }
 
-/* Hero photograph */
+/* Hero photograph — SVG or raster; explicit width/height set in HTML */
 .story-img {
   width: 100%;
   height: 100%;
@@ -352,40 +301,82 @@ ul           { list-style: none; }
   will-change: transform;
 }
 
-/* Subtle zoom on hover */
+/* Subtle zoom on hover — clipped to .story-img-panel boundary */
 .story-card:hover .story-img {
   transform: scale(1.05);
 }
 
-/* Gradient overlay — darkens bottom for readability */
+/* Gradient overlay — darkens bottom for text readability */
 .story-img-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(11, 20, 38, 0) 35%,
-    rgba(11, 20, 38, 0.55) 100%
-  ),
-  linear-gradient(
-    90deg,
-    rgba(11, 20, 38, 0) 40%,
-    rgba(11, 20, 38, 0.4) 100%
-  );
+  background:
+    linear-gradient(
+      180deg,
+      rgba(11, 20, 38, 0) 35%,
+      rgba(11, 20, 38, 0.55) 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(11, 20, 38, 0) 40%,
+      rgba(11, 20, 38, 0.4) 100%
+    );
   transition: opacity 0.4s ease;
 }
 
 .story-card--flip .story-img-overlay {
-  background: linear-gradient(
-    180deg,
-    rgba(11, 20, 38, 0) 35%,
-    rgba(11, 20, 38, 0.55) 100%
-  ),
-  linear-gradient(
-    270deg,
-    rgba(11, 20, 38, 0) 40%,
-    rgba(11, 20, 38, 0.4) 100%
-  );
+  background:
+    linear-gradient(
+      180deg,
+      rgba(11, 20, 38, 0) 35%,
+      rgba(11, 20, 38, 0.55) 100%
+    ),
+    linear-gradient(
+      270deg,
+      rgba(11, 20, 38, 0) 40%,
+      rgba(11, 20, 38, 0.4) 100%
+    );
 }
+
+
+/* ================================================
+   8. COUNTY SVG EMBLEM PLACEHOLDER
+   Fixed 72×72px container positioned above the photo
+   label. Replace the placeholder <svg> with a real
+   county emblem:
+     <img src="assets/images/emblems/county.svg"
+          width="72" height="72" alt="">
+   ================================================ */
+.county-svg-emblem {
+  position: absolute;
+  /* Positions above .story-photo-label (which is at bottom: 24px) */
+  bottom: 68px;
+  left: 24px;
+  /* FIXED uniform dimensions across all county cards — do not change */
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+.county-svg-emblem img,
+.county-svg-emblem svg {
+  /* Enforced dimensions — prevents SVG from stretching out of its container */
+  width: 72px;   /* FIXED: uniform county emblem width */
+  height: 72px;  /* FIXED: uniform county emblem height */
+  display: block;
+  object-fit: contain;
+}
+
+/* Mirror for flipped cards — right-align the emblem */
+.story-card--flip .county-svg-emblem {
+  left: auto;
+  right: 24px;
+}
+
 
 /* County name watermark on the photo */
 .story-photo-label {
@@ -407,23 +398,99 @@ ul           { list-style: none; }
   text-align: right;
 }
 
-/* Active / Completed status ribbon */
-.story-status {
+
+/* ================================================
+   9. IMAGE BADGE GROUP — single positioned flex container
+   ─────────────────────────────────────────────────
+   WHY A WRAPPER:
+   Previously the pill and emblem each had their own
+   position:absolute declarations, making them hard to
+   keep in sync and causing them to collide or drift.
+
+   The .image-badge-group is the ONE positioned element.
+   It is a direct child of .story-card (overflow:visible,
+   position:relative) so it escapes the overflow:hidden
+   on .story-img-panel and sits above .story-content
+   (z-index:2) via z-index:5.
+
+   LAYOUT:
+   display:flex with align-items:center lines up the pill
+   and emblem on a shared baseline. gap:12px gives the
+   10-15px spacing requested without any margin hacks.
+
+   PLACEMENT:
+   Default card (image on left 0→58%):
+     top-left corner of the image → top:16px; left:16px
+
+   Flip card (image on right 42%→100%):
+     top-right corner of the image → top:16px; right:16px
+     flex-direction:row-reverse so the emblem appears on
+     the left of the pill (towards the image interior).
+   ================================================ */
+.image-badge-group {
+  /* Absolute anchor — single positioning declaration for the pair */
   position: absolute;
-  top: 24px;
-  right: 0;
+  top: 16px;
+  left: 16px;      /* top-left corner of the image panel */
+  right: auto;
+  z-index: 5;      /* above .story-content (z-index:2) */
+
+  /* Flexbox alignment of pill + emblem */
+  display: inline-flex;
+  align-items: center;   /* pill and emblem share a vertical centre-line */
+  gap: 12px;             /* clean 12px gap — within the 10-15px spec */
+
+  /* Prevent the group itself from interfering with pointer events
+     on image content it sits above */
+  pointer-events: none;
+}
+
+/* Re-enable pointer events on the interactive children */
+.image-badge-group .story-status,
+.image-badge-group .story-emblem {
+  pointer-events: auto;
+}
+
+/* Flip card — mirror group to top-right of the image panel */
+.story-card--flip .image-badge-group {
+  left: auto;
+  right: 16px;
+  /* row-reverse: emblem on left, pill on right — keeps pill at the
+     visual "outer" edge and emblem closer to the image interior */
+  flex-direction: row-reverse;
+}
+
+
+/* ================================================
+   STATUS PILL — visual styles only (no positioning)
+   ─────────────────────────────────────────────────
+   All top/left/right/z-index rules are now on the
+   parent .image-badge-group. The pill only needs its
+   visual appearance and inline-flex item sizing here.
+   ================================================ */
+.story-status {
+  /* Flex item — size is driven by content */
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  flex-shrink: 0;
+
+  /* Typography */
   font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  padding: 6px 16px 6px 12px;
-  border-radius: 20px 0 0 20px;
-  box-shadow: var(--idf-shadow-sm);
+  white-space: nowrap;
+
+  /* Geometry */
+  padding: 6px 14px;
+  border-radius: 20px;   /* full symmetric pill */
+
+  /* Elevation */
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.28);
 }
 
+/* Active — green with animated pulse dot */
 .story-status--active {
   background: var(--idf-green);
   color: #fff;
@@ -434,64 +501,69 @@ ul           { list-style: none; }
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.8);
+  background: rgba(255, 255, 255, 0.8);
   animation: pulse 1.8s ease-in-out infinite;
+  flex-shrink: 0;
 }
 
+/* Completed — dark frosted glass */
 .story-status--completed {
   background: rgba(27, 46, 75, 0.82);
   backdrop-filter: blur(8px);
-  color: rgba(255,255,255,0.85);
+  -webkit-backdrop-filter: blur(8px);
+  color: rgba(255, 255, 255, 0.88);
 }
 
 .story-status--completed i {
   font-size: 0.68rem;
 }
 
-.story-card--flip .story-status {
-  right: auto;
-  left: 0;
-  border-radius: 0 20px 20px 0;
-  padding: 6px 12px 6px 16px;
-}
+/* No flip-specific overrides needed — the group handles mirroring */
 
 @keyframes pulse {
   0%, 100% { opacity: 1; transform: scale(1); }
   50%       { opacity: 0.5; transform: scale(0.75); }
 }
 
-/* County emblem — floats at the boundary of image and card */
+
+/* ================================================
+   10. COUNTY ICON EMBLEM — visual styles only (no positioning)
+   ─────────────────────────────────────────────────
+   Position is controlled entirely by the flex layout
+   inside .image-badge-group. The emblem only declares
+   its circular visual appearance and hover scale.
+   ================================================ */
 .story-emblem {
-  position: absolute;
-  top: 50%;
-  right: -28px;
-  transform: translateY(-50%);
-  width: 56px;
-  height: 56px;
+  /* Flex item — fixed size circle */
+  flex-shrink: 0;
+  width: 44px;    /* slightly smaller than before: sits beside the pill cleanly */
+  height: 44px;
+
+  /* Circular card */
   background: #fff;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--idf-shadow-md);
-  z-index: 10;
-  border: 3px solid #fff;
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.22);
+  border: 2.5px solid rgba(255, 255, 255, 0.9);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Scale on card hover — no translate needed (position is now via flexbox) */
 .story-card:hover .story-emblem {
-  transform: translateY(-50%) scale(1.12);
+  transform: scale(1.12);
   box-shadow: var(--idf-shadow-lg);
 }
 
 .story-emblem-inner {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
+  font-size: 0.88rem;
   color: #fff;
 }
 
@@ -505,12 +577,11 @@ ul           { list-style: none; }
   background: #fff;
   border-radius: 0 var(--r-xl) var(--r-xl) 0;
   box-shadow: var(--idf-shadow-xl);
-  padding: 44px 44px 44px 72px; /* left padding allows emblem breathing room */
+  padding: 44px 44px 44px 72px; /* left padding: breathing room near emblem */
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 0;
-  margin-left: -60px; /* overlaps the image panel */
+  margin-left: -60px; /* overlaps the image panel by 60px */
   position: relative;
   z-index: 2;
   transition: box-shadow 0.4s ease;
@@ -520,7 +591,7 @@ ul           { list-style: none; }
   box-shadow: 0 40px 100px rgba(27, 46, 75, 0.22);
 }
 
-/* Thin accent line at top of card */
+/* Thin gradient accent line at top of card — animates in on hover */
 .story-content::before {
   content: '';
   position: absolute;
@@ -538,6 +609,11 @@ ul           { list-style: none; }
 .story-card:hover .story-content::before {
   transform: scaleX(1);
 }
+
+
+/* ================================================
+   11. STORY CONTENT COMPONENTS
+   ================================================ */
 
 /* Eyebrow row: county label + project chips */
 .story-eyebrow {
@@ -733,7 +809,7 @@ ul           { list-style: none; }
 
 
 /* ================================================
-   10. SCROLL REVEAL — unchanged utility
+   12. SCROLL REVEAL
    ================================================ */
 .reveal {
   opacity: 0;
@@ -747,86 +823,32 @@ ul           { list-style: none; }
 .reveal-delay-3 { transition-delay: 0.24s; }
 .reveal-delay-4 { transition-delay: 0.32s; }
 
-/* Slide in from left for image panel */
 .reveal-left {
   opacity: 0;
   transform: translateX(-30px);
   transition: opacity 0.65s ease, transform 0.65s ease;
 }
-
 .reveal-left.visible { opacity: 1; transform: translateX(0); }
 
-/* Slide in from right for content card */
 .reveal-right {
   opacity: 0;
   transform: translateX(30px);
   transition: opacity 0.65s ease, transform 0.65s ease;
 }
-
 .reveal-right.visible { opacity: 1; transform: translateX(0); }
 
 
 /* ================================================
-   11. MOBILE HORIZONTAL SECTION NAV
-   ================================================ */
-.mobile-regions-nav {
-  display: none;
-  position: sticky;
-  top: 72px;
-  z-index: 200;
-  background: rgba(255, 255, 255, 0.97);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--idf-border);
-  box-shadow: var(--idf-shadow-sm);
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.mobile-regions-nav::-webkit-scrollbar { display: none; }
-
-.mobile-regions-nav-inner {
-  display: flex;
-  gap: 0;
-  padding: 0 16px;
-  min-width: max-content;
-}
-
-.mobile-regions-link {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 13px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--idf-text-muted);
-  border-bottom: 2px solid transparent;
-  transition: all 0.22s ease;
-  white-space: nowrap;
-}
-
-.mobile-regions-link:hover { color: var(--idf-blue); }
-.mobile-regions-link.active { color: var(--idf-blue); border-bottom-color: var(--idf-blue); font-weight: 600; }
-
-
-/* ================================================
-   12. RESPONSIVE BREAKPOINTS
+   13. RESPONSIVE BREAKPOINTS
    ================================================ */
 
-/* Tablet: hide sidenav, show mobile nav */
-@media (max-width: 1100px) {
-  .regions-sidenav    { display: none; }
-  .mobile-regions-nav { display: block; }
-  .regions-layout     { padding: 0 20px; gap: 0; }
-  .regions-main       { padding: var(--section-gap-sm) 0; }
-}
-
-/* Medium: stack story card */
+/* ── Medium: stack story card vertically ── */
 @media (max-width: 960px) {
+
   .story-card,
   .story-card--flip {
     grid-template-columns: 1fr;
-    grid-template-rows: 380px 1fr;
+    grid-template-rows: 380px 1fr; /* fixed image row, auto content row */
     min-height: unset;
     border-radius: var(--r-xl);
     overflow: hidden;
@@ -853,44 +875,74 @@ ul           { list-style: none; }
     box-shadow: none;
   }
 
-  /* No accent line on mobile */
+  /* No accent line on smaller screens */
   .story-content::before { display: none; }
 
-  /* Reposition emblem to bottom of image */
-  .story-emblem,
-  .story-card--flip .story-emblem {
-    top: auto;
-    bottom: -24px;
-    left: 28px;
+  /*
+    IMAGE BADGE GROUP — stacked mobile reset
+    In stacked layout the image is row 1 (full card width).
+    The group stays at the top-left of the image for both
+    default and flip orientations — the image fills 100%
+    width, so left:16px is inside the image on both.
+    flex-direction resets to row (pill left, emblem right)
+    since the flip mirroring is irrelevant when stacked.
+  */
+  .image-badge-group,
+  .story-card--flip .image-badge-group {
+    top: 14px;
+    left: 14px;
     right: auto;
-    transform: none;
+    flex-direction: row; /* reset flip reversal — uniform top-left on mobile */
   }
 
-  .story-card:hover .story-emblem { transform: scale(1.1); }
+  /* Photo label alignment — flip mirrors right */
+  .story-card--flip .story-photo-label {
+    right: auto;
+    left: 28px;
+    text-align: left;
+  }
 
-  /* Photo label alignment */
-  .story-card--flip .story-photo-label { right: auto; left: 28px; text-align: left; }
-
-  /* Status alignment */
-  .story-card--flip .story-status { left: auto; right: 0; border-radius: 20px 0 0 20px; padding: 6px 16px 6px 12px; }
+  /* County SVG emblem flip reset */
+  .story-card--flip .county-svg-emblem {
+    right: auto;
+    left: 24px;
+  }
 }
 
-/* Mobile */
+/* ── Mobile ── */
 @media (max-width: 600px) {
   :root {
-    --section-gap: 60px;
-    --section-gap-sm: 48px;
+    --section-gap:    48px;
+    --section-gap-sm: 36px;
+  }
+
+  .story-card,
+  .story-card--flip {
+    grid-template-rows: 260px 1fr; /* reduced image row for small screens */
   }
 
   .story-img-panel,
   .story-card--flip .story-img-panel { min-height: 260px; }
-  .story-card, .story-card--flip { grid-template-rows: 260px 1fr; }
-  .story-content, .story-card--flip .story-content { padding: 36px 20px 28px; }
+
+  .story-content,
+  .story-card--flip .story-content { padding: 36px 20px 28px; }
+
+  /* Badge group — slightly tighter inset on very small screens */
+  .image-badge-group,
+  .story-card--flip .image-badge-group {
+    top: 10px;
+    left: 10px;
+    gap: 8px;
+  }
+
   .story-stats { flex-direction: column; }
   .story-stat { border-right: none; border-bottom: 1px solid var(--idf-border); }
   .story-stat:last-child { border-bottom: none; }
+
   .regions-hero { height: 340px; }
   .regions-hero-pills { display: none; }
+
   .story-actions { flex-direction: column; }
-  .btn-idf-primary, .btn-idf-outline-navy { justify-content: center; }
+  .btn-idf-primary,
+  .btn-idf-outline-navy { justify-content: center; }
 }

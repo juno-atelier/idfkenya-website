@@ -1,15 +1,6 @@
 <!-- ═══════════════════════════════════════════
-     components/navbar.html — IDF Kenya v3.1 (PATCHED)
-
-     FIX 1: .menu-toggle  →  .hamburger-btn
-             components.js initMobileMenu() queries '.hamburger-btn'
-             The old class name meant the toggle never initialised.
-
-     FIX 2: SVG line classes updated to match components.css animations:
-             line-top    →  hamburger-line hamburger-line--top
-             line-middle →  hamburger-line hamburger-line--mid
-             line-bottom →  hamburger-line hamburger-line--bottom
-             Without this the X-close animation never fired.
+     components/navbar.html — IDF Kenya Premium Redesign
+     Maintains 100% structural compatibility with components.js
 ═══════════════════════════════════════════ -->
 
 <header id="site-header" class="site-header" role="banner">
@@ -43,19 +34,17 @@
 
     <!-- Desktop Navigation -->
     <nav class="desktop-nav" aria-label="Main navigation">
-      <a href="index.html"     class="nav-link" data-page="index.html">Home</a>
-      <a href="about.html"     class="nav-link" data-page="about.html">About Us</a>
-      <a href="ourwork.html"   class="nav-link" data-page="ourwork.html">Our Work</a>
-      <a href="regions.html"   class="nav-link" data-page="regions.html">Regions</a>
-      <a href="resources.html" class="nav-link" data-page="resources.html">Resources &amp; News</a>
-      <a href="contact.html"   class="nav-link" data-page="contact.html">Contact Us</a>
+      <ul class="desktop-nav__list">
+        <li><a href="index.html"     class="nav-link" data-page="index.html">Home</a></li>
+        <li><a href="about.html"     class="nav-link" data-page="about.html">About Us</a></li>
+        <li><a href="ourwork.html"   class="nav-link" data-page="ourwork.html">Our Work</a></li>
+        <li><a href="regions.html"   class="nav-link" data-page="regions.html">Regions</a></li>
+        <li><a href="resources.html" class="nav-link" data-page="resources.html">Resources &amp; News</a></li>
+        <li><a href="contact.html"   class="nav-link" data-page="contact.html">Contact Us</a></li>
+      </ul>
     </nav>
 
-    <!--
-      FIX 1: was class="menu-toggle"
-              must be  class="hamburger-btn"
-              components.js: qs('.hamburger-btn') — previous class caused a null lookup
-    -->
+    <!-- Mobile Menu Toggle -->
     <button
       class="hamburger-btn"
       aria-expanded="false"
@@ -63,12 +52,6 @@
       aria-label="Toggle navigation menu"
     >
       <span class="sr-only">Menu</span>
-      <!--
-        FIX 2: SVG line classes updated to match components.css:
-          .hamburger-btn[aria-expanded="true"] .hamburger-line--top  { rotate  45deg }
-          .hamburger-btn[aria-expanded="true"] .hamburger-line--mid  { opacity 0     }
-          .hamburger-btn[aria-expanded="true"] .hamburger-line--bottom{ rotate -45deg }
-      -->
       <svg
         class="hamburger-icon"
         width="24"
@@ -79,9 +62,9 @@
         aria-hidden="true"
         focusable="false"
       >
-        <line class="hamburger-line hamburger-line--top"    x1="4" y1="6"  x2="20" y2="6"  stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        <line class="hamburger-line hamburger-line--mid"    x1="4" y1="12" x2="20" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        <line class="hamburger-line hamburger-line--bottom" x1="4" y1="18" x2="20" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <line class="hamburger-line hamburger-line--top"    x1="3" y1="7"  x2="21" y2="7"  stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <line class="hamburger-line hamburger-line--mid"    x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <line class="hamburger-line hamburger-line--bottom" x1="3" y1="17" x2="21" y2="17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
       </svg>
     </button>
 
@@ -95,26 +78,31 @@
     role="region"
     aria-label="Mobile navigation"
   >
-    <nav aria-label="Mobile navigation links">
+    <nav class="mobile-nav-container" aria-label="Mobile navigation links">
       <a href="index.html"     class="mobile-nav-link" data-page="index.html">
-        Home <span class="mobile-nav-dot" aria-hidden="true"></span>
+        <span class="mobile-nav-text">Home</span>
+        <span class="mobile-nav-dot" aria-hidden="true"></span>
       </a>
       <a href="about.html"     class="mobile-nav-link" data-page="about.html">
-        About Us <span class="mobile-nav-dot" aria-hidden="true"></span>
+        <span class="mobile-nav-text">About Us</span>
+        <span class="mobile-nav-dot" aria-hidden="true"></span>
       </a>
       <a href="ourwork.html"   class="mobile-nav-link" data-page="ourwork.html">
-        Our Work <span class="mobile-nav-dot" aria-hidden="true"></span>
+        <span class="mobile-nav-text">Our Work</span>
+        <span class="mobile-nav-dot" aria-hidden="true"></span>
       </a>
       <a href="regions.html"   class="mobile-nav-link" data-page="regions.html">
-        Regions <span class="mobile-nav-dot" aria-hidden="true"></span>
+        <span class="mobile-nav-text">Regions</span>
+        <span class="mobile-nav-dot" aria-hidden="true"></span>
       </a>
       <a href="resources.html" class="mobile-nav-link" data-page="resources.html">
-        Resources &amp; News <span class="mobile-nav-dot" aria-hidden="true"></span>
+        <span class="mobile-nav-text">Resources &amp; News</span>
+        <span class="mobile-nav-dot" aria-hidden="true"></span>
       </a>
       <a href="contact.html"   class="mobile-nav-link" data-page="contact.html">
-        Contact Us <span class="mobile-nav-dot" aria-hidden="true"></span>
+        <span class="mobile-nav-text">Contact Us</span>
+        <span class="mobile-nav-dot" aria-hidden="true"></span>
       </a>
     </nav>
   </div>
-
 </header>

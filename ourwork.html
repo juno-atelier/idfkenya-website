@@ -5,66 +5,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="IDF Kenya's work — USAID Nuru Ya Mtoto, Kuimarisha Kaunti, Global Fund Malaria, and Seka Kagwa Clean Water projects delivering impact across Kenya.">
   <title>Our Work — Integrated Development Facility Kenya</title>
-  <link rel="icon" href="assets/images/logo1.png" type="image/png">
+  <link rel="icon" href="assets/images/logo1.svg" type="image/svg+xml"><!-- 32×32px -->
 
-  <!-- Google Fonts — identical to all other pages -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  <!-- Font Awesome 6.5.1 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
 
-  <!--
-    FIXED: All paths now use root-level references (no ../ prefix)
-    because all HTML files are at the root level.
-  -->
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/sections.css">
+  <link rel="stylesheet" href="css/sidenav.css">
   <link rel="stylesheet" href="css/responsive.css">
-  <!-- Our Work page stylesheet -->
   <link rel="stylesheet" href="css/ourwork.css">
 </head>
 
 <body>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       REQUIRED: Navbar injected here by components.js
-       Do NOT remove or rename this div.
-  ═══════════════════════════════════════════════════════════ -->
   <div id="navbar-placeholder"></div>
 
 
-  <!-- ============================================================
-       MOBILE HORIZONTAL SECTION NAV (visible ≤ 1100px)
-  ============================================================ -->
-  <nav class="mobile-work-nav" role="navigation" aria-label="Project sections">
-    <div class="mobile-work-nav-inner">
-      <a href="#nuru-ya-mtoto"    class="mobile-work-link" data-spy-target="nuru-ya-mtoto">
+  <nav class="mobile-tab-nav" role="navigation" aria-label="Project sections">
+    <div class="mobile-tab-nav__inner">
+      <a href="#nuru-ya-mtoto"    class="mobile-tab-nav__link mobile-tab-nav__link--active" data-spy-target="nuru-ya-mtoto">
         <i class="fa-solid fa-heart-pulse"></i>Nuru Ya Mtoto
       </a>
-      <a href="#kuimarisha-kaunti" class="mobile-work-link" data-spy-target="kuimarisha-kaunti">
+      <a href="#kuimarisha-kaunti" class="mobile-tab-nav__link" data-spy-target="kuimarisha-kaunti">
         <i class="fa-solid fa-landmark"></i>Kuimarisha Kaunti
       </a>
-      <a href="#global-fund-malaria" class="mobile-work-link" data-spy-target="global-fund-malaria">
+      <a href="#global-fund-malaria" class="mobile-tab-nav__link" data-spy-target="global-fund-malaria">
         <i class="fa-solid fa-syringe"></i>Global Fund Malaria
       </a>
-      <a href="#seka-kagwa"       class="mobile-work-link" data-spy-target="seka-kagwa">
+      <a href="#seka-kagwa"       class="mobile-tab-nav__link" data-spy-target="seka-kagwa">
         <i class="fa-solid fa-droplet"></i>Seka Kagwa Water
       </a>
     </div>
   </nav>
 
 
-  <!-- ============================================================
-       PAGE HERO
-  ============================================================ -->
   <header class="work-hero" role="banner">
-    <img class="work-hero-bg"
-      src="assets/images/nuru2_8Q58Pym.png"
-      alt="IDF Kenya field staff working with communities across Kenya"
-      loading="eager">
+   <img class="work-hero-bg"
+     src="assets/images/hero-ourwork.svg"
+     alt="IDF Kenya field staff working with communities across Kenya"
+     width="1920"
+     height="440"
+     loading="eager"
+     fetchpriority="high">
     <div class="work-hero-overlay" aria-hidden="true"></div>
     <div class="work-hero-content">
       <span class="work-hero-eyebrow">
@@ -82,66 +69,54 @@
   </header>
 
 
-  <!-- ============================================================
-       TWO-COLUMN LAYOUT: SIDENAV + MAIN CONTENT
-  ============================================================ -->
   <div class="work-layout">
 
-    <!-- STICKY SIDENAV (desktop ≥ 1100px) -->
-    <aside class="work-sidenav" aria-label="Project navigation">
-      <p class="sidenav-label">Our Projects</p>
-      <ul class="sidenav-list" role="list">
-        <li>
-          <a href="#nuru-ya-mtoto" class="active" data-spy-target="nuru-ya-mtoto">
-            <i class="fa-solid fa-heart-pulse"></i>USAID Nuru Ya Mtoto
+    <aside class="sidenav" aria-label="Project navigation">
+      <p class="sidenav__heading">Our Projects</p>
+      <ul class="sidenav__list" role="list">
+        <li class="sidenav__item">
+          <a href="#nuru-ya-mtoto" class="sidenav__link sidenav__link--active" data-spy-target="nuru-ya-mtoto">
+            <i class="fa-solid fa-heart-pulse sidenav__icon"></i>USAID Nuru Ya Mtoto
           </a>
         </li>
-        <li>
-          <a href="#kuimarisha-kaunti" data-spy-target="kuimarisha-kaunti">
-            <i class="fa-solid fa-landmark"></i>Kuimarisha Kaunti
+        <li class="sidenav__item">
+          <a href="#kuimarisha-kaunti" class="sidenav__link" data-spy-target="kuimarisha-kaunti">
+            <i class="fa-solid fa-landmark sidenav__icon"></i>Kuimarisha Kaunti
           </a>
         </li>
-        <li>
-          <a href="#global-fund-malaria" data-spy-target="global-fund-malaria">
-            <i class="fa-solid fa-syringe"></i>Global Fund Malaria
+        <li class="sidenav__item">
+          <a href="#global-fund-malaria" class="sidenav__link" data-spy-target="global-fund-malaria">
+            <i class="fa-solid fa-syringe sidenav__icon"></i>Global Fund Malaria
           </a>
         </li>
-        <li>
-          <a href="#seka-kagwa" data-spy-target="seka-kagwa">
-            <i class="fa-solid fa-droplet"></i>Seka Kagwa Water
+        <li class="sidenav__item">
+          <a href="#seka-kagwa" class="sidenav__link" data-spy-target="seka-kagwa">
+            <i class="fa-solid fa-droplet sidenav__icon"></i>Seka Kagwa Water
           </a>
         </li>
       </ul>
 
-      <!-- Reading progress bar -->
-      <div class="sidenav-progress" aria-label="Page reading progress">
-        <p class="sidenav-progress-label">Reading progress</p>
-        <div class="sidenav-progress-bar"
+      <div class="sidenav__progress" aria-label="Page reading progress">
+        <p class="sidenav__progress-label">Reading progress</p>
+        <div class="sidenav__progress-bar"
           role="progressbar"
           aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-          <div class="sidenav-progress-fill" id="workProgressFill"></div>
+          <div class="sidenav__progress-fill" id="workProgressFill"></div>
         </div>
       </div>
     </aside>
 
 
-    <!-- ========================================================
-         MAIN CONTENT
-    ========================================================= -->
     <main class="work-main" id="workMainContent">
 
 
-      <!-- ==================================================
-           PROJECT 1 — USAID NURU YA MTOTO
-      =================================================== -->
       <section id="nuru-ya-mtoto" class="work-section" aria-labelledby="nym-heading">
 
-        <!-- Banner -->
         <div class="work-banner reveal">
           <img class="work-banner-img"
-            src="assets/images/nuru2_8Q58Pym.png"
+            src="assets/images/our-work-nuru.svg"
             alt="USAID Nuru Ya Mtoto project staff and community members in Homa Bay County"
-            loading="lazy">
+            width="1200" height="480" loading="lazy">
           <div class="work-banner-overlay" aria-hidden="true"></div>
 
           <span class="work-status work-status--active">
@@ -154,16 +129,14 @@
               <h2 class="work-banner-title" id="nym-heading">USAID Nuru Ya Mtoto Project</h2>
             </div>
             <div class="work-banner-donors">
-              <img class="work-donor-logo" src="assets/images/usaid.png" alt="USAID logo">
-              <img class="work-donor-logo" src="assets/images/pepfar.png" alt="PEPFAR logo">
+              <img class="work-donor-logo" src="assets/images/Our-work-Us-Aid.svg" alt="USAID logo" width="160" height="64">
+              <img class="work-donor-logo" src="assets/images/Our-work-Path.svg" alt="PATH logo" width="160" height="64">
             </div>
           </div>
         </div>
 
-        <!-- Body: Narrative + Metrics -->
         <div class="work-body reveal reveal-delay-1">
 
-          <!-- Narrative -->
           <div class="work-narrative">
 
             <div class="work-tags">
@@ -220,7 +193,6 @@
 
           </div>
 
-          <!-- Metrics -->
           <div class="work-metrics">
             <p class="work-metrics-title">Impact at a glance</p>
 
@@ -265,24 +237,34 @@
 
         </div>
 
-        <!-- Gallery -->
         <div class="work-gallery">
           <div class="work-gallery-item reveal reveal-delay-1"
-            data-caption="OVC case management session — Homa Bay County">
+            data-caption="Our project team member, Boaz, posing for a photo during cheque presentation with students from Otaro Secondary School. The event was a wonderful opportunity for us to connect with the children and families who benefit from our project and to see firsthand the impact of our efforts. We were thrilled to be able to provide assistance that will make a real difference in the lives of these young learners
+">
             <img class="work-gallery-img"
-              src="assets/images/nuru2_8Q58Pym.png"
-              alt="NYM project case management session with vulnerable children in Homa Bay">
+              src="assets/images/Our-work-nuru 1.svg"
+              alt="NYM project case management session with vulnerable children in Homa Bay"
+              width="600" height="400">
           </div>
           <div class="work-gallery-item reveal reveal-delay-2"
-            data-caption="Household economic strengthening — Vihiga County">
-            <div class="gallery-placeholder">
+            data-caption="IDF Director, PATH Kenya Director and PATH Board Members in Nyangajo village visiting a caregiver support group supported through USAID Nuru Ya Mtoto Project
+">
+            <img class="work-gallery-img"
+              src="assets/images/Our-work-nuru-2.svg"
+              alt="NYM project case management session with vulnerable children in Homa Bay"
+              width="600" height="400">
+            <div class="gallery-placeholder" data-width="600" data-height="400">
               <i class="fa-regular fa-image"></i>
               <span>Household Visit<br>Vihiga County</span>
             </div>
           </div>
           <div class="work-gallery-item reveal reveal-delay-3"
-            data-caption="DREAMS programme — AGYW safe space activities">
-            <div class="gallery-placeholder">
+            data-caption="Stakeholders meeting at Sabatia, Emuhaya Subcounty, Vihiga County">
+            <img class="work-gallery-img"
+              src="assets/images/Our-work-nuru-3.svg"
+              alt="DREAMS programme — AGYW safe space activities"
+              width="600" height="400">
+            <div class="gallery-placeholder" data-width="600" data-height="400">
               <i class="fa-regular fa-image"></i>
               <span>DREAMS Programme<br>AGYW Safe Space</span>
             </div>
@@ -292,16 +274,13 @@
       </section>
 
 
-      <!-- ==================================================
-           PROJECT 2 — KUIMARISHA KAUNTI
-      =================================================== -->
       <section id="kuimarisha-kaunti" class="work-section" aria-labelledby="kk-heading">
 
         <div class="work-banner reveal">
           <img class="work-banner-img"
-            src="assets/images/seka2_otJQ6Q8.jpg"
+            src="assets/images/Our-work-kuimarisha.svg"
             alt="Community governance meeting under the Kuimarisha Kaunti project in Homa Bay County"
-            loading="lazy">
+            width="1200" height="480" loading="lazy">
           <div class="work-banner-overlay" aria-hidden="true"></div>
 
           <span class="work-status work-status--active">
@@ -314,7 +293,7 @@
               <h2 class="work-banner-title" id="kk-heading">Kuimarisha Kaunti Project</h2>
             </div>
             <div class="work-banner-donors">
-              <img class="work-donor-logo" src="assets/images/uraia.jpeg" alt="Uraia Trust logo">
+              <img class="work-donor-logo" src="assets/images/Our-work-Uraia.svg" alt="Uraia Trust logo" width="160" height="64">
             </div>
           </div>
         </div>
@@ -423,20 +402,26 @@
 
         <div class="work-gallery">
           <div class="work-gallery-item reveal reveal-delay-1"
-            data-caption="Civic forum — Rachuonyo Sub-County">
+            data-caption="Meeting with youth representatives from all the wards in Homa Bay County to understand their take on the county governance process, climate change mitigation and adaptation process.">
             <img class="work-gallery-img"
-              src="assets/images/seka2_otJQ6Q8.jpg"
-              alt="Community members at a Kuimarisha Kaunti civic engagement forum">
+              src="assets/images/Our-work-kuimarisha-1.svg"
+              alt="Community members at a Kuimarisha Kaunti civic engagement forum"
+              width="600" height="400">
           </div>
           <div class="work-gallery-item reveal reveal-delay-2"
-            data-caption="Ndovu Award ceremony — Homa Bay 2023">
+            data-caption="Training partners, community representatives and government department representatives on climate change governance. This training will maintain an active mitigation and adaptation strategy by improving funding to climate change adaptation programs and mainstreaming climate change into all county government departments.">
             <img class="work-gallery-img"
-              src="assets/images/usaid_award.jpg"
-              alt="IDF staff receiving the Ndovu Award 2023 for outstanding governance work">
+              src="assets/images/Our-work-kuimarisha-2.svg"
+              alt="IDF staff receiving the Ndovu Award 2023 for outstanding governance work"
+              width="600" height="400">
           </div>
           <div class="work-gallery-item reveal reveal-delay-3"
-            data-caption="Community dialogue — Mbita Sub-County">
-            <div class="gallery-placeholder">
+            data-caption="Meeting with County Government Departments on mainstreaming of PWD issues in all departments and ensure that PWDs have access to AGPO as stipulated in the Public Finance Act">
+            <img class="work-gallery-img"
+              src="assets/images/Our-work-kuimarisha-3.svg"
+              alt="IDF staff receiving the Ndovu Award 2023 for outstanding governance work"
+              width="600" height="400">
+            <div class="gallery-placeholder" data-width="600" data-height="400">
               <i class="fa-regular fa-image"></i>
               <span>Community Dialogue<br>Mbita Sub-County</span>
             </div>
@@ -446,16 +431,13 @@
       </section>
 
 
-      <!-- ==================================================
-           PROJECT 3 — GLOBAL FUND MALARIA
-      =================================================== -->
       <section id="global-fund-malaria" class="work-section" aria-labelledby="gfm-heading">
 
         <div class="work-banner reveal">
           <img class="work-banner-img"
-            src="assets/images/county2_uWjLMiN.jpg"
-            alt="Community health volunteers conducting malaria case management during the Global Fund project"
-            loading="lazy">
+            src="assets/images/Our-work-global.svg"
+            alt="A trained CHV performing Mrdt test to a child at the health facility during a quality assurance activity to ascertain their skills and knowledge on CCMm"
+            width="1200" height="480" loading="lazy">
           <div class="work-banner-overlay" aria-hidden="true"></div>
 
           <span class="work-status work-status--completed">
@@ -468,8 +450,7 @@
               <h2 class="work-banner-title" id="gfm-heading">Global Fund Malaria Project</h2>
             </div>
             <div class="work-banner-donors">
-              <img class="work-donor-logo" src="assets/images/globalfund.jpg" alt="Global Fund logo">
-              <img class="work-donor-logo" src="assets/images/amref.jpeg" alt="AMREF Health Africa logo">
+              <img class="work-donor-logo" src="assets/images/Our-work-Amref-1.svg" alt="AMREF Health Africa logo" width="160" height="64">
             </div>
           </div>
         </div>
@@ -569,7 +550,7 @@
               <i class="fa-regular fa-calendar"></i>
               <div>
                 <strong>Project Period</strong>
-                2018 — 2021 · Completed
+                July 2021 – June 2024 · Completed
               </div>
             </div>
           </div>
@@ -578,21 +559,31 @@
 
         <div class="work-gallery">
           <div class="work-gallery-item reveal reveal-delay-1"
-            data-caption="CHV conducting mRDT testing — Homa Bay">
+            data-caption="Sample of recommended biosafety kits to be used by CHVs for mrdt waste management
+">
             <img class="work-gallery-img"
-              src="assets/images/county2_uWjLMiN.jpg"
-              alt="Community health volunteer conducting malaria rapid diagnostic test in Homa Bay County">
+              src="assets/images/Our-work-Global-1.svg"
+              alt="Community health volunteer conducting malaria rapid diagnostic test in Homa Bay County"
+              width="600" height="400">
           </div>
           <div class="work-gallery-item reveal reveal-delay-2"
-            data-caption="CHV training session — Meru County">
-            <div class="gallery-placeholder">
+            data-caption="County Public Health Officer Mr. Kabaka and County Director of Health Dr. Gordon Okomo officially opening Community Case Management Training of CHEWs">
+            <img class="work-gallery-img"
+              src="assets/images/Our-work-Global-2.svg"
+              alt="Community health volunteer conducting malaria rapid diagnostic test in Homa Bay County"
+              width="600" height="400">
+            <div class="gallery-placeholder" data-width="600" data-height="400">
               <i class="fa-regular fa-image"></i>
               <span>CHV Training<br>Meru County</span>
             </div>
           </div>
           <div class="work-gallery-item reveal reveal-delay-3"
-            data-caption="Malaria quality audit — Kwale County">
-            <div class="gallery-placeholder">
+            data-caption="CHVs account for malaria commodities during CHU monthly data review meeting.">
+            <img class="work-gallery-img"
+              src="assets/images/Our-work-Global-3.svg"
+              alt="Community health volunteer conducting malaria rapid diagnostic test in Homa Bay County"
+              width="600" height="400">
+            <div class="gallery-placeholder" data-width="600" data-height="400">
               <i class="fa-regular fa-image"></i>
               <span>Quality Audit<br>Kwale County</span>
             </div>
@@ -602,16 +593,13 @@
       </section>
 
 
-      <!-- ==================================================
-           PROJECT 4 — SEKA KAGWA CLEAN WATER
-      =================================================== -->
       <section id="seka-kagwa" class="work-section" aria-labelledby="sk-heading">
 
         <div class="work-banner reveal">
           <img class="work-banner-img"
-            src="assets/images/seka_KbmhChW.jpg"
-            alt="Seka Kagwa clean water purification system serving 15,000 residents in Homa Bay County"
-            loading="lazy">
+            src="assets/images/Our-work-seka.svg"
+            alt="H.E. Hon. Gladys Wanga, Governor, Homa Bay County during a benchmarking by H.E. Hon. Dr. Paul Otuoma, Governor, Busia County at the project site."
+            width="1200" height="480" loading="lazy">
           <div class="work-banner-overlay" aria-hidden="true"></div>
 
           <span class="work-status work-status--active">
@@ -624,7 +612,7 @@
               <h2 class="work-banner-title" id="sk-heading">Seka Kagwa Clean Water Project</h2>
             </div>
             <div class="work-banner-donors">
-              <img class="work-donor-logo" src="assets/images/japan2.jpg" alt="Embassy of Japan in Kenya logo">
+              <img class="work-donor-logo" src="assets/images/Our-work-Embassy-of-Japan.svg" alt="Embassy of Japan in Kenya logo" width="160" height="64">
             </div>
           </div>
         </div>
@@ -733,24 +721,34 @@
 
         <div class="work-gallery">
           <div class="work-gallery-item reveal reveal-delay-1"
-            data-caption="Yamaha purification system — Seka Kagwa">
+            data-caption="Launching of the Seka Kagwa Community Water Supply Project">
             <img class="work-gallery-img"
-              src="assets/images/seka_KbmhChW.jpg"
-              alt="Seka Kagwa water purification system installed by IDF with Japan Embassy support">
+              src="assets/images/Our-work-seka-1.svg"
+              alt="Seka Kagwa water purification system installed by IDF with Japan Embassy support"
+              width="600" height="400">
           </div>
           <div class="work-gallery-item reveal reveal-delay-2"
-            data-caption="Community water point — daily distribution">
-            <div class="gallery-placeholder">
+            data-caption="View of the Seka Community Water Supply Project">
+            <img class="work-gallery-img"
+              src="assets/images/Our-work-seka-2.svg"
+              alt="Seka Kagwa water purification system installed by IDF with Japan Embassy support"
+              width="600" height="400">
+            <!-- Image placeholder: 600×400px -->
+            <div class="gallery-placeholder" data-width="600" data-height="400">
               <i class="fa-regular fa-image"></i>
               <span>Community Water Point<br>Daily Distribution</span>
             </div>
           </div>
-          <div class="work-gallery-item reveal reveal-delay-3"
+          <!-- <div class="work-gallery-item reveal reveal-delay-3"
             data-caption="Water management committee training">
-            <div class="gallery-placeholder">
+            <img class="work-gallery-img"
+              src="assets/images/seka_KbmhChW.svg"
+              alt="Seka Kagwa water purification system installed by IDF with Japan Embassy support"
+              width="600" height="400">
+            <div class="gallery-placeholder" data-width="600" data-height="400">
               <i class="fa-regular fa-image"></i>
               <span>Management Committee<br>Training Session</span>
-            </div>
+            </div> -->
           </div>
         </div>
 
@@ -761,24 +759,11 @@
   </div>
 
 
-  <!-- ═══════════════════════════════════════════════════════════
-       REQUIRED: Footer injected here by components.js
-       Do NOT remove or rename this div.
-  ═══════════════════════════════════════════════════════════ -->
   <div id="footer-placeholder"></div>
 
 
-  <!--
-    FIXED: Script paths now use root-level references (no ../ prefix)
-    components.js must load FIRST — it injects the navbar and footer
-    that the other scripts may depend on.
-    
-    IMPORTANT: main.js should be loaded as type="module" to match
-    Juno Atelier's working pattern.
-  -->
   <script src="js/components.js"></script>
   <script type="module" src="js/main.js"></script>
-  <!-- scroll.js and utils.js should be imported in main.js, not loaded separately -->
 
 </body>
 </html>

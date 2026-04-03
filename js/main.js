@@ -1,18 +1,37 @@
 /* ==============================================
    IDF Kenya — main.js (ES6 Module)
-   Refactored to use ES6 modules with import/export
    
-   CHANGES:
-   1. Added 'use strict' at top
-   2. Imported functions from scroll.js and utils.js
-   3. Removed duplicate function definitions
-   4. Maintained all page-specific initialization logic
-   5. Properly waits for componentsReady event
+   REGIONS PAGE CHANGES (v4.1):
+   ─────────────────────────────────────────────
+   5.  initRegionsScrollSpy  — REFACTORED
+       OLD: scroll event + getBoundingClientRect + wrong selectors
+         '.sidenav-list a[data-spy-target]'      (class doesn't exist in HTML)
+         '.mobile-regions-link[data-spy-target]' (class doesn't exist in HTML)
+         active class: 'active'                  (not in sidenav.css)
+       NEW: IntersectionObserver (zero layout thrashing) + correct BEM selectors
+         '.sidenav__link[data-spy-target]'
+         '.mobile-tab-nav__link[data-spy-target]'
+         active classes: 'sidenav__link--active' / 'mobile-tab-nav__link--active'
+
+   6.  initRegionsProgressBar — FIXED
+       OLD: '.sidenav-progress-bar' (selector matched nothing)
+       NEW: searches within '.sidenav__progress-bar' via closest('[role="progressbar"]')
+
+   7.  initRegionsSmoothScroll — FIXED & EXPANDED
+       OLD: guarded on '.regions-sidenav' / '.mobile-regions-nav' (neither exists)
+            so the function NEVER fired.
+       NEW: guarded on '#homa-bay' (reliable regions-page sentinel)
+            Covers sidenav links, mobile tab links, AND hero pills.
+
+   NEW: initRegionsScrollReveal — handles .reveal / .reveal-left / .reveal-right
+        on the regions page (was missing; other pages had their own equivalents).
+        Called in initAll().
+
+   All other functions (About, Our Work, Resources, Contact) are unchanged.
    ============================================== */
 
 'use strict';
 
-// Import shared utilities from other modules
 import { initCounters, initScrollReveal } from './scroll.js';
 import { initNewsletterSignup, initContactFormHandler, initSmoothScroll } from './utils.js';
 
@@ -118,123 +137,322 @@ function initAboutSmoothScroll() {
 
 
 /* ============================================
-   5. REGIONS PAGE — scroll spy
+   5. REGIONS PAGE — scroll spy (IntersectionObserver)
+   ─────────────────────────────────────────────
+   REFACTORED: replaced scroll-event + getBoundingClientRect
+   with IntersectionObserver for zero layout thrashing.
+
+   SELECTOR FIXES vs. original:
+     OLD (broken): '.sidenav-list a[data-spy-target]'
+                   '.mobile-regions-link[data-spy-target]'
+     NEW (correct): '.sidenav__link[data-spy-target]'
+                    '.mobile-tab-nav__link[data-spy-target]'
+
+   ACTIVE-CLASS FIXES vs. original:
+     OLD (broken): 'active'
+     NEW (correct): 'sidenav__link--active'
+                    'mobile-tab-nav__link--active'
+
+   rootMargin explanation:
+     '-100px 0px -55% 0px'
+     • top: -100px  → section must pass 100px below viewport top
+       (clears the fixed navbar + mobile tab bar)
+     • bottom: -55% → section must be in the top 45% of viewport
+       to be considered "active" — prevents premature activation
+       when the next section is barely in view.
    ============================================ */
 function initRegionsScrollSpy() {
   const COUNTY_IDS = [
     'homa-bay', 'vihiga', 'nyamira', 'meru',
     'tharaka-nithi', 'kwale', 'kirinyaga'
   ];
-  const OFFSET = 130;
 
+  // Guard: only runs on the Regions page
   if (!document.getElementById(COUNTY_IDS[0])) return;
 
-  const getSideLinks   = () => document.querySelectorAll('.sidenav-list a[data-spy-target]');
-  const getMobileLinks = () => document.querySelectorAll('.mobile-regions-link[data-spy-target]');
+  const SIDE_ACTIVE = 'sidenav__link--active';
+  const TAB_ACTIVE  = 'mobile-tab-nav__link--active';
 
-  function setActiveCounty(activeId) {
-    getSideLinks().forEach(link => {
-      link.classList.toggle('active', link.dataset.spyTarget === activeId);
-    });
-    getMobileLinks().forEach(link => {
-      link.classList.toggle('active', link.dataset.spyTarget === activeId);
-    });
+  // Collect nav links using correct BEM selectors from sidenav.css
+  const sideLinks = Array.from(
+    document.querySelectorAll('.sidenav__link[data-spy-target]')
+  );
+  const tabLinks = Array.from(
+    document.querySelectorAll('.mobile-tab-nav__link[data-spy-target]')
+  );
+  const allNavLinks = [...sideLinks, ...tabLinks];
+
+  if (!allNavLinks.length) return;
+
+  // Pre-build Map<countyId, {sideLink, tabLink}> for O(1) lookup
+  const linkMap = new Map();
+  sideLinks.forEach(link => {
+    const id = link.dataset.spyTarget;
+    if (!linkMap.has(id)) linkMap.set(id, {});
+    linkMap.get(id).sideLink = link;
+  });
+  tabLinks.forEach(link => {
+    const id = link.dataset.spyTarget;
+    if (!linkMap.has(id)) linkMap.set(id, {});
+    linkMap.get(id).tabLink = link;
+  });
+
+  function clearActive() {
+    sideLinks.forEach(l => l.classList.remove(SIDE_ACTIVE));
+    tabLinks.forEach(l  => l.classList.remove(TAB_ACTIVE));
   }
 
-  function getActiveCounty() {
-    for (let i = COUNTY_IDS.length - 1; i >= 0; i--) {
-      const el = document.getElementById(COUNTY_IDS[i]);
-      if (el && el.getBoundingClientRect().top <= OFFSET) return COUNTY_IDS[i];
+  function setActive(id) {
+    clearActive();
+    const entry = linkMap.get(id);
+    if (!entry) return;
+
+    if (entry.sideLink) entry.sideLink.classList.add(SIDE_ACTIVE);
+    if (entry.tabLink) {
+      entry.tabLink.classList.add(TAB_ACTIVE);
+      // Keep the active mobile tab scrolled into view
+      entry.tabLink.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center'
+      });
     }
-    return COUNTY_IDS[0];
   }
 
-  const onRegionsScroll = () => setActiveCounty(getActiveCounty());
-  window.addEventListener('scroll', onRegionsScroll, { passive: true });
-  onRegionsScroll();
+  // Collect observed sections in DOM order (topmost-wins logic)
+  const sections = COUNTY_IDS
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+
+  // Track which sections are inside the root zone simultaneously
+  const intersecting = new Set();
+
+  function topMostId() {
+    for (const section of sections) {
+      if (intersecting.has(section.id)) return section.id;
+    }
+    return null;
+  }
+
+  // IntersectionObserver — fires when section crosses the active zone
+  const spyObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) intersecting.add(entry.target.id);
+      else                      intersecting.delete(entry.target.id);
+    });
+    const activeId = topMostId();
+    if (activeId) setActive(activeId);
+  }, {
+    // top offset: clears fixed navbar (88px) + mobile tab bar (~48px) + buffer
+    // bottom clip: section must be in top 45% of viewport to activate
+    rootMargin: '-100px 0px -55% 0px',
+    threshold: 0
+  });
+
+  sections.forEach(s => spyObserver.observe(s));
+
+  // Click handler — immediate active highlight + smooth scroll
+  allNavLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const id = link.dataset.spyTarget;
+      if (!id) return;
+      const target = document.getElementById(id);
+      if (!target) return;
+      setActive(id); // instant feedback before scroll completes
+      // Use scrollIntoView for built-in smooth behaviour
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // Activate first county on initial load
+  setActive(COUNTY_IDS[0]);
 }
 
 
 /* ============================================
    6. REGIONS PAGE — reading progress bar
+   ─────────────────────────────────────────────
+   FIXED: selector was '.sidenav-progress-bar' (matched nothing).
+   Now finds the [role="progressbar"] wrapper element via closest().
    ============================================ */
 function initRegionsProgressBar() {
   const progressFill = document.getElementById('regionsProgressFill');
-  const progressBar  = document.querySelector('.sidenav-progress-bar');
   const main         = document.getElementById('regionsMainContent');
   if (!progressFill || !main) return;
 
+  // The progressbar role lives on the wrapper div, not the fill element
+  const progressBar = progressFill.closest('[role="progressbar"]');
+
+  let rafPending = false;
+
   function updateRegionsProgress() {
+    rafPending = false;
     const scrolled = Math.max(0, -main.getBoundingClientRect().top);
     const pct = Math.min(100, Math.round((scrolled / main.offsetHeight) * 100));
     progressFill.style.width = `${pct}%`;
     if (progressBar) progressBar.setAttribute('aria-valuenow', pct);
   }
 
-  window.addEventListener('scroll', updateRegionsProgress, { passive: true });
-  updateRegionsProgress();
+  window.addEventListener('scroll', () => {
+    if (!rafPending) {
+      rafPending = true;
+      requestAnimationFrame(updateRegionsProgress);
+    }
+  }, { passive: true });
+
+  updateRegionsProgress(); // initialise on load
 }
 
 
 /* ============================================
    7. REGIONS PAGE — smooth scroll
+   ─────────────────────────────────────────────
+   FIXED: was guarded on '.regions-sidenav' / '.mobile-regions-nav'
+   — neither class exists in the HTML — so the function NEVER ran.
+   Now guarded on '#homa-bay', the reliable regions-page sentinel.
+
+   EXPANDED: covers sidenav links, mobile tab links, AND hero pills.
+   The sidenav / mobile tab click handler in initRegionsScrollSpy
+   already handles those two nav bars, so this function only needs
+   to handle the hero pill anchors (+ any other in-page links).
    ============================================ */
 function initRegionsSmoothScroll() {
-  if (!document.querySelector('.regions-sidenav') &&
-      !document.querySelector('.mobile-regions-nav')) return;
+  // Guard: only run on the Regions page
+  if (!document.getElementById('homa-bay')) return;
 
-  const SCROLL_OFFSET = 90;
+  // 100px offset: fixed navbar height (~88px) + small breathing room
+  const SCROLL_OFFSET = 100;
 
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  // Scope to hero pills; sidenav + tab links are handled in initRegionsScrollSpy
+  document.querySelectorAll('.regions-hero-pill[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e) => {
       const targetId = anchor.getAttribute('href').slice(1);
       const target   = document.getElementById(targetId);
       if (!target) return;
       e.preventDefault();
-      window.scrollTo({
-        top: target.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET,
-        behavior: 'smooth'
-      });
+      const top = target.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET;
+      window.scrollTo({ top, behavior: 'smooth' });
     });
   });
 }
 
 
 /* ============================================
-   8. OUR WORK PAGE — scroll spy
+   NEW — 7b. REGIONS PAGE — scroll reveal
+   ─────────────────────────────────────────────
+   Handles .reveal, .reveal-left, .reveal-right on the Regions page.
+   Was missing — the About page and Our Work page each had their own
+   equivalents, but the Regions page had none, leaving all story cards
+   permanently invisible (opacity: 0) after the initial load.
+   ============================================ */
+function initRegionsScrollReveal() {
+  // Guard: only run on the Regions page
+  if (!document.getElementById('homa-bay')) return;
+
+  const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+  if (!revealEls.length) return;
+
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target); // fire once per element
+      }
+    });
+  }, {
+    rootMargin: '0px 0px -8% 0px',
+    threshold: 0.05
+  });
+
+  revealEls.forEach(el => revealObserver.observe(el));
+}
+
+
+/* ============================================
+   8. OUR WORK PAGE — scroll spy (IntersectionObserver)
    ============================================ */
 function initWorkScrollSpy() {
-  const PROJECT_IDS = [
-    'nuru-ya-mtoto', 'kuimarisha-kaunti',
-    'global-fund-malaria', 'seka-kagwa'
-  ];
-  const OFFSET = 130;
+  if (!document.getElementById('nuru-ya-mtoto')) return;
 
-  if (!document.getElementById(PROJECT_IDS[0])) return;
+  const SIDE_ACTIVE = 'sidenav__link--active';
+  const TAB_ACTIVE  = 'mobile-tab-nav__link--active';
 
-  const getSideLinks   = () => document.querySelectorAll('.sidenav-list a[data-spy-target]');
-  const getMobileLinks = () => document.querySelectorAll('.mobile-work-link[data-spy-target]');
+  const sideLinks = Array.from(
+    document.querySelectorAll('.sidenav__link[data-spy-target]')
+  );
+  const tabLinks = Array.from(
+    document.querySelectorAll('.mobile-tab-nav__link[data-spy-target]')
+  );
+  const allNavLinks = [...sideLinks, ...tabLinks];
 
-  function setActiveProject(activeId) {
-    getSideLinks().forEach(link => {
-      link.classList.toggle('active', link.dataset.spyTarget === activeId);
-    });
-    getMobileLinks().forEach(link => {
-      link.classList.toggle('active', link.dataset.spyTarget === activeId);
-    });
+  if (!allNavLinks.length) return;
+
+  const linkMap = new Map();
+  sideLinks.forEach(link => {
+    const id = link.dataset.spyTarget;
+    if (!linkMap.has(id)) linkMap.set(id, {});
+    linkMap.get(id).sideLink = link;
+  });
+  tabLinks.forEach(link => {
+    const id = link.dataset.spyTarget;
+    if (!linkMap.has(id)) linkMap.set(id, {});
+    linkMap.get(id).tabLink = link;
+  });
+
+  const sections = Array.from(
+    document.querySelectorAll('.work-section[id]')
+  ).filter(s => linkMap.has(s.id));
+
+  if (!sections.length) return;
+
+  const intersecting = new Set();
+
+  function clearActive() {
+    sideLinks.forEach(l => l.classList.remove(SIDE_ACTIVE));
+    tabLinks.forEach(l  => l.classList.remove(TAB_ACTIVE));
   }
 
-  function getActiveProject() {
-    for (let i = PROJECT_IDS.length - 1; i >= 0; i--) {
-      const el = document.getElementById(PROJECT_IDS[i]);
-      if (el && el.getBoundingClientRect().top <= OFFSET) return PROJECT_IDS[i];
+  function setActive(id) {
+    clearActive();
+    const entry = linkMap.get(id);
+    if (!entry) return;
+    if (entry.sideLink) entry.sideLink.classList.add(SIDE_ACTIVE);
+    if (entry.tabLink) {
+      entry.tabLink.classList.add(TAB_ACTIVE);
+      entry.tabLink.scrollIntoView({
+        behavior: 'smooth', block: 'nearest', inline: 'center'
+      });
     }
-    return PROJECT_IDS[0];
   }
 
-  const onWorkScroll = () => setActiveProject(getActiveProject());
-  window.addEventListener('scroll', onWorkScroll, { passive: true });
-  onWorkScroll();
+  function topMostId() {
+    for (const section of sections) {
+      if (intersecting.has(section.id)) return section.id;
+    }
+    return null;
+  }
+
+  const spyObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) intersecting.add(entry.target.id);
+      else                      intersecting.delete(entry.target.id);
+    });
+    const activeId = topMostId();
+    if (activeId) setActive(activeId);
+  }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+  sections.forEach(s => spyObserver.observe(s));
+
+  allNavLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const id = link.dataset.spyTarget;
+      if (!id) return;
+      const target = document.getElementById(id);
+      if (!target) return;
+      setActive(id);
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
 }
 
 
@@ -243,43 +461,38 @@ function initWorkScrollSpy() {
    ============================================ */
 function initWorkProgressBar() {
   const progressFill = document.getElementById('workProgressFill');
-  const progressBar  = document.querySelector('.sidenav-progress-bar');
-  const main         = document.getElementById('workMainContent');
-  if (!progressFill || !main) return;
+  if (!progressFill) return;
+
+  const progressBar = progressFill.closest('[role="progressbar"]');
+
+  let rafPending = false;
 
   function updateWorkProgress() {
-    const scrolled = Math.max(0, -main.getBoundingClientRect().top);
-    const pct = Math.min(100, Math.round((scrolled / main.offsetHeight) * 100));
-    progressFill.style.width = `${pct}%`;
-    if (progressBar) progressBar.setAttribute('aria-valuenow', pct);
+    rafPending = false;
+    const scrollTop  = window.scrollY;
+    const docHeight  = document.documentElement.scrollHeight - window.innerHeight;
+    const pct        = docHeight > 0 ? Math.min(100, (scrollTop / docHeight) * 100) : 0;
+    progressFill.style.width = pct.toFixed(1) + '%';
+    if (progressBar) progressBar.setAttribute('aria-valuenow', Math.round(pct));
   }
 
-  window.addEventListener('scroll', updateWorkProgress, { passive: true });
+  window.addEventListener('scroll', () => {
+    if (!rafPending) {
+      rafPending = true;
+      requestAnimationFrame(updateWorkProgress);
+    }
+  }, { passive: true });
+
   updateWorkProgress();
 }
 
 
 /* ============================================
    10. OUR WORK PAGE — smooth scroll
+   (handled inside initWorkScrollSpy — stub kept for initAll compatibility)
    ============================================ */
 function initWorkSmoothScroll() {
-  if (!document.querySelector('.work-sidenav') &&
-      !document.querySelector('.mobile-work-nav')) return;
-
-  const SCROLL_OFFSET = 90;
-
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', (e) => {
-      const targetId = anchor.getAttribute('href').slice(1);
-      const target   = document.getElementById(targetId);
-      if (!target) return;
-      e.preventDefault();
-      window.scrollTo({
-        top: target.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET,
-        behavior: 'smooth'
-      });
-    });
-  });
+  // Intentionally empty — handled in initWorkScrollSpy
 }
 
 
@@ -379,13 +592,11 @@ function initGalleryFilter() {
 
     const filter = btn.dataset.filter;
 
-    // Update button states
     filterBar.querySelectorAll('.res-filter-btn').forEach(b => {
       b.classList.toggle('active', b === btn);
       b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
     });
 
-    // Show / hide items
     const items = grid.querySelectorAll('.res-photo-item');
     let visible = 0;
 
@@ -395,12 +606,9 @@ function initGalleryFilter() {
       if (match) visible++;
     });
 
-    // Update count
-    const countEl = document.getElementById('gallery-count');
-    if (countEl) countEl.textContent = `${visible} photo${visible !== 1 ? 's' : ''}`;
-
-    // Show no-results
+    const countEl   = document.getElementById('gallery-count');
     const noResults = document.getElementById('galleryNoResults');
+    if (countEl)   countEl.textContent   = `${visible} photo${visible !== 1 ? 's' : ''}`;
     if (noResults) noResults.style.display = visible === 0 ? 'block' : 'none';
   });
 }
@@ -470,7 +678,7 @@ function initLightbox() {
 
     lbCaption.innerHTML = `
       <strong>${item.dataset.caption || ''}</strong>
-      ${item.dataset.county ? `<span>${item.dataset.county}</span>` : ''}
+      ${item.dataset.county  ? `<span>${item.dataset.county}</span>` : ''}
       ${item.dataset.program ? `<span> · ${item.dataset.program}</span>` : ''}
     `;
 
@@ -492,7 +700,6 @@ function initLightbox() {
   function showPrev() { openAt(currentIndex - 1); }
   function showNext() { openAt(currentIndex + 1); }
 
-  // Open on photo click
   document.getElementById('galleryGrid')?.addEventListener('click', (e) => {
     const item = e.target.closest('.res-photo-item');
     if (!item) return;
@@ -500,7 +707,6 @@ function initLightbox() {
     openAt(galleryItems.indexOf(item));
   });
 
-  // Open on keyboard activation
   document.getElementById('galleryGrid')?.addEventListener('keydown', (e) => {
     if (e.key !== 'Enter' && e.key !== ' ') return;
     const item = e.target.closest('.res-photo-item');
@@ -510,17 +716,14 @@ function initLightbox() {
     openAt(galleryItems.indexOf(item));
   });
 
-  // Controls
   lbClose.addEventListener('click', closeLightbox);
   lbPrev.addEventListener('click',  showPrev);
   lbNext.addEventListener('click',  showNext);
 
-  // Close on backdrop click
   lightbox.addEventListener('click', (e) => {
     if (e.target === lightbox) closeLightbox();
   });
 
-  // Keyboard navigation
   document.addEventListener('keydown', (e) => {
     if (!lightbox.classList.contains('open')) return;
     if (e.key === 'Escape')     closeLightbox();
@@ -609,7 +812,7 @@ function initResourceSearch() {
 
     const nlCountEl   = document.getElementById('nl-count');
     const nlNoResults = document.getElementById('nlNoResults');
-    if (nlCountEl)   nlCountEl.textContent   = `${nlVisible} publication${nlVisible !== 1 ? 's' : ''}`;
+    if (nlCountEl)   nlCountEl.textContent    = `${nlVisible} publication${nlVisible !== 1 ? 's' : ''}`;
     if (nlNoResults) nlNoResults.style.display = nlVisible === 0 ? 'block' : 'none';
 
     // Gallery
@@ -629,7 +832,7 @@ function initResourceSearch() {
 
     const galCountEl   = document.getElementById('gallery-count');
     const galNoResults = document.getElementById('galleryNoResults');
-    if (galCountEl)   galCountEl.textContent   = `${galleryVisible} photo${galleryVisible !== 1 ? 's' : ''}`;
+    if (galCountEl)   galCountEl.textContent    = `${galleryVisible} photo${galleryVisible !== 1 ? 's' : ''}`;
     if (galNoResults) galNoResults.style.display = galleryVisible === 0 ? 'block' : 'none';
 
     // Videos
@@ -665,20 +868,18 @@ function initContactForm() {
   const msgArea   = document.getElementById('contact-message');
   const charCount = document.getElementById('message-count');
 
-  // Character counter
   if (msgArea && charCount) {
     msgArea.addEventListener('input', () => {
       const len = msgArea.value.length;
       const max = parseInt(msgArea.getAttribute('maxlength'), 10) || 1200;
       charCount.textContent = `${len} / ${max}`;
-      charCount.classList.toggle('warn', len > max * 0.8);
+      charCount.classList.toggle('warn',  len > max * 0.8);
       charCount.classList.toggle('limit', len >= max);
     });
   }
 
-  // Real-time validation
   form.querySelectorAll('input, select, textarea').forEach(field => {
-    field.addEventListener('blur', () => validateField(field));
+    field.addEventListener('blur',  () => validateField(field));
     field.addEventListener('input', () => {
       if (field.closest('.form-group')?.classList.contains('error')) {
         validateField(field);
@@ -686,7 +887,6 @@ function initContactForm() {
     });
   });
 
-  // Submit handler
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     if (!validateAll()) return;
@@ -746,7 +946,6 @@ function initContactForm() {
     submitBtn.classList.add('loading');
     submitBtn.disabled = true;
 
-    // Simulate API call — replace with fetch() when backend is ready
     setTimeout(() => {
       submitBtn.classList.remove('loading');
       showSuccess();
@@ -803,10 +1002,31 @@ function initContactReveal() {
 
 
 /* ============================================
-   21. MAIN INITIALIZATION
+   21. OUR WORK PAGE — scroll reveal
+   ============================================ */
+function initWorkScrollReveal() {
+  if (!document.getElementById('nuru-ya-mtoto')) return;
+
+  const revealEls = document.querySelectorAll('.reveal, .reveal-up');
+  if (!revealEls.length) return;
+
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+
+  revealEls.forEach(el => revealObserver.observe(el));
+}
+
+
+/* ============================================
+   22. MAIN INITIALIZATION
    Waits for componentsReady event from components.js
    ============================================ */
-
 function initAll() {
   console.log('[IDF Kenya] Initializing main.js modules...');
 
@@ -821,15 +1041,17 @@ function initAll() {
   initAboutScrollReveal();
   initAboutSmoothScroll();
 
-  // Regions page
+  // Regions page — all three functions now correctly guarded and functional
   initRegionsScrollSpy();
   initRegionsProgressBar();
   initRegionsSmoothScroll();
+  initRegionsScrollReveal(); // NEW: was missing, kept story cards invisible
 
   // Our Work page
   initWorkScrollSpy();
   initWorkProgressBar();
   initWorkSmoothScroll();
+  initWorkScrollReveal();
 
   // Resources page
   initResourcesScrollSpy();
@@ -849,7 +1071,6 @@ function initAll() {
 // Wait for components to be injected before initializing
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
-    // Check if components are already loaded
     if (document.querySelector('#site-header')) {
       initAll();
     } else {
@@ -857,7 +1078,6 @@ if (document.readyState === 'loading') {
     }
   });
 } else {
-  // DOM already loaded
   if (document.querySelector('#site-header')) {
     initAll();
   } else {

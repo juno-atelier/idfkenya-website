@@ -1,38 +1,104 @@
 /* ==============================================
-   IDF Kenya — home.css
-   Hero enhancements scoped to index.html only.
-   Load AFTER sections.css so these rules win.
+   IDF Kenya — home.css  (v4.1 — Sync Edition)
+   Homepage hero styles, scoped to index.html only.
+
+   SYNCHRONISATION TARGET: ourwork.css .work-hero
+   Every annotated value below has been verified
+   against the Our Work hero so both pages are
+   pixel-identical in gradient, typography, and
+   text-colour decisions.
+
+   LAYER ORDER (bottom → top)
+   ─────────────────────────────────────────────
+   z-index 0 │ .hero-bg          Background image
+   z-index 1 │ .hero-overlay     108° gradient veil
+   z-index 2 │ .hero-content     Text / CTAs
+             │ .hero-accent-line Decorative stripe
+             │ .hero-scroll      Scroll indicator
+   ─────────────────────────────────────────────
+   HOW TO SWAP THE BACKGROUND IMAGE
+   Change the CSS custom-property on the <section>
+   element in index.html:
+     style="--hero-bg-image: url('assets/images/NEW_IMAGE.jpg');"
+   No CSS changes are required — the property
+   cascades automatically into .hero-bg.
    ============================================== */
 
 
-/* ── HERO: RICH LAYERED BACKGROUND ────────────────────────────────────────
-   Three layers of CSS create a visually rich background that looks great
-   even when the photograph fails to load:
-     1. Radial "glow" spots in navy blue and green (brand warmth)
-     2. Linear base gradient (dark left → mid navy right)
-   When the photo IS present it shows through the .hero-overlay on the right.
-───────────────────────────────────────────────────────────────────────────── */
+/* ══════════════════════════════════════════════
+   1. HERO CONTAINER
+   Full-viewport height; dark navy fallback so the
+   page is never blank while the image loads.
+   ══════════════════════════════════════════════ */
 .hero {
-  background:
-    radial-gradient(ellipse 60% 80% at 15% 55%, rgba(46,109,180,0.18) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 50% at 85% 20%, rgba(58,125,68,0.10) 0%, transparent 60%),
-    linear-gradient(140deg, #070e1c 0%, #0d1a2e 35%, #1B2E4B 100%);
+  position: relative;
+  /* Fallback base matches --idf-navy-dark token */
+  background-color: #0f1e33;
 }
 
 
-/* ── HERO LAYERS ─────────────────────────────────────────────────────────── */
+/* ══════════════════════════════════════════════
+   2. LAYER 0 — BACKGROUND IMAGE
+   Empty <div class="hero-bg"> receives the image
+   via the CSS custom-property set inline on the
+   <section>. Using a div (not a CSS background on
+   .hero itself) keeps the gradient on a separate
+   stacking layer, making overlay tweaks trivial.
 
-/* Subtle dot-grid texture — identical to .stats-section pattern */
-.hero-pattern {
+   ✅ Sync note: mirrors .work-hero-bg in ourwork.css
+      object-position: center 35% is an exact match.
+   ══════════════════════════════════════════════ */
+.hero-bg {
   position: absolute;
   inset: 0;
-  z-index: 0;               /* below overlay (z1) and content (z2) */
-  background-image: radial-gradient(rgba(91,155,213,0.09) 1px, transparent 1px);
-  background-size: 30px 30px;
-  pointer-events: none;
+  z-index: 0;
+
+  /* Image injected via inline CSS variable on <section> */
+  background-image:    var(--hero-bg-image, none);
+  background-size:     cover;
+  background-position: center 35%;   /* ← matches .work-hero-bg */
+  background-repeat:   no-repeat;
+
+  /* Prevent repaints during scroll; GPU-composited layer */
+  will-change: transform;
 }
 
-/* Thin green accent stripe on the left edge */
+
+/* ══════════════════════════════════════════════
+   3. LAYER 1 — GRADIENT OVERLAY
+   Sweeps from near-opaque dark-navy on the left
+   to translucent mid-navy on the right, letting
+   the background image breathe through the right
+   half.
+
+   ✅ Sync note: EXACT copy of .work-hero-overlay
+      in ourwork.css (108deg, same colour-stops).
+   ══════════════════════════════════════════════ */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    108deg,
+    rgba(11,  20,  38,  0.92) 0%,    /* deep ink — left anchor */
+    rgba(27,  46,  75,  0.72) 40%,   /* idf-navy at medium opacity */
+    rgba(27,  46,  75,  0.28) 100%   /* near-transparent — right edge */
+  );
+}
+
+/* The dot-matrix pattern used elsewhere is hidden
+   here to keep the hero cinematic and image-first */
+.hero-pattern {
+  display: none;
+}
+
+
+/* ══════════════════════════════════════════════
+   4. DECORATIVE ACCENT LINE
+   Thin green stripe pinned to the left viewport
+   edge. Placed at z-index 3 so it sits above both
+   the image and the gradient overlay.
+   ══════════════════════════════════════════════ */
 .hero-accent-line {
   position: absolute;
   left: 0;
@@ -42,17 +108,40 @@
   z-index: 3;
   background: linear-gradient(
     to bottom,
-    transparent 0%,
-    var(--green, #3A7D44) 30%,
-    var(--green, #3A7D44) 70%,
-    transparent 100%
+    transparent                       0%,
+    var(--green, #3A7D44)            30%,
+    var(--green, #3A7D44)            70%,
+    transparent                     100%
   );
   border-radius: 0 2px 2px 0;
 }
 
 
-/* ── ENTRANCE ANIMATIONS ─────────────────────────────────────────────────── */
+/* ══════════════════════════════════════════════
+   5. LAYER 2 — CONTENT STACK
+   Text and interactive elements float above both
+   the image and the gradient overlay.
+   ══════════════════════════════════════════════ */
+.hero-content,
+.hero-scroll,
+.hero-accent-line {
+  position: relative;
+  z-index: 2;
+}
 
+.hero-inner {
+  /* Slightly wider than sections.css base (720px)
+     to give the large headline room to breathe  */
+  max-width: 780px;
+}
+
+
+/* ══════════════════════════════════════════════
+   6. ENTRANCE ANIMATIONS
+   Each element cascades in with a staggered delay.
+   Uses a gentle cubic-bezier matching the rest of
+   the IDF motion language.
+   ══════════════════════════════════════════════ */
 @keyframes heroFadeUp {
   from { opacity: 0; transform: translateY(22px); }
   to   { opacity: 1; transform: translateY(0);    }
@@ -63,163 +152,178 @@
   to   { opacity: 1; }
 }
 
-/* Stagger each element so they cascade in on page load */
+.hero-eyebrow  { animation: heroFadeUp  0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both; }
+.hero h1       { animation: heroFadeUp  0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.32s both; }
+.hero-sub      { animation: heroFadeUp  0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.52s both; }
+.hero-actions  { animation: heroFadeUp  0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.68s both; }
+.hero-impact   { animation: heroFadeUp  0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.85s both; }
+.hero-scroll   { animation: heroFadeIn  1.0s  ease                            1.20s both; }
+
+
+/* ══════════════════════════════════════════════
+   7. TYPOGRAPHY
+   All values below are a direct audit-match to
+   ourwork.css .work-hero-eyebrow / h1 / p.
+   ══════════════════════════════════════════════ */
+
+/* 7a. Eyebrow label
+   ✅ Sync: .work-hero-eyebrow
+      0.72rem | weight 600 | tracking 0.16em | margin-bottom 14px */
 .hero-eyebrow {
-  animation: heroFadeUp 0.65s cubic-bezier(0.22,1,0.36,1) 0.15s both;
-}
-
-.hero h1 {
-  animation: heroFadeUp 0.75s cubic-bezier(0.22,1,0.36,1) 0.32s both;
-}
-
-.hero-sub {
-  animation: heroFadeUp 0.65s cubic-bezier(0.22,1,0.36,1) 0.52s both;
-}
-
-.hero-actions {
-  animation: heroFadeUp 0.65s cubic-bezier(0.22,1,0.36,1) 0.68s both;
-}
-
-.hero-impact {
-  animation: heroFadeUp 0.65s cubic-bezier(0.22,1,0.36,1) 0.85s both;
-}
-
-.hero-scroll {
-  animation: heroFadeIn 1s ease 1.2s both;
-}
-
-
-/* ── HERO INNER: wider max-width for impact strip layout ─────────────────── */
-.hero-inner {
-  max-width: 780px;   /* slightly wider than original 720px */
-}
-
-
-/* ── EYEBROW: location pill style ────────────────────────────────────────── */
-.hero-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.7rem;
-  font-weight: 600;
+  display: block;
+  font-family:    var(--font-sans, 'DM Sans', system-ui, sans-serif);
+  font-size:      0.72rem;              /* ← was 0.75rem in sections.css */
+  font-weight:    600;
   text-transform: uppercase;
-  letter-spacing: 0.18em;
-  color: rgba(255,255,255,0.7);
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.14);
-  padding: 6px 16px 6px 12px;
-  border-radius: 20px;
-  margin-bottom: clamp(14px, 2.5vh, 24px);
-  backdrop-filter: blur(4px);
+  letter-spacing: 0.16em;              /* ← was 0.18em in sections.css */
+  color:          var(--blue-light, #5B9BD5);
+  margin-bottom:  14px;                /* ← was clamp(10px,2vh,20px)   */
+
+  /* Remove pill-badge styling from older versions */
+  background:     transparent;
+  border:         none;
+  padding:        0;
+  backdrop-filter: none;
 }
 
 .hero-eyebrow::before {
-  content: '';
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--green, #3A7D44);
-  box-shadow: 0 0 0 3px rgba(58,125,68,0.3);
-  flex-shrink: 0;
+  display: none; /* Suppress dot from earlier eyebrow style */
 }
 
+/* 7b. Main heading (h1)
+   ✅ Sync: ourwork.css h1 base + .work-hero-content h1
+      clamp(2.4rem,5vw,4rem) | weight 700 | lh 1.2 | mb 14px */
+.hero h1 {
+  font-family:  var(--font-display, 'Playfair Display', Georgia, serif);
+  font-size:    clamp(2.4rem, 5vw, 4rem);   /* ← was clamp(2.5rem,5vw,4.2rem) */
+  font-weight:  700;
+  line-height:  1.2;                         /* ← was 1.1 in sections.css      */
+  color:        #fff;
+  margin-bottom: 14px;                       /* ← was 20px in sections.css     */
+  text-shadow:  0 2px 12px rgba(0, 0, 0, 0.4); /* ← was 0 2px 16px rgba(0,0,0,0.25) */
+}
 
-/* ── H1: italic accent on the key word ──────────────────────────────────── */
+/* Italic accent word in the heading */
 .hero h1 em {
-  color: var(--blue-light, #5B9BD5);
-  font-style: italic;
+  color:       var(--blue-light, #5B9BD5);
+  font-style:  italic;
+}
+
+/* 7c. Sub-paragraph
+   ✅ Sync: .work-hero-content p
+      rgba(255,255,255,0.76) | 1.08rem | max-width 600px | lh 1.75 */
+.hero-sub {
+  font-family:  var(--font-sans, 'DM Sans', system-ui, sans-serif);
+  font-size:    1.08rem;                        /* ← was clamp(1rem,1.2vw,1.2rem) */
+  color:        rgba(255, 255, 255, 0.76);      /* ← was rgba(255,255,255,0.9)    */
+  max-width:    600px;                          /* ← was 580px in sections.css    */
+  line-height:  1.75;                           /* ← was 1.6 in sections.css      */
+  margin:       0 0 clamp(25px, 4vh, 40px) 0;
 }
 
 
-/* ── IMPACT STRIP ────────────────────────────────────────────────────────── */
-
-/*
-  A row of 3 quick-hit stats inside the hero, sitting below the CTA buttons.
-  Separated from the button row by a subtle ruled line.
-*/
+/* ══════════════════════════════════════════════
+   8. HERO IMPACT STRIP
+   Stat row below the CTA buttons.
+   ══════════════════════════════════════════════ */
 .hero-impact {
-  display: flex;
+  display:     flex;
   align-items: flex-start;
-  gap: clamp(28px, 5vw, 56px);
-  margin-top: clamp(36px, 6vh, 56px);
+  gap:         clamp(28px, 5vw, 56px);
+  margin-top:  clamp(36px, 6vh, 56px);
   padding-top: clamp(20px, 3vh, 28px);
-  border-top: 1px solid rgba(255,255,255,0.12);
+  border-top:  1px solid rgba(255, 255, 255, 0.12);
 }
 
 .hero-impact-stat {
-  display: flex;
+  display:        flex;
   flex-direction: column;
-  gap: 4px;
+  gap:            4px;
 }
 
 .hero-impact-stat + .hero-impact-stat {
   padding-left: clamp(28px, 5vw, 56px);
-  border-left: 1px solid rgba(255,255,255,0.12);
+  border-left:  1px solid rgba(255, 255, 255, 0.12);
 }
 
 .hero-impact-number {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(1.6rem, 2.5vw, 2rem);
-  font-weight: 700;
-  color: var(--white, #fff);
-  line-height: 1;
+  font-family:   'Playfair Display', Georgia, serif;
+  font-size:     clamp(1.6rem, 2.5vw, 2rem);
+  font-weight:   700;
+  color:         #fff;
+  line-height:   1;
   letter-spacing: -0.01em;
 }
 
 .hero-impact-number sup {
-  font-size: 0.55em;
-  color: var(--green-light, #52a85f);
+  font-size:      0.55em;
+  color:          var(--green-light, #52a85f);
   vertical-align: super;
-  font-weight: 600;
+  font-weight:    600;
 }
 
 .hero-impact-label {
-  font-size: 0.68rem;
-  font-weight: 500;
+  font-size:      0.68rem;
+  font-weight:    500;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: rgba(255,255,255,0.45);
-  line-height: 1.4;
+  letter-spacing: 0.10em;
+  color:          rgba(255, 255, 255, 0.45);
+  line-height:    1.4;
 }
 
 
-/* ── BUTTON HOVER POLISH (home-page specific overrides) ──────────────────── */
+/* ══════════════════════════════════════════════
+   9. BUTTON POLISH (homepage-specific)
+   ══════════════════════════════════════════════ */
 .hero .btn-primary {
-  background: var(--green, #3A7D44);
+  background:   var(--green, #3A7D44);
   border-color: var(--green, #3A7D44);
-  padding: 14px 32px;
-  font-size: 0.9rem;
+  padding:      14px 32px;
+  font-size:    0.9rem;
 }
 
 .hero .btn-primary:hover {
-  background: var(--green-light, #52a85f);
+  background:   var(--green-light, #52a85f);
   border-color: var(--green-light, #52a85f);
-  box-shadow: 0 8px 24px rgba(58,125,68,0.4);
-  transform: translateY(-2px);
+  box-shadow:   0 8px 24px rgba(58, 125, 68, 0.4);
+  transform:    translateY(-2px);
 }
 
 .hero .btn-outline-white {
-  padding: 13px 32px;
-  font-size: 0.9rem;
-  border-color: rgba(255,255,255,0.35);
+  padding:      13px 32px;
+  font-size:    0.9rem;
+  border-color: rgba(255, 255, 255, 0.35);
 }
 
 .hero .btn-outline-white:hover {
-  background: rgba(255,255,255,0.1);
-  border-color: rgba(255,255,255,0.7);
-  transform: translateY(-2px);
+  background:   rgba(255, 255, 255, 0.10);
+  border-color: rgba(255, 255, 255, 0.70);
+  transform:    translateY(-2px);
 }
 
 
-/* ── RESPONSIVE ──────────────────────────────────────────────────────────── */
+/* ══════════════════════════════════════════════
+   10. RESPONSIVE
+   ══════════════════════════════════════════════ */
 
+/* Tablet */
 @media (max-width: 768px) {
   .hero-accent-line { display: none; }
 
+  .hero-inner {
+    margin-top: 40px;
+    text-align: center;
+  }
+
+  .hero-content { text-align: center; }
+  .hero-actions { justify-content: center; }
+
+  .hero-sub     { max-width: 100%; }
+
   .hero-impact {
-    gap: 20px;
-    flex-wrap: wrap;
+    gap:        20px;
+    flex-wrap:  wrap;
+    justify-content: center;
   }
 
   .hero-impact-stat + .hero-impact-stat {
@@ -229,22 +333,43 @@
   .hero-impact-number { font-size: 1.5rem; }
 }
 
+/* Mobile */
 @media (max-width: 480px) {
-  .hero-impact {
-    gap: 0;
+  .hero h1 {
+    /* Tighten clamp on very small screens */
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
+  }
+
+  .hero-sub {
+    font-size: 0.9rem;
+  }
+
+  .hero-actions {
+    gap:            12px;
     flex-direction: column;
-    border-top-color: rgba(255,255,255,0.08);
+  }
+
+  .hero-actions .btn {
+    width:           100%;
+    justify-content: center;
+    text-align:      center;
+  }
+
+  .hero-impact {
+    gap:            0;
+    flex-direction: column;
+    border-top-color: rgba(255, 255, 255, 0.08);
   }
 
   .hero-impact-stat + .hero-impact-stat {
     padding-left: 0;
-    padding-top: 16px;
-    margin-top: 16px;
-    border-left: none;
-    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top:  16px;
+    margin-top:   16px;
+    border-left:  none;
+    border-top:   1px solid rgba(255, 255, 255, 0.08);
   }
 
-  .hero-eyebrow {
-    font-size: 0.65rem;
-  }
+  .hero-eyebrow { font-size: 0.65rem; }
+
+  .hero-scroll  { display: none; }
 }
