@@ -52,8 +52,9 @@
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/sections.css">
-  <link rel="stylesheet" href="css/sidenav.css"> <link rel="stylesheet" href="css/responsive.css">
-  <link rel="stylesheet" href="css/resources.css">
+  <link rel="stylesheet" href="css/sidenav.css"> 
+  <!-- <link rel="stylesheet" href="css/responsive.css"> -->
+  <link rel="stylesheet" href="css/resources.css"> <link rel="stylesheet" href="css/resources-lightbox-enhancements.css">
 </head>
 
 <body>
@@ -77,14 +78,22 @@
 
 
   <header class="res-hero" role="banner">
+   <img class="res-hero-bg"
+     src="assets/images/resources-hero.svg"
+     alt="IDF Kenya resources and media — publications, photos and videos"
+     width="1920"
+     height="440"
+     loading="eager"
+     fetchpriority="high">
+    <div class="res-hero-overlay" aria-hidden="true"></div>
     <div class="res-hero-content">
       <span class="res-hero-eyebrow">
         <i class="fa-solid fa-folder-open"></i>Media &amp; Knowledge Hub
       </span>
       <h1>Resources &amp; Media</h1>
-      <p>Explore IDF's publications, photo galleries, and video content showcasing our impact across Kenya — from Homa Bay to Kirinyaga, from 1999 to today.</p>
+      <p>Explore IDF's publications, photo galleries, and video content showcasing our impact across Kenya from Homa Bay to Kirinyaga, from 1999 to today.</p>
 
-      <div class="res-hero-jumps" role="navigation" aria-label="Jump to section">
+      <nav class="res-hero-jumps" aria-label="Jump to section">
         <a href="#newsletters" class="res-hero-jump">
           <i class="fa-regular fa-file-pdf"></i>Newsletters &amp; Reports
         </a>
@@ -94,26 +103,9 @@
         <a href="#videos" class="res-hero-jump">
           <i class="fa-brands fa-youtube"></i>Video Library
         </a>
-      </div>
+      </nav>
 
-      <div class="res-hero-stats" aria-label="Resource counts">
-        <div class="res-hero-stat">
-          <span class="res-hero-stat-number">12+</span>
-          <span class="res-hero-stat-label">Publications</span>
-        </div>
-        <div class="res-hero-stat">
-          <span class="res-hero-stat-number">50+</span>
-          <span class="res-hero-stat-label">Photos</span>
-        </div>
-        <div class="res-hero-stat">
-          <span class="res-hero-stat-number">20+</span>
-          <span class="res-hero-stat-label">Videos</span>
-        </div>
-        <div class="res-hero-stat">
-          <span class="res-hero-stat-number">7</span>
-          <span class="res-hero-stat-label">Counties</span>
-        </div>
-      </div>
+
     </div>
   </header>
 
@@ -284,242 +276,327 @@
       </section>
 
 
-      <section id="gallery" class="res-section" aria-labelledby="gallery-heading">
+      <!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  IDF Kenya — resources-gallery-section-updated.html         ║
+  ║                                                             ║
+  ║  PURPOSE: Drop-in replacement for the Photo Gallery         ║
+  ║  <section id="gallery"> block in resources.html             ║
+  ║  (original lines ~278–513).                                 ║
+  ║                                                             ║
+  ║  CHANGES:                                                   ║
+  ║  • All 8 <img> src paths updated from .png/.jpg             ║
+  ║    to SVG format (assets/images/gallery-*.svg)              ║
+  ║  • data-src attributes updated to SVG paths                 ║
+  ║  • Explicit width/height attrs added to every <img>         ║
+  ║    documenting canonical pixel dimensions                   ║
+  ║  • loading="lazy" retained for performance                  ║
+  ║  • All existing data-*, aria-*, role attrs preserved        ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
 
-        <div class="res-section-header">
-          <div class="res-section-title-group">
-            <span class="res-section-badge res-badge--green">
-              <i class="fa-regular fa-images"></i>Photo Gallery
-            </span>
-            <h2 id="gallery-heading" class="res-section-title">Photo Gallery</h2>
-            <p class="res-section-desc">Browse images from IDF's programmes and community events across Kenya.</p>
-          </div>
-          <span class="res-section-count" aria-live="polite" id="gallery-count">8 photos</span>
+<!-- ════════════════════════════════════════════════════════════
+     PHOTO GALLERY SECTION
+     Replace the existing <section id="gallery"> block in full
+     ════════════════════════════════════════════════════════════ -->
+<section id="gallery" class="res-section" aria-labelledby="gallery-heading">
+
+  <div class="res-section-header">
+    <div class="res-section-title-group">
+      <span class="res-section-badge res-badge--green">
+        <i class="fa-regular fa-images"></i>Photo Gallery
+      </span>
+      <h2 id="gallery-heading" class="res-section-title">Photo Gallery</h2>
+      <p class="res-section-desc">Browse images from IDF's programmes and community events across Kenya.</p>
+    </div>
+    <span class="res-section-count" aria-live="polite" id="gallery-count">8 photos</span>
+  </div>
+
+  <div class="res-filter-bar" role="group" aria-label="Filter photos by category">
+    <button class="res-filter-btn active" data-filter="all" aria-pressed="true">
+      All <span class="res-filter-count">8</span>
+    </button>
+    <button class="res-filter-btn" data-filter="health" aria-pressed="false">
+      <i class="fa-solid fa-heart-pulse"></i>Health
+    </button>
+    <button class="res-filter-btn" data-filter="yisa" aria-pressed="false">
+      <i class="fa-solid fa-seedling"></i>YISA
+    </button>
+    <button class="res-filter-btn" data-filter="wash" aria-pressed="false">
+      <i class="fa-solid fa-droplet"></i>WASH
+    </button>
+    <button class="res-filter-btn" data-filter="environment" aria-pressed="false">
+      <i class="fa-solid fa-leaf"></i>Environment
+    </button>
+    <button class="res-filter-btn" data-filter="community" aria-pressed="false">
+      <i class="fa-solid fa-people-group"></i>Community
+    </button>
+    <button class="res-filter-btn" data-filter="governance" aria-pressed="false">
+      <i class="fa-solid fa-landmark"></i>Governance
+    </button>
+  </div>
+
+  <div class="res-gallery-grid" id="galleryGrid" role="list">
+
+    <!-- ── IMAGE 1 ─────────────────────────────────────────────
+         Canonical dimensions: 800 × 600 px  (4:3 aspect ratio)
+         SVG file: assets/images/gallery-nuru-case-management.svg
+         Original: assets/images/nuru2_8Q58Pym.png
+    ─────────────────────────────────────────────────────────── -->
+    <div class="res-photo-item reveal"
+         role="listitem"
+         data-cat="health"
+         data-src="assets/images/resources-image-1.svg"
+         data-caption="USAID NYM Case Management"
+         data-county="Homa Bay County"
+         data-program="USAID Nuru Ya Mtoto"
+         tabindex="0"
+         aria-label="Open photo: USAID Nuru Ya Mtoto Chief of Party, Jackson Thoya, recently visited a community support group in Nyangajo, Kendu Bay Ward, to witness first-hand the impact of the project on the ground. The community support group is made up of volunteers who provide critical support to vulnerable families in the community, including children orphaned by HIV/AIDS
+">
+      <img class="res-photo-img"
+           src="assets/images/resources-image-1.svg"
+           alt="USAID Nuru Ya Mtoto case management session with vulnerable children and case workers in Homa Bay County"
+           width="800"
+           height="600"
+           loading="lazy">
+      <div class="res-photo-overlay" aria-hidden="true">
+        <div class="res-photo-caption">
+          <span class="res-photo-caption-title">NYM Case Management Session</span>
+          <span class="res-photo-caption-meta">
+            <i class="fa-solid fa-location-dot"></i>Homa Bay County · Health
+          </span>
         </div>
+      </div>
+      <div class="res-photo-expand" aria-hidden="true"><i class="fa-solid fa-expand"></i></div>
+    </div>
 
-        <div class="res-filter-bar" role="group" aria-label="Filter photos by category">
-          <button class="res-filter-btn active" data-filter="all" aria-pressed="true">
-            All <span class="res-filter-count">8</span>
-          </button>
-          <button class="res-filter-btn" data-filter="health" aria-pressed="false">
-            <i class="fa-solid fa-heart-pulse"></i>Health
-          </button>
-          <button class="res-filter-btn" data-filter="yisa" aria-pressed="false">
-            <i class="fa-solid fa-seedling"></i>YISA
-          </button>
-          <button class="res-filter-btn" data-filter="wash" aria-pressed="false">
-            <i class="fa-solid fa-droplet"></i>WASH
-          </button>
-          <button class="res-filter-btn" data-filter="environment" aria-pressed="false">
-            <i class="fa-solid fa-leaf"></i>Environment
-          </button>
-          <button class="res-filter-btn" data-filter="community" aria-pressed="false">
-            <i class="fa-solid fa-people-group"></i>Community
-          </button>
-          <button class="res-filter-btn" data-filter="governance" aria-pressed="false">
-            <i class="fa-solid fa-landmark"></i>Governance
-          </button>
+    <!-- ── IMAGE 2 ─────────────────────────────────────────────
+         Canonical dimensions: 800 × 600 px  (4:3 aspect ratio)
+         SVG file: assets/images/gallery-kuimarisha-civic-forum.svg
+         Original: assets/images/seka2_otJQ6Q8.jpg
+    ─────────────────────────────────────────────────────────── -->
+    <div class="res-photo-item reveal reveal-delay-1"
+         role="listitem"
+         data-cat="governance"
+         data-src="assets/images/resources-image-2.svg"
+         data-caption="Kuimarisha Kaunti Civic Forum"
+         data-county="Homa Bay County"
+         data-program="Kuimarisha Kaunti"
+         tabindex="0"
+         aria-label="Open photo:Kuimarisha Kaunti civic forum, Homa Bay County">
+      <img class="res-photo-img"
+           src="assets/images/resources-image-2.svg"
+           alt="Community members participating in a Kuimarisha Kaunti governance and civic education forum in Homa Bay County"
+           width="800"
+           height="600"
+           loading="lazy">
+      <div class="res-photo-overlay" aria-hidden="true">
+        <div class="res-photo-caption">
+          <span class="res-photo-caption-title">Kuimarisha Kaunti Civic Forum</span>
+          <span class="res-photo-caption-meta">
+            <i class="fa-solid fa-location-dot"></i>Homa Bay County · Governance
+          </span>
         </div>
+      </div>
+      <div class="res-photo-expand" aria-hidden="true"><i class="fa-solid fa-expand"></i></div>
+    </div>
 
-        <div class="res-gallery-grid" id="galleryGrid" role="list">
+    <!-- ── IMAGE 3 ─────────────────────────────────────────────
+         Canonical dimensions: 800 × 600 px  (4:3 aspect ratio)
+         SVG file: assets/images/gallery-malaria-chv-training.svg
+         Original: assets/images/county2_uWjLMiN.jpg
+    ─────────────────────────────────────────────────────────── -->
+    <div class="res-photo-item reveal reveal-delay-2"
+         role="listitem"
+         data-cat="health"
+         data-src="assets/images/resources-image-3.svg"
+         data-caption="Global Fund Malaria — CHV Training"
+         data-county="Homa Bay County"
+         data-program="Global Fund Malaria"
+         tabindex="0"
+         aria-label="Open photo: Global Fund Malaria CHV training, Homa Bay County">
+      <img class="res-photo-img"
+           src="assets/images/resources-image-3.svg"
+           alt="Community health volunteers receiving training on malaria rapid diagnostic testing during the Global Fund Malaria project"
+           width="800"
+           height="600"
+           loading="lazy">
+      <div class="res-photo-overlay" aria-hidden="true">
+        <div class="res-photo-caption">
+          <span class="res-photo-caption-title">Malaria CHV Training</span>
+          <span class="res-photo-caption-meta">
+            <i class="fa-solid fa-location-dot"></i>Homa Bay County · Health
+          </span>
+        </div>
+      </div>
+      <div class="res-photo-expand" aria-hidden="true"><i class="fa-solid fa-expand"></i></div>
+    </div>
 
-          <div class="res-photo-item reveal"
-               role="listitem"
-               data-cat="health"
-               data-src="assets/images/nuru2_8Q58Pym.png"
-               data-caption="USAID NYM Case Management"
-               data-county="Homa Bay County"
-               data-program="USAID Nuru Ya Mtoto"
-               tabindex="0"
-               aria-label="Open photo: USAID NYM case management session, Homa Bay County">
-            <img class="res-photo-img"
-                 src="assets/images/nuru2_8Q58Pym.png"
-                 alt="USAID Nuru Ya Mtoto case management session with vulnerable children and case workers in Homa Bay County"
-                 loading="lazy">
-            <div class="res-photo-overlay" aria-hidden="true">
-              <div class="res-photo-caption">
-                <span class="res-photo-caption-title">NYM Case Management Session</span>
-                <span class="res-photo-caption-meta">
-                  <i class="fa-solid fa-location-dot"></i>Homa Bay County · Health
-                </span>
-              </div>
-            </div>
-            <div class="res-photo-expand" aria-hidden="true"><i class="fa-solid fa-expand"></i></div>
-          </div>
+    <!-- ── IMAGE 4 ─────────────────────────────────────────────
+         Canonical dimensions: 800 × 600 px  (4:3 aspect ratio)
+         SVG file: assets/images/gallery-seka-kagwa-water.svg
+         Original: assets/images/seka_KbmhChW.jpg
+    ─────────────────────────────────────────────────────────── -->
+    <div class="res-photo-item reveal reveal-delay-3"
+         role="listitem"
+         data-cat="wash"
+         data-src="assets/images/resources-image-5.svg"
+         data-caption="Seka Kagwa Water Purification System"
+         data-county="Homa Bay County"
+         data-program="Seka Kagwa Clean Water"
+         tabindex="0"
+         aria-label="Open photo: Meeting with County Government Departments on mainstreaming of PWD issues in all departments and ensure that PWDs have access to AGPO as stipulated in the Public Finance Act">
+      <img class="res-photo-img"
+           src="assets/images/resources-image-5.svg"
+           alt="The Yamaha natural water purification system installed by IDF and the Embassy of Japan serving 15,000 residents in Homa Bay"
+           width="800"
+           height="600"
+           loading="lazy">
+      <div class="res-photo-overlay" aria-hidden="true">
+        <div class="res-photo-caption">
+          <span class="res-photo-caption-title">Seka Kagwa Water System</span>
+          <span class="res-photo-caption-meta">
+            <i class="fa-solid fa-location-dot"></i>Homa Bay County · WASH
+          </span>
+        </div>
+      </div>
+      <div class="res-photo-expand" aria-hidden="true"><i class="fa-solid fa-expand"></i></div>
+    </div>
 
-          <div class="res-photo-item reveal reveal-delay-1"
-               role="listitem"
-               data-cat="governance"
-               data-src="assets/images/seka2_otJQ6Q8.jpg"
-               data-caption="Kuimarisha Kaunti Civic Forum"
-               data-county="Homa Bay County"
-               data-program="Kuimarisha Kaunti"
-               tabindex="0"
-               aria-label="Open photo: Kuimarisha Kaunti civic forum, Homa Bay County">
-            <img class="res-photo-img"
-                 src="assets/images/seka2_otJQ6Q8.jpg"
-                 alt="Community members participating in a Kuimarisha Kaunti governance and civic education forum in Homa Bay County"
-                 loading="lazy">
-            <div class="res-photo-overlay" aria-hidden="true">
-              <div class="res-photo-caption">
-                <span class="res-photo-caption-title">Kuimarisha Kaunti Civic Forum</span>
-                <span class="res-photo-caption-meta">
-                  <i class="fa-solid fa-location-dot"></i>Homa Bay County · Governance
-                </span>
-              </div>
-            </div>
-            <div class="res-photo-expand" aria-hidden="true"><i class="fa-solid fa-expand"></i></div>
-          </div>
+    <!-- ── IMAGE 5 ─────────────────────────────────────────────
+         Canonical dimensions: 800 × 600 px  (4:3 aspect ratio)
+         SVG file: assets/images/gallery-ndovu-award-2023.svg
+         Original: assets/images/usaid_award.jpg
+    ─────────────────────────────────────────────────────────── -->
+    <div class="res-photo-item reveal"
+         role="listitem"
+         data-cat="community"
+         data-src="assets/images/resources-image-6.svg"
+         data-caption="Ndovu Award 2023 — Governance Excellence"
+         data-county="Homa Bay County"
+         data-program="Kuimarisha Kaunti"
+         tabindex="0"
+         aria-label="Open photo: IDF receiving Ndovu Award 2023, Homa Bay County">
+      <img class="res-photo-img"
+           src="assets/images/resources-image-6.svg"
+           alt="IDF staff receiving the prestigious Ndovu Award 2023 for outstanding community governance work in Homa Bay County"
+           width="800"
+           height="600"
+           loading="lazy">
+      <div class="res-photo-overlay" aria-hidden="true">
+        <div class="res-photo-caption">
+          <span class="res-photo-caption-title">Ndovu Award 2023</span>
+          <span class="res-photo-caption-meta">
+            <i class="fa-solid fa-location-dot"></i>Homa Bay County · Community
+          </span>
+        </div>
+      </div>
+      <div class="res-photo-expand" aria-hidden="true"><i class="fa-solid fa-expand"></i></div>
+    </div>
 
-          <div class="res-photo-item reveal reveal-delay-2"
-               role="listitem"
-               data-cat="health"
-               data-src="assets/images/county2_uWjLMiN.jpg"
-               data-caption="Global Fund Malaria — CHV Training"
-               data-county="Homa Bay County"
-               data-program="Global Fund Malaria"
-               tabindex="0"
-               aria-label="Open photo: Global Fund Malaria CHV training, Homa Bay County">
-            <img class="res-photo-img"
-                 src="assets/images/county2_uWjLMiN.jpg"
-                 alt="Community health volunteers receiving training on malaria rapid diagnostic testing during the Global Fund Malaria project"
-                 loading="lazy">
-            <div class="res-photo-overlay" aria-hidden="true">
-              <div class="res-photo-caption">
-                <span class="res-photo-caption-title">Malaria CHV Training</span>
-                <span class="res-photo-caption-meta">
-                  <i class="fa-solid fa-location-dot"></i>Homa Bay County · Health
-                </span>
-              </div>
-            </div>
-            <div class="res-photo-expand" aria-hidden="true"><i class="fa-solid fa-expand"></i></div>
-          </div>
+    <!-- ── IMAGE 6 ─────────────────────────────────────────────
+         Canonical dimensions: 1200 × 800 px  (3:2 aspect ratio)
+         SVG file: assets/images/gallery-community-outreach.svg
+         Original: assets/images/idf_home1.jpg
+    ─────────────────────────────────────────────────────────── -->
+    <div class="res-photo-item reveal reveal-delay-1"
+         role="listitem"
+         data-cat="community"
+         data-src="assets/images/resources-image-7.svg"
+         data-caption="IDF Community Outreach"
+         data-county="Homa Bay County"
+         data-program="Community Development"
+         tabindex="0"
+         aria-label="Open photo: IDF community outreach, Homa Bay County">
+      <img class="res-photo-img"
+           src="assets/images/resources-image-7.svg"
+           alt="IDF Kenya community members and field staff gathered for a community outreach programme in Homa Bay County"
+           width="1200"
+           height="800"
+           loading="lazy">
+      <div class="res-photo-overlay" aria-hidden="true">
+        <div class="res-photo-caption">
+          <span class="res-photo-caption-title">Community Outreach</span>
+          <span class="res-photo-caption-meta">
+            <i class="fa-solid fa-location-dot"></i>Homa Bay County · Community
+          </span>
+        </div>
+      </div>
+      <div class="res-photo-expand" aria-hidden="true"><i class="fa-solid fa-expand"></i></div>
+    </div>
 
-          <div class="res-photo-item reveal reveal-delay-3"
-               role="listitem"
-               data-cat="wash"
-               data-src="assets/images/seka_KbmhChW.jpg"
-               data-caption="Seka Kagwa Water Purification System"
-               data-county="Homa Bay County"
-               data-program="Seka Kagwa Clean Water"
-               tabindex="0"
-               aria-label="Open photo: Seka Kagwa water purification system, Homa Bay County">
-            <img class="res-photo-img"
-                 src="assets/images/seka_KbmhChW.jpg"
-                 alt="The Yamaha natural water purification system installed by IDF and the Embassy of Japan serving 15,000 residents in Homa Bay"
-                 loading="lazy">
-            <div class="res-photo-overlay" aria-hidden="true">
-              <div class="res-photo-caption">
-                <span class="res-photo-caption-title">Seka Kagwa Water System</span>
-                <span class="res-photo-caption-meta">
-                  <i class="fa-solid fa-location-dot"></i>Homa Bay County · WASH
-                </span>
-              </div>
-            </div>
-            <div class="res-photo-expand" aria-hidden="true"><i class="fa-solid fa-expand"></i></div>
-          </div>
+    <!-- ── IMAGE 7 ─────────────────────────────────────────────
+         Canonical dimensions: 800 × 600 px  (4:3 aspect ratio)
+         SVG file: assets/images/gallery-yisa-training.svg
+         Original: assets/images/vihiga.png
+    ─────────────────────────────────────────────────────────── -->
+    <!-- <div class="res-photo-item reveal reveal-delay-2"
+         role="listitem"
+         data-cat="yisa"
+         data-src="assets/images/gallery-yisa-training.svg"
+         data-caption="YISA Training — Tharaka Nithi County"
+         data-county="Tharaka Nithi County"
+         data-program="Youth in Sustainable Agriculture"
+         tabindex="0"
+         aria-label="Open photo: YISA training session, Tharaka Nithi County">
+      <img class="res-photo-img"
+           src="assets/images/gallery-yisa-training.svg"
+           alt="Youth participating in a YISA sustainable agriculture training session in Tharaka Nithi County"
+           width="800"
+           height="600"
+           loading="lazy">
+      <div class="res-photo-overlay" aria-hidden="true">
+        <div class="res-photo-caption">
+          <span class="res-photo-caption-title">YISA Agriculture Training</span>
+          <span class="res-photo-caption-meta">
+            <i class="fa-solid fa-location-dot"></i>Tharaka Nithi · YISA
+          </span>
+        </div>
+      </div>
+      <div class="res-photo-expand" aria-hidden="true"><i class="fa-solid fa-expand"></i></div>
+    </div> -->
 
-          <div class="res-photo-item reveal"
-               role="listitem"
-               data-cat="community"
-               data-src="assets/images/usaid_award.jpg"
-               data-caption="Ndovu Award 2023 — Governance Excellence"
-               data-county="Homa Bay County"
-               data-program="Kuimarisha Kaunti"
-               tabindex="0"
-               aria-label="Open photo: IDF receiving Ndovu Award 2023, Homa Bay County">
-            <img class="res-photo-img"
-                 src="assets/images/usaid_award.jpg"
-                 alt="IDF staff receiving the prestigious Ndovu Award 2023 for outstanding community governance work in Homa Bay County"
-                 loading="lazy">
-            <div class="res-photo-overlay" aria-hidden="true">
-              <div class="res-photo-caption">
-                <span class="res-photo-caption-title">Ndovu Award 2023</span>
-                <span class="res-photo-caption-meta">
-                  <i class="fa-solid fa-location-dot"></i>Homa Bay County · Community
-                </span>
-              </div>
-            </div>
-            <div class="res-photo-expand" aria-hidden="true"><i class="fa-solid fa-expand"></i></div>
-          </div>
+    <!-- ── IMAGE 8 ─────────────────────────────────────────────
+         Canonical dimensions: 800 × 600 px  (4:3 aspect ratio)
+         SVG file: assets/images/gallery-health-outreach-nyamira.svg
+         Original: assets/images/nyamira.jpg
+    ─────────────────────────────────────────────────────────── -->
+    <!-- <div class="res-photo-item reveal reveal-delay-3"
+         role="listitem"
+         data-cat="health"
+         data-src="assets/images/gallery-health-outreach-nyamira.svg"
+         data-caption="Community Health Outreach — Nyamira County"
+         data-county="Nyamira County"
+         data-program="USAID Nuru Ya Mtoto"
+         tabindex="0"
+         aria-label="Open photo: Community health outreach, Nyamira County">
+      <img class="res-photo-img"
+           src="assets/images/gallery-health-outreach-nyamira.svg"
+           alt="IDF community health workers conducting household visits as part of the USAID Nuru Ya Mtoto programme in Nyamira County"
+           width="800"
+           height="600"
+           loading="lazy">
+      <div class="res-photo-overlay" aria-hidden="true">
+        <div class="res-photo-caption">
+          <span class="res-photo-caption-title">Health Outreach Visit</span>
+          <span class="res-photo-caption-meta">
+            <i class="fa-solid fa-location-dot"></i>Nyamira County · Health
+          </span>
+        </div>
+      </div>
+      <div class="res-photo-expand" aria-hidden="true"><i class="fa-solid fa-expand"></i></div>
+    </div> -->
 
-          <div class="res-photo-item reveal reveal-delay-1"
-               role="listitem"
-               data-cat="community"
-               data-src="assets/images/idf_home1.jpg"
-               data-caption="IDF Community Outreach"
-               data-county="Homa Bay County"
-               data-program="Community Development"
-               tabindex="0"
-               aria-label="Open photo: IDF community outreach, Homa Bay County">
-            <img class="res-photo-img"
-                 src="assets/images/idf_home1.jpg"
-                 alt="IDF Kenya community members and field staff gathered for a community outreach programme in Homa Bay County"
-                 loading="lazy">
-            <div class="res-photo-overlay" aria-hidden="true">
-              <div class="res-photo-caption">
-                <span class="res-photo-caption-title">Community Outreach</span>
-                <span class="res-photo-caption-meta">
-                  <i class="fa-solid fa-location-dot"></i>Homa Bay County · Community
-                </span>
-              </div>
-            </div>
-            <div class="res-photo-expand" aria-hidden="true"><i class="fa-solid fa-expand"></i></div>
-          </div>
+  </div><!-- /#galleryGrid -->
 
-          <div class="res-photo-item reveal reveal-delay-2"
-               role="listitem"
-               data-cat="yisa"
-               data-src="assets/images/vihiga.png"
-               data-caption="YISA Training — Tharaka Nithi County"
-               data-county="Tharaka Nithi County"
-               data-program="Youth in Sustainable Agriculture"
-               tabindex="0"
-               aria-label="Open photo: YISA training session, Tharaka Nithi County">
-            <img class="res-photo-img"
-                 src="assets/images/vihiga.png"
-                 alt="Youth participating in a YISA sustainable agriculture training session in Tharaka Nithi County"
-                 loading="lazy">
-            <div class="res-photo-overlay" aria-hidden="true">
-              <div class="res-photo-caption">
-                <span class="res-photo-caption-title">YISA Agriculture Training</span>
-                <span class="res-photo-caption-meta">
-                  <i class="fa-solid fa-location-dot"></i>Tharaka Nithi · YISA
-                </span>
-              </div>
-            </div>
-            <div class="res-photo-expand" aria-hidden="true"><i class="fa-solid fa-expand"></i></div>
-          </div>
+  <p class="res-no-results"
+     id="galleryNoResults"
+     style="display:none;text-align:center;color:var(--idf-text-muted);padding:32px 0"
+     aria-live="polite">
+    No photos match this filter.
+  </p>
 
-          <div class="res-photo-item reveal reveal-delay-3"
-               role="listitem"
-               data-cat="health"
-               data-src="assets/images/nyamira.jpg"
-               data-caption="Community Health Outreach — Nyamira County"
-               data-county="Nyamira County"
-               data-program="USAID Nuru Ya Mtoto"
-               tabindex="0"
-               aria-label="Open photo: Community health outreach, Nyamira County">
-            <img class="res-photo-img"
-                 src="assets/images/nyamira.jpg"
-                 alt="IDF community health workers conducting household visits as part of the USAID Nuru Ya Mtoto programme in Nyamira County"
-                 loading="lazy">
-            <div class="res-photo-overlay" aria-hidden="true">
-              <div class="res-photo-caption">
-                <span class="res-photo-caption-title">Health Outreach Visit</span>
-                <span class="res-photo-caption-meta">
-                  <i class="fa-solid fa-location-dot"></i>Nyamira County · Health
-                </span>
-              </div>
-            </div>
-            <div class="res-photo-expand" aria-hidden="true"><i class="fa-solid fa-expand"></i></div>
-          </div>
-
-        </div><p class="res-no-results" id="galleryNoResults" style="display:none;text-align:center;color:var(--idf-text-muted);padding:32px 0" aria-live="polite">
-          No photos match this filter.
-        </p>
-
-      </section>
+</section><!-- /#gallery -->
 
 
       <section id="videos" class="res-section" aria-labelledby="videos-heading">
@@ -625,7 +702,7 @@
                  onclick="openVideo(this.closest('[data-videoid]').dataset.videoid)"
                  onkeydown="if(event.key==='Enter'||event.key===' ')openVideo(this.closest('[data-videoid]').dataset.videoid)">
               <img class="res-video-thumb-img"
-                   src="https://img.youtube.com/vi/REPLACE_WITH_REAL_VIDEO_ID_3/hqdefault.jpg"
+                   src="https://www.youtube.com/watch?v=hW2Kke7-7dY"
                    alt="Community beneficiary testimonials video thumbnail"
                    loading="lazy"
                    onerror="this.src='assets/images/idf_home1.jpg'">

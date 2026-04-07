@@ -26,121 +26,94 @@
 
   <div id="navbar-placeholder"></div>
 
-  <section class="hero" aria-label="A Healthy, Just &amp; Empowered Society" style="--hero-bg-image: url('assets/images/new_photo.jpg');">
-
-    <div class="hero-bg" aria-hidden="true"></div>
-
-    <div class="hero-overlay" aria-hidden="true"></div>
-
-    <div class="hero-pattern" aria-hidden="true"></div>
-
-    <div class="hero-accent-line" aria-hidden="true"></div>
-
-    <div class="hero-content">
-      <div class="hero-inner">
-
   <!-- ═══════════════════════════════════════════════════════════════
-       HERO — Full-screen (100vh).
-       Background image: index-hero.svg → replace with actual photo.
+     HERO — Full-screen (100vh)
+     IMAGE SPEC:
+       File:        assets/images/new_photo.jpg
+       Dimensions:  1920 × 1080 px  (16:9)
+       Notes:       object-fit:cover — safe zone is centre ~1200×800 px
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="hero" aria-label="A Healthy, Just &amp; Empowered Society">
 
-       IMAGE SPEC:
-         File:        assets/images/index-hero.svg  (or .jpg/.webp)
-         Dimensions:  1920 × 1080 px  (16:9, full-HD)
-         Format:      SVG preferred; JPEG/WebP accepted
-         Subject:     Wide community / landscape shot — people, environment
-         Notes:       Image is object-fit:cover so edges may crop.
-                      Safe zone is centre ~1200×800 px.
-       ═══════════════════════════════════════════════════════════════ -->
-  <section class="hero" aria-label="A Healthy, Just &amp; Empowered Society">
+  <!-- Background photo — absolutely positioned, fills full hero height -->
+  <img class="hero-bg-img"
+       src="assets/images/index-hero.svg"
+       alt="IDF Kenya community members in Homa Bay"
+       width="1920"
+       height="1080"
+       loading="eager"
+       fetchpriority="high">
 
-    <!-- Background image — position: absolute, fills full hero height (100vh) -->
-    <img class="hero-bg-img"
-         src="assets/images/index-hero.svg"
-         alt="IDF Kenya community impact"
-         width="1920"
-         height="1080"
-         loading="eager">
+  <!-- Single gradient overlay -->
+  <div class="hero-overlay" aria-hidden="true"></div>
 
-    <div class="hero-overlay" aria-hidden="true"></div>
+  <div class="hero-content">
+    <div class="hero-inner">
+      <span class="hero-eyebrow">Serving Kenya Since 1999</span>
 
-    <div class="hero-content">
-      <div class="hero-inner">
-        <span class="hero-eyebrow">Serving Kenya Since 1999</span>
+      <h1>A Healthy, Just &amp;<br><em>Empowered</em> Society</h1>
 
-        <h1>A Healthy, Just &amp;<br><em>Empowered</em> Society</h1>
+      <p class="hero-sub">
+        We harmonise and consolidate local efforts through community empowerment
+        in health, education, governance, and environmental concerns.
+      </p>
 
-        <p class="hero-sub">
-          We harmonise and consolidate local efforts through community empowerment
-          in health, education, governance, and environmental concerns.
-        </p>
+      <div class="hero-actions">
+        <a href="about.html" class="btn btn-primary">Discover Our Work</a>
+        <a href="contact.html" class="btn btn-outline-white">Get In Touch</a>
+      </div>
 
-        <div class="hero-actions">
-          <a href="about.html" class="btn btn-primary">Discover Our Work</a>
-          <a href="contact.html" class="btn btn-outline-white">Get In Touch</a>
+      <div class="hero-impact" aria-label="Quick impact summary">
+        <div class="hero-impact-stat">
+          <span class="hero-impact-number">7</span>
+          <span class="hero-impact-label">Counties<br>Reached</span>
         </div>
-
-        <div class="hero-impact" aria-label="Quick impact summary">
-          <div class="hero-impact-stat">
-            <span class="hero-impact-number">7</span>
-            <span class="hero-impact-label">Counties<br>Reached</span>
-          </div>
-          <div class="hero-impact-stat">
-            <span class="hero-impact-number">11,610<sup>+</sup></span>
-            <span class="hero-impact-label">Beneficiaries<br>FY 2024</span>
-          </div>
-          <div class="hero-impact-stat">
-            <span class="hero-impact-number">25<sup>+</sup></span>
-            <span class="hero-impact-label">Years of<br>Service</span>
-          </div>
+        <div class="hero-impact-stat">
+          <span class="hero-impact-number">11,610<sup>+</sup></span>
+          <span class="hero-impact-label">Beneficiaries<br>FY 2024</span>
+        </div>
+        <div class="hero-impact-stat">
+          <span class="hero-impact-number">25<sup>+</sup></span>
+          <span class="hero-impact-label">Years of<br>Service</span>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="hero-scroll" aria-hidden="true">
-      <div class="hero-scroll-line"></div>
-      <span>Scroll</span>
-    </div>
-
-  </section>
-
-  </section>
+</section>
 
 
   <!-- ═══════════════════════════════════════════════════════════════
        ABOUT SECTION
        ═══════════════════════════════════════════════════════════════ -->
-  <section class="about-section" id="about">
-    <div class="container">
-      <div class="about-grid">
-        <div class="about-text">
-          <span class="label-tag">Our Story</span>
-          <h2>Built on community.<br>Driven by purpose.</h2>
-          <p>Integrated Development Facility (IDF) was founded in 1999 to address the challenges of HIV/AIDS, deteriorating education standards and reduced economic opportunities among the people of Homa Bay.</p>
-          <p>Today, IDF implements life-changing projects in seven counties across Kenya — working with governments, international donors, and local communities to build lasting solutions in health, governance, water, and child welfare.</p>
-          <p>We are committed to being an open, equal opportunity organization that does not discriminate on the basis of sex, race, religion, national origin or disability.</p>
-          <a href="about.html" class="btn btn-primary">Read Our Full History</a>
-          <div class="about-signature">
-            <div class="about-signature-text">
-              <strong>Integrated Development Facility</strong>
-              <span>Kadongo Centre, Rachuonyo East, Homa Bay County</span>
-            </div>
+  <!-- ═══════════════════════════════════════════════════════════════
+     ABOUT SECTION
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="about-section" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text">
+        <span class="label-tag">Our Story</span>
+        <h2>Built on community.<br>Driven by purpose.</h2>
+        <p>Integrated Development Facility (IDF) was founded in 1999 to address the challenges of HIV/AIDS, deteriorating education standards and reduced economic opportunities among the people of Homa Bay.</p>
+        <p>Today, IDF implements life-changing projects in seven counties across Kenya — working with governments, international donors, and local communities to build lasting solutions in health, governance, water, and child welfare.</p>
+        <p>We are committed to being an open, equal opportunity organization that does not discriminate on the basis of sex, race, religion, national origin or disability.</p>
+        <a href="about.html" class="btn btn-primary">Read Our Full History</a>
+        <div class="about-signature">
+          <div class="about-signature-text">
+            <strong>Integrated Development Facility</strong>
+            <span>Kadongo Centre, Rachuonyo East, Homa Bay County</span>
           </div>
+        </div>
+      </div>
+
+      <div class="about-image-column">
+        <div class="award-card">
+          <strong>Ndovu Award</strong>
+          <span>Winner 2023</span>
         </div>
 
         <div class="about-image-wrap">
-          <div class="award-card">
-            <strong>Ndovu Award</strong>
-            <span>Winner 2023</span>
-          </div>
-
-          <!--
-            ABOUT / AWARD PHOTO
-            File:       assets/images/index-about.svg  (or .jpg/.webp)
-            Dimensions: 800 × 600 px  (4:3)
-            Format:     SVG preferred; JPEG accepted
-            Subject:    IDF staff receiving the Ndovu Award 2023, Homa Bay County
-            CSS height: 480px (object-fit:cover clips top/bottom evenly)
-          -->
           <img
             src="assets/images/index-about.svg"
             alt="IDF staff receiving the Ndovu Award 2023 for outstanding community governance work in Homa Bay County"
@@ -151,8 +124,10 @@
           <div class="about-image-deco"></div>
         </div>
       </div>
+
     </div>
-  </section>
+  </div>
+</section>
 
 
   <!-- ═══════════════════════════════════════════════════════════════
@@ -339,7 +314,7 @@
           Notes:      CSS constrains max-height to 50px; keep logo centred in canvas
         -->
         <a href="https://www.path.org/" target="_blank" rel="noopener" class="partner-item">
-          <img src="assets/images/index-partner-path.svg"
+          <img src="assets/images/index-path-logo.svg"
                alt="PATH Kenya partner logo"
                width="240" height="80"
                loading="lazy">
@@ -351,7 +326,7 @@
           Dimensions: 240 × 80 px  (3:1)
         -->
         <a href="https://uraia.or.ke/" target="_blank" rel="noopener" class="partner-item">
-          <img src="assets/images/index-partner-uraia.svg"
+          <img src="assets/images/index-partner-Uraia.svg"
                alt="Uraia Trust partner logo"
                width="240" height="80"
                loading="lazy">

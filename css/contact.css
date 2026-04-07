@@ -210,7 +210,7 @@ ul           { list-style: none; }
 .contact-main {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 80px 28px 100px;
+  padding: 44px 28px 100px; /* reduced top from 80px → 44px to tighten gap after hero */
 }
 
 .contact-grid {

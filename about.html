@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="css/sections.css">
   <link rel="stylesheet" href="css/sidenav.css">
   <link rel="stylesheet" href="css/about.css">
-  <link rel="stylesheet" href="css/responsive.css">
+  <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 </head>
 
 <body>
@@ -28,34 +28,7 @@
   <div id="navbar-placeholder"></div>
 
 
-  <header class="about-hero" role="banner">
-    <img
-      class="about-hero-bg"
-      src="assets/images/idf_home1.jpg"
-      alt="IDF Kenya community members gathered in Homa Bay County"
-      width="1920"
-      height="960"
-      loading="eager"
-      fetchpriority="high">
-    <div class="about-hero-overlay" aria-hidden="true"></div>
-    <div class="about-hero-content">
-      <span class="about-hero-eyebrow">
-        <i class="fa-solid fa-circle-info" style="margin-right:0.3rem"></i>About Integrated Development Facility
-      </span>
-      <h1>Who We Are</h1>
-      <p>A community-based Non-Governmental Organization with Christian values — building healthy, just and empowered communities across Kenya since 1999.</p>
-      <nav class="about-hero-nav-pills" aria-label="Jump to section">
-        <a href="#history"  class="hero-pill"><i class="fa-regular fa-clock"></i>Our History</a>
-        <a href="#mission"  class="hero-pill"><i class="fa-solid fa-bullseye"></i>Mission &amp; Vision</a>
-        <a href="#values"   class="hero-pill"><i class="fa-solid fa-gem"></i>Core Values</a>
-        <a href="#partners" class="hero-pill"><i class="fa-solid fa-handshake"></i>Partners</a>
-        <a href="#team"     class="hero-pill"><i class="fa-solid fa-users"></i>Our Team</a>
-        <a href="#careers"  class="hero-pill"><i class="fa-solid fa-briefcase"></i>Join Us</a>
-      </nav>
-    </div>
-  </header>
-
-
+  <!-- ① Mobile tab-nav moved BEFORE the hero, matching ourwork.html structure -->
   <nav class="mobile-tab-nav" aria-label="About page sections">
     <div class="mobile-tab-nav__inner">
       <a href="#history"  class="mobile-tab-nav__link mobile-tab-nav__link--active" data-spy-target="history">
@@ -78,6 +51,35 @@
       </a>
     </div>
   </nav>
+
+
+  <!-- ② Hero — same content, class names kept but CSS now mirrors work-hero exactly -->
+  <header class="about-hero" role="banner">
+    <img
+      class="about-hero-bg"
+      src="assets/images/about-hero.svg"
+      alt="IDF Kenya community members gathered in Homa Bay County"
+      width="1920"
+      height="960"
+      loading="eager"
+      fetchpriority="high">
+    <div class="about-hero-overlay" aria-hidden="true"></div>
+    <div class="about-hero-content">
+      <span class="about-hero-eyebrow">
+        <i class="fa-solid fa-circle-info" style="margin-right:0.3rem"></i>About Integrated Development Facility
+      </span>
+      <h1>Who We Are</h1>
+      <p>A community based Non-Governmental Organization with Christian values building healthy, just and empowered communities across Kenya since 1999.</p>
+      <nav class="about-hero-nav-pills" aria-label="Jump to section">
+        <a href="#history"  class="hero-pill"><i class="fa-regular fa-clock"></i>Our History</a>
+        <a href="#mission"  class="hero-pill"><i class="fa-solid fa-bullseye"></i>Mission &amp; Vision</a>
+        <a href="#values"   class="hero-pill"><i class="fa-solid fa-gem"></i>Core Values</a>
+        <a href="#partners" class="hero-pill"><i class="fa-solid fa-handshake"></i>Partners</a>
+        <a href="#team"     class="hero-pill"><i class="fa-solid fa-users"></i>Our Team</a>
+        <a href="#careers"  class="hero-pill"><i class="fa-solid fa-briefcase"></i>Join Us</a>
+      </nav>
+    </div>
+  </header>
 
 
   <div class="about-layout">
@@ -139,30 +141,30 @@
           <i class="fa-regular fa-clock"></i>Our History
         </span>
 
-        <div class="history-grid">
+        <!-- ① Title — sits above image in the new stacked layout -->
+        <h2 id="history-heading" class="history-heading reveal">Over 25 years of community service</h2>
 
-          <div class="history-text">
-            <h2 id="history-heading" class="reveal">Over 25 years of community service</h2>
-            <p class="reveal reveal-delay-1">Integrated Development Facility (IDF) was founded in the year 1999 and was formally registered as a non-governmental organization (NGO) the same year.</p>
-            <p class="reveal reveal-delay-1">The organization was founded to address the challenges of the HIV/AIDS pandemic, deteriorating education standards, and reduced economic opportunities among the people of Homa Bay.</p>
-            <p class="reveal reveal-delay-2">The organization has grown and expanded over the years and currently implements projects in seven counties across the country. IDF has created and managed incredible partnerships that have transformed the lives of vulnerable communities across the country.</p>
-            <p class="reveal reveal-delay-2">Our Head Office is located at Kadongo Centre, Rachuonyo East Sub County, Homa Bay County, along Kisii-Kisumu Road. We also operate satellite offices in all the project areas.</p>
+        <!-- ② Image — full-width, centred, between title and body text -->
+        <div class="history-img-wrap reveal reveal-delay-1">
+          <div class="history-badge">
+            <strong>1999</strong>
+            <span>Founded</span>
           </div>
+          <img
+            class="history-img"
+            src="assets/images/about-usaid-award.svg"
+            alt="IDF staff receiving the Ndovu Award 2023 for outstanding community governance work in Homa Bay County"
+            width="640"
+            height="450">
+          <div class="history-img-deco hide-mobile"></div>
+        </div>
 
-          <div class="history-img-wrap reveal reveal-delay-1">
-            <div class="history-badge">
-              <strong>1999</strong>
-              <span>Founded</span>
-            </div>
-            <img
-              class="history-img"
-              src="assets/images/usaid_award.jpg"
-              alt="IDF staff receiving the Ndovu Award 2023 for outstanding community governance work in Homa Bay County"
-              width="640"
-              height="420">
-            <div class="history-img-deco hide-mobile"></div>
-          </div>
-
+        <!-- ③ Body text — below the image -->
+        <div class="history-text">
+          <p class="reveal reveal-delay-1">Integrated Development Facility (IDF) was founded in the year 1999 and was formally registered as a non-governmental organization (NGO) the same year.</p>
+          <p class="reveal reveal-delay-1">The organization was founded to address the challenges of the HIV/AIDS pandemic, deteriorating education standards, and reduced economic opportunities among the people of Homa Bay.</p>
+          <p class="reveal reveal-delay-2">The organization has grown and expanded over the years and currently implements projects in seven counties across the country. IDF has created and managed incredible partnerships that have transformed the lives of vulnerable communities across the country.</p>
+          <p class="reveal reveal-delay-2">Our Head Office is located at Kadongo Centre, Rachuonyo East Sub County, Homa Bay County, along Kisii-Kisumu Road. We also operate satellite offices in all the project areas.</p>
         </div>
 
         <div class="history-timeline reveal">
@@ -288,31 +290,31 @@
 
         <div class="partners-logos">
           <a href="https://www.path.org/" target="_blank" rel="noopener noreferrer" class="partner-chip reveal">
-            <img src="assets/images/path.jpeg"       alt="PATH Kenya partner logo"             width="200" height="80" loading="lazy">
+            <img src="assets/images/about-partners-PATH.svg"       alt="PATH Kenya partner logo"             width="200" height="80" loading="lazy">
           </a>
           <a href="https://uraia.or.ke/" target="_blank" rel="noopener noreferrer" class="partner-chip reveal reveal-delay-1">
-            <img src="assets/images/uraia.jpeg"      alt="Uraia Trust partner logo"            width="200" height="80" loading="lazy">
+            <img src="assets/images/about-partners-Uraia.svg"      alt="Uraia Trust partner logo"            width="200" height="80" loading="lazy">
           </a>
           <a href="https://amref.org/" target="_blank" rel="noopener noreferrer" class="partner-chip reveal reveal-delay-2">
-            <img src="assets/images/amref.jpeg"      alt="AMREF Health Africa partner logo"    width="200" height="80" loading="lazy">
+            <img src="assets/images/about-partners-AMREF.svg"      alt="AMREF Health Africa partner logo"    width="200" height="80" loading="lazy">
           </a>
           <div class="partner-chip reveal reveal-delay-3">
-            <img src="assets/images/usaid.png"       alt="USAID partner logo"                  width="200" height="80" loading="lazy">
+            <img src="assets/images/about-partners-USAID.svg"       alt="USAID partner logo"                  width="200" height="80" loading="lazy">
           </div>
           <a href="https://www.health.go.ke/" target="_blank" rel="noopener noreferrer" class="partner-chip reveal reveal-delay-4">
-            <img src="assets/images/moh.png"         alt="Kenya Ministry of Health logo"       width="200" height="80" loading="lazy">
+            <img src="assets/images/about-partners-MOH.svg"         alt="Kenya Ministry of Health logo"       width="200" height="80" loading="lazy">
           </a>
           <a href="https://www.theglobalfund.org/en/" target="_blank" rel="noopener noreferrer" class="partner-chip reveal">
-            <img src="assets/images/globalfund.jpg"  alt="The Global Fund logo"                width="200" height="80" loading="lazy">
+            <img src="assets/images/about-partners-GlobalFund.svg"  alt="The Global Fund logo"                width="200" height="80" loading="lazy">
           </a>
           <a href="https://www.ke.emb-japan.go.jp/itprtop_en/index.html" target="_blank" rel="noopener noreferrer" class="partner-chip reveal reveal-delay-1">
-            <img src="assets/images/japan2.jpg"      alt="Embassy of Japan in Kenya logo"      width="200" height="80" loading="lazy">
+            <img src="assets/images/about-partners-Embassy-of-Japan.svg"      alt="Embassy of Japan in Kenya logo"      width="200" height="80" loading="lazy">
           </a>
           <a href="https://ke.usembassy.gov/pepfar/" target="_blank" rel="noopener noreferrer" class="partner-chip reveal reveal-delay-2">
-            <img src="assets/images/pepfar.png"      alt="PEPFAR logo"                         width="200" height="80" loading="lazy">
+            <img src="assets/images/about-partners-PEPFAR.svg"      alt="PEPFAR logo"                         width="200" height="80" loading="lazy">
           </a>
           <a href="https://kenya.um.dk/en/about-denmark-in-kenya/danida-en" target="_blank" rel="noopener noreferrer" class="partner-chip reveal reveal-delay-3">
-            <img src="assets/images/danida.jpg"      alt="DANIDA logo"                         width="200" height="80" loading="lazy">
+            <img src="assets/images/about-partners-DANIDA.svg"      alt="DANIDA logo"                         width="200" height="80" loading="lazy">
           </a>
         </div>
 

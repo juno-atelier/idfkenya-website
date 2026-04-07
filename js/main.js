@@ -37,58 +37,162 @@ import { initNewsletterSignup, initContactFormHandler, initSmoothScroll } from '
 
 
 /* ============================================
-   1. ABOUT PAGE — scroll spy
+   1. ABOUT PAGE — scroll spy (IntersectionObserver)
+   ─────────────────────────────────────────────
+   REFACTORED (v7): replaced old scroll-event + getBoundingClientRect
+   approach with the same IntersectionObserver pattern used by
+   initWorkScrollSpy and initRegionsScrollSpy.
+
+   SELECTOR FIXES vs. original:
+     OLD (broken): '.sidenav-list a[data-spy-target]'    → matched nothing
+                   '.mobile-nav-link[data-spy-target]'   → matched nothing
+     NEW (correct): '.sidenav__link[data-spy-target]'
+                    '.mobile-tab-nav__link[data-spy-target]'
+
+   ACTIVE-CLASS FIXES vs. original:
+     OLD (broken): 'active'
+     NEW (correct): 'sidenav__link--active'
+                    'mobile-tab-nav__link--active'
+
+   rootMargin: '-20% 0px -70% 0px'
+     • top -20%:    section must clear the navbar + mobile tab bar
+     • bottom -70%: section must be in the top 30% of viewport to
+                    activate — prevents premature highlight when only
+                    the bottom edge of a section is barely in view.
    ============================================ */
 function initAboutScrollSpy() {
   const SECTION_IDS = ['history', 'mission', 'values', 'partners', 'team', 'careers'];
-  const OFFSET = 130;
 
+  // Guard: only run on the About page
   if (!document.getElementById(SECTION_IDS[0])) return;
 
-  const getSideLinks   = () => document.querySelectorAll('.sidenav-list a[data-spy-target]');
-  const getMobileLinks = () => document.querySelectorAll('.mobile-nav-link[data-spy-target]');
+  const SIDE_ACTIVE = 'sidenav__link--active';
+  const TAB_ACTIVE  = 'mobile-tab-nav__link--active';
 
-  function setActiveLink(activeId) {
-    getSideLinks().forEach(link => {
-      link.classList.toggle('active', link.dataset.spyTarget === activeId);
-    });
-    getMobileLinks().forEach(link => {
-      link.classList.toggle('active', link.dataset.spyTarget === activeId);
-    });
+  // Collect nav links using correct BEM selectors from sidenav.css
+  const sideLinks = Array.from(
+    document.querySelectorAll('.sidenav__link[data-spy-target]')
+  );
+  const tabLinks = Array.from(
+    document.querySelectorAll('.mobile-tab-nav__link[data-spy-target]')
+  );
+  const allNavLinks = [...sideLinks, ...tabLinks];
+
+  if (!allNavLinks.length) return;
+
+  // Pre-build Map<sectionId → { sideLink, tabLink }> for O(1) lookup
+  const linkMap = new Map();
+  sideLinks.forEach(link => {
+    const id = link.dataset.spyTarget;
+    if (!linkMap.has(id)) linkMap.set(id, {});
+    linkMap.get(id).sideLink = link;
+  });
+  tabLinks.forEach(link => {
+    const id = link.dataset.spyTarget;
+    if (!linkMap.has(id)) linkMap.set(id, {});
+    linkMap.get(id).tabLink = link;
+  });
+
+  // Observe only sections that have a matching nav link
+  const sections = Array.from(
+    document.querySelectorAll('.about-section[id]')
+  ).filter(s => linkMap.has(s.id));
+
+  if (!sections.length) return;
+
+  // Track which sections are inside the active zone simultaneously
+  const intersecting = new Set();
+
+  function clearActive() {
+    sideLinks.forEach(l => l.classList.remove(SIDE_ACTIVE));
+    tabLinks.forEach(l  => l.classList.remove(TAB_ACTIVE));
   }
 
-  function getActiveSection() {
-    for (let i = SECTION_IDS.length - 1; i >= 0; i--) {
-      const el = document.getElementById(SECTION_IDS[i]);
-      if (el && el.getBoundingClientRect().top <= OFFSET) return SECTION_IDS[i];
+  function setActive(id) {
+    clearActive();
+    const entry = linkMap.get(id);
+    if (!entry) return;
+    if (entry.sideLink) entry.sideLink.classList.add(SIDE_ACTIVE);
+    if (entry.tabLink) {
+      entry.tabLink.classList.add(TAB_ACTIVE);
+      // Scroll the active mobile tab into view horizontally
+      entry.tabLink.scrollIntoView({
+        behavior: 'smooth', block: 'nearest', inline: 'center'
+      });
     }
-    return SECTION_IDS[0];
   }
 
-  const onSpyScroll = () => setActiveLink(getActiveSection());
-  window.addEventListener('scroll', onSpyScroll, { passive: true });
-  onSpyScroll();
+  // "topmost wins" — if multiple sections are in zone, highlight the first in DOM order
+  function topMostId() {
+    for (const section of sections) {
+      if (intersecting.has(section.id)) return section.id;
+    }
+    return null;
+  }
+
+  const spyObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) intersecting.add(entry.target.id);
+      else                      intersecting.delete(entry.target.id);
+    });
+    const activeId = topMostId();
+    if (activeId) setActive(activeId);
+  }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+  sections.forEach(s => spyObserver.observe(s));
+
+  // Click handler — instant highlight + smooth scroll (no e.preventDefault needed;
+  // native anchor handles scroll, setActive gives immediate visual feedback)
+  allNavLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      const id = link.dataset.spyTarget;
+      if (!id) return;
+      const target = document.getElementById(id);
+      if (!target) return;
+      setActive(id); // immediate feedback before IntersectionObserver fires
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // Set the first link active on initial load
+  setActive(SECTION_IDS[0]);
 }
 
 
 /* ============================================
    2. ABOUT PAGE — reading progress bar
+   ─────────────────────────────────────────────
+   FIXED (v7):
+     OLD (broken): '.sidenav-progress-bar' matched nothing in the DOM.
+     NEW (correct): uses progressFill.closest('[role="progressbar"]'),
+                    same pattern as initWorkProgressBar.
+   Also added requestAnimationFrame throttle for smooth rendering.
    ============================================ */
 function initAboutProgressBar() {
   const progressFill = document.getElementById('progressFill');
-  const progressBar  = document.querySelector('.sidenav-progress-bar');
-  const main         = document.getElementById('mainContent');
-  if (!progressFill || !main) return;
+  if (!progressFill) return;
+
+  // Walk up from the fill element to find the [role="progressbar"] wrapper
+  const progressBar = progressFill.closest('[role="progressbar"]');
+  let rafPending = false;
 
   function updateProgress() {
-    const scrolled = Math.max(0, -main.getBoundingClientRect().top);
-    const pct = Math.min(100, Math.round((scrolled / main.offsetHeight) * 100));
-    progressFill.style.width = `${pct}%`;
-    if (progressBar) progressBar.setAttribute('aria-valuenow', pct);
+    rafPending = false;
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.min(100, (scrollTop / docHeight) * 100) : 0;
+    progressFill.style.width = pct.toFixed(1) + '%';
+    if (progressBar) progressBar.setAttribute('aria-valuenow', Math.round(pct));
   }
 
-  window.addEventListener('scroll', updateProgress, { passive: true });
-  updateProgress();
+  window.addEventListener('scroll', () => {
+    if (!rafPending) {
+      rafPending = true;
+      requestAnimationFrame(updateProgress);
+    }
+  }, { passive: true });
+
+  updateProgress(); // initialise on load
 }
 
 
@@ -113,24 +217,31 @@ function initAboutScrollReveal() {
 
 
 /* ============================================
-   4. ABOUT PAGE — smooth scroll
+   4. ABOUT PAGE — smooth scroll (hero pills)
+   ─────────────────────────────────────────────
+   FIXED (v7):
+     OLD (broken): guarded on '.about-sidenav' / '.mobile-about-nav'
+                   — neither class exists in the HTML — so the function
+                   NEVER fired.
+     NEW (correct): guarded on '#history' (reliable About-page sentinel).
+                    Scoped to hero pill anchors only; sidenav + mobile tab
+                    links are handled directly inside initAboutScrollSpy.
    ============================================ */
 function initAboutSmoothScroll() {
-  if (!document.querySelector('.about-sidenav') &&
-      !document.querySelector('.mobile-about-nav')) return;
+  // Guard: only run on the About page
+  if (!document.getElementById('history')) return;
 
-  const SCROLL_OFFSET = 90;
+  const SCROLL_OFFSET = 100; // px: clears fixed navbar + breathing room
 
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  // Handle hero pills; sidenav + tab links are handled in initAboutScrollSpy
+  document.querySelectorAll('.about-hero-nav-pills a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e) => {
       const targetId = anchor.getAttribute('href').slice(1);
       const target   = document.getElementById(targetId);
       if (!target) return;
       e.preventDefault();
-      window.scrollTo({
-        top: target.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET,
-        behavior: 'smooth'
-      });
+      const top = target.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET;
+      window.scrollTo({ top, behavior: 'smooth' });
     });
   });
 }
@@ -497,80 +608,195 @@ function initWorkSmoothScroll() {
 
 
 /* ============================================
-   11. RESOURCES PAGE — scroll spy
+   11. RESOURCES PAGE — scroll spy (IntersectionObserver)
+   ─────────────────────────────────────────────
+   REFACTORED: replaced broken scroll-event + getBoundingClientRect
+   approach with IntersectionObserver — matching initWorkScrollSpy
+   and initRegionsScrollSpy exactly.
+
+   SELECTOR FIXES vs. original:
+     OLD (broken): '.sidenav-list a[data-spy-target]'     → matched nothing
+                   '.mobile-res-link[data-spy-target]'    → matched nothing
+     NEW (correct): '.sidenav__link[data-spy-target]'
+                    '.mobile-tab-nav__link[data-spy-target]'
+
+   ACTIVE-CLASS FIXES vs. original:
+     OLD (broken): 'active'   → not defined in sidenav.css
+     NEW (correct): 'sidenav__link--active'
+                    'mobile-tab-nav__link--active'
+
+   rootMargin: '-20% 0px -70% 0px'
+     Matches initWorkScrollSpy — section must enter the top 30%
+     of the viewport to activate, preventing premature highlights.
    ============================================ */
 function initResourcesScrollSpy() {
   const SECTION_IDS = ['newsletters', 'gallery', 'videos'];
-  const OFFSET = 130;
 
+  // Guard: only run on the Resources page
   if (!document.getElementById(SECTION_IDS[0])) return;
 
-  const getSideLinks   = () => document.querySelectorAll('.sidenav-list a[data-spy-target]');
-  const getMobileLinks = () => document.querySelectorAll('.mobile-res-link[data-spy-target]');
+  const SIDE_ACTIVE = 'sidenav__link--active';
+  const TAB_ACTIVE  = 'mobile-tab-nav__link--active';
 
-  function setActiveSection(activeId) {
-    getSideLinks().forEach(link => {
-      link.classList.toggle('active', link.dataset.spyTarget === activeId);
-    });
-    getMobileLinks().forEach(link => {
-      link.classList.toggle('active', link.dataset.spyTarget === activeId);
-    });
+  // Correct BEM selectors — matching sidenav.css and the HTML markup
+  const sideLinks = Array.from(
+    document.querySelectorAll('.sidenav__link[data-spy-target]')
+  );
+  const tabLinks = Array.from(
+    document.querySelectorAll('.mobile-tab-nav__link[data-spy-target]')
+  );
+  const allNavLinks = [...sideLinks, ...tabLinks];
+
+  if (!allNavLinks.length) return;
+
+  // O(1) lookup map: sectionId → { sideLink, tabLink }
+  const linkMap = new Map();
+  sideLinks.forEach(link => {
+    const id = link.dataset.spyTarget;
+    if (!linkMap.has(id)) linkMap.set(id, {});
+    linkMap.get(id).sideLink = link;
+  });
+  tabLinks.forEach(link => {
+    const id = link.dataset.spyTarget;
+    if (!linkMap.has(id)) linkMap.set(id, {});
+    linkMap.get(id).tabLink = link;
+  });
+
+  // Observe only .res-section elements whose id has a matching nav link
+  const sections = Array.from(
+    document.querySelectorAll('.res-section[id]')
+  ).filter(s => linkMap.has(s.id));
+
+  if (!sections.length) return;
+
+  const intersecting = new Set();
+
+  function clearActive() {
+    sideLinks.forEach(l => l.classList.remove(SIDE_ACTIVE));
+    tabLinks.forEach(l  => l.classList.remove(TAB_ACTIVE));
   }
 
-  function getActiveSection() {
-    for (let i = SECTION_IDS.length - 1; i >= 0; i--) {
-      const el = document.getElementById(SECTION_IDS[i]);
-      if (el && el.getBoundingClientRect().top <= OFFSET) return SECTION_IDS[i];
+  function setActive(id) {
+    clearActive();
+    const entry = linkMap.get(id);
+    if (!entry) return;
+    if (entry.sideLink) entry.sideLink.classList.add(SIDE_ACTIVE);
+    if (entry.tabLink) {
+      entry.tabLink.classList.add(TAB_ACTIVE);
+      // Keep active tab scrolled into view on mobile
+      entry.tabLink.scrollIntoView({
+        behavior: 'smooth', block: 'nearest', inline: 'center'
+      });
     }
-    return SECTION_IDS[0];
   }
 
-  const onResScroll = () => setActiveSection(getActiveSection());
-  window.addEventListener('scroll', onResScroll, { passive: true });
-  onResScroll();
+  // "topmost wins" — highlight the first section visible in DOM order
+  function topMostId() {
+    for (const section of sections) {
+      if (intersecting.has(section.id)) return section.id;
+    }
+    return null;
+  }
+
+  const spyObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) intersecting.add(entry.target.id);
+      else                      intersecting.delete(entry.target.id);
+    });
+    const activeId = topMostId();
+    if (activeId) setActive(activeId);
+  }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+  sections.forEach(s => spyObserver.observe(s));
+
+  // Click handler — immediate highlight + smooth scroll (matches Our Work pattern)
+  allNavLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      const id = link.dataset.spyTarget;
+      if (!id) return;
+      const target = document.getElementById(id);
+      if (!target) return;
+      setActive(id); // instant visual feedback before observer fires
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // Activate first section on initial load
+  setActive(SECTION_IDS[0]);
 }
 
 
 /* ============================================
    12. RESOURCES PAGE — reading progress bar
+   ─────────────────────────────────────────────
+   FIXED vs. original:
+     OLD (broken): document.querySelector('.sidenav-progress-bar')
+                   → class never exists in the DOM, so progressBar
+                     was always null and aria-valuenow was never set.
+                   No requestAnimationFrame throttle — fired on every
+                   scroll tick.
+     NEW (correct): progressFill.closest('[role="progressbar"]')
+                   — same pattern used by initWorkProgressBar.
+                   Added RAF guard for smooth, non-thrashing updates.
    ============================================ */
 function initResourcesProgressBar() {
   const progressFill = document.getElementById('resourcesProgressFill');
-  const progressBar  = document.querySelector('.sidenav-progress-bar');
   const main         = document.getElementById('resourcesMainContent');
   if (!progressFill || !main) return;
 
+  // Walk up to the [role="progressbar"] wrapper — matches Our Work pattern
+  const progressBar = progressFill.closest('[role="progressbar"]');
+
+  let rafPending = false;
+
   function updateResourcesProgress() {
+    rafPending = false;
     const scrolled = Math.max(0, -main.getBoundingClientRect().top);
     const pct = Math.min(100, Math.round((scrolled / main.offsetHeight) * 100));
     progressFill.style.width = `${pct}%`;
     if (progressBar) progressBar.setAttribute('aria-valuenow', pct);
   }
 
-  window.addEventListener('scroll', updateResourcesProgress, { passive: true });
-  updateResourcesProgress();
+  window.addEventListener('scroll', () => {
+    if (!rafPending) {
+      rafPending = true;
+      requestAnimationFrame(updateResourcesProgress);
+    }
+  }, { passive: true });
+
+  updateResourcesProgress(); // initialise on load
 }
 
 
 /* ============================================
    13. RESOURCES PAGE — smooth scroll
+   ─────────────────────────────────────────────
+   FIXED vs. original:
+     OLD (broken): guarded on '.res-sidenav' and '.mobile-res-nav'
+                   — neither class exists in the HTML — so the function
+                   NEVER fired on any page load.
+     NEW (correct): guarded on '#newsletters' (reliable Resources-page
+                   sentinel), matching the pattern used by
+                   initRegionsSmoothScroll ('#homa-bay') and
+                   initAboutSmoothScroll ('#history').
+                   Scoped to hero jump anchors; sidenav + mobile tab
+                   clicks are handled inside initResourcesScrollSpy.
    ============================================ */
 function initResourcesSmoothScroll() {
-  if (!document.querySelector('.res-sidenav') &&
-      !document.querySelector('.mobile-res-nav')) return;
+  // Guard: only run on the Resources page
+  if (!document.getElementById('newsletters')) return;
 
-  const SCROLL_OFFSET = 90;
+  const SCROLL_OFFSET = 100; // clears fixed navbar (~88px) + breathing room
 
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  // Handle hero jump pills; sidenav + tab links handled in initResourcesScrollSpy
+  document.querySelectorAll('.res-hero-jumps a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e) => {
       const targetId = anchor.getAttribute('href').slice(1);
       const target   = document.getElementById(targetId);
       if (!target) return;
       e.preventDefault();
-      window.scrollTo({
-        top: target.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET,
-        behavior: 'smooth'
-      });
+      const top = target.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET;
+      window.scrollTo({ top, behavior: 'smooth' });
     });
   });
 }
@@ -644,7 +870,21 @@ function initVideoFilter() {
 
 
 /* ============================================
-   16. RESOURCES PAGE — photo lightbox
+   16. RESOURCES PAGE — photo lightbox  (ENHANCED v2)
+   ─────────────────────────────────────────────
+   Changes vs. original initLightbox():
+     • Adds CSS 'closing' class + waits for animation before
+       hiding (smooth scale-down exit).
+     • Image loading: adds 'lb-loading' class until onload fires,
+       then swaps to 'lb-loaded' to fade image in.
+     • Focus trap: Tab / Shift+Tab loop within focusable controls
+       while the modal is open.
+     • Return focus: remembers which gallery item opened the
+       modal and restores focus on close.
+     • Touch swipe: touchstart/touchend detection with 50px
+       threshold — swipes left/right to navigate.
+     • data-count="n" on the lightbox element lets CSS hide
+       nav arrows when there is only one photo.
    ============================================ */
 function initLightbox() {
   const lightbox   = document.getElementById('lightbox');
@@ -657,79 +897,223 @@ function initLightbox() {
   const lbPrev     = document.getElementById('lightboxPrev');
   const lbNext     = document.getElementById('lightboxNext');
 
-  let currentIndex = 0;
-  let galleryItems = [];
+  // State
+  let currentIndex     = 0;
+  let galleryItems     = [];
+  let lastFocused      = null;  // element to return focus to on close
+  let isAnimatingClose = false;
 
+  // Focusable controls inside the modal (for focus trap)
+  const FOCUSABLE_SELECTORS = [
+    '#lightboxClose',
+    '#lightboxPrev',
+    '#lightboxNext'
+  ];
+
+  /* ── Touch swipe state ─────────────────────────────────── */
+  let touchStartX = 0;
+  const SWIPE_THRESHOLD = 50; // px
+
+  /* ── Build item list from the visible gallery ────────────── */
   function buildItemList() {
     galleryItems = Array.from(
       document.querySelectorAll('#galleryGrid .res-photo-item:not(.res-filtered-out)')
     );
   }
 
+  /* ── Load an image with a loading shimmer ────────────────── */
+  function loadImage(src, alt) {
+    lbImg.classList.add('lb-loading');
+    lbImg.classList.remove('lb-loaded');
+    lbImg.alt = alt || '';
+    lbImg.src = ''; // reset so onload fires even if same src
+
+    // Tiny delay so CSS class transition renders before src is set
+    requestAnimationFrame(() => {
+      lbImg.src = src;
+    });
+
+    lbImg.onload = () => {
+      lbImg.classList.remove('lb-loading');
+      lbImg.classList.add('lb-loaded');
+    };
+
+    lbImg.onerror = () => {
+      // If image fails to load: remove shimmer and show broken state gracefully
+      lbImg.classList.remove('lb-loading');
+      lbImg.classList.add('lb-loaded');
+    };
+  }
+
+  /* ── Open the lightbox at a given index ──────────────────── */
   function openAt(index) {
     buildItemList();
     if (!galleryItems.length) return;
 
+    // Clamp to valid range
     currentIndex = Math.max(0, Math.min(index, galleryItems.length - 1));
     const item   = galleryItems[currentIndex];
 
-    lbImg.src = item.dataset.src || item.querySelector('img').src;
-    lbImg.alt = item.querySelector('img').alt || '';
-
+    // Populate caption
     lbCaption.innerHTML = `
       <strong>${item.dataset.caption || ''}</strong>
       ${item.dataset.county  ? `<span>${item.dataset.county}</span>` : ''}
       ${item.dataset.program ? `<span> · ${item.dataset.program}</span>` : ''}
     `;
 
+    // Counter
     lbCounter.textContent = `${currentIndex + 1} / ${galleryItems.length}`;
 
+    // Let CSS know how many images there are (hides arrows if only 1)
+    lightbox.setAttribute('data-count', galleryItems.length);
+
+    // Load full-size image with shimmer
+    const src = item.dataset.src || item.querySelector('img').src;
+    const alt = item.querySelector('img').alt || '';
+    loadImage(src, alt);
+
+    // Show modal
+    lightbox.classList.remove('closing');
     lightbox.classList.add('open');
     lightbox.setAttribute('aria-hidden', 'false');
-    lbClose.focus();
     document.body.style.overflow = 'hidden';
+    isAnimatingClose = false;
+
+    // Move focus to close button (WCAG 2.1 criterion 2.1.1)
+    lbClose.focus();
   }
 
+  /* ── Close with animation ─────────────────────────────── */
   function closeLightbox() {
-    lightbox.classList.remove('open');
-    lightbox.setAttribute('aria-hidden', 'true');
-    lbImg.src = '';
-    document.body.style.overflow = '';
+    if (isAnimatingClose) return;
+    isAnimatingClose = true;
+
+    // Add 'closing' class → triggers scale-down CSS animation
+    lightbox.classList.add('closing');
+
+    // Wait for CSS transition to complete before hiding
+    // Transition duration is 0.22s (220ms) — add a small buffer
+    setTimeout(() => {
+      lightbox.classList.remove('open', 'closing');
+      lightbox.setAttribute('aria-hidden', 'true');
+      lbImg.src = '';
+      lbImg.classList.remove('lb-loading', 'lb-loaded');
+      document.body.style.overflow = '';
+      isAnimatingClose = false;
+
+      // Return focus to the element that opened the lightbox
+      if (lastFocused && document.contains(lastFocused)) {
+        lastFocused.focus();
+        lastFocused = null;
+      }
+    }, 260); // slightly > 0.22s transition + 0.18s caption delay
   }
 
-  function showPrev() { openAt(currentIndex - 1); }
-  function showNext() { openAt(currentIndex + 1); }
+  /* ── Navigation helpers ──────────────────────────────── */
+  function showPrev() {
+    if (currentIndex > 0) openAt(currentIndex - 1);
+  }
 
-  document.getElementById('galleryGrid')?.addEventListener('click', (e) => {
+  function showNext() {
+    if (currentIndex < galleryItems.length - 1) openAt(currentIndex + 1);
+  }
+
+  /* ── Focus trap ──────────────────────────────────────── */
+  function getFocusableEls() {
+    return FOCUSABLE_SELECTORS
+      .map(sel => document.querySelector(sel))
+      .filter(Boolean);
+  }
+
+  function trapFocus(e) {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key !== 'Tab') return;
+
+    const focusable = getFocusableEls();
+    if (!focusable.length) return;
+
+    const first = focusable[0];
+    const last  = focusable[focusable.length - 1];
+
+    if (e.shiftKey) {
+      // Shift+Tab: wrap from first to last
+      if (document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      }
+    } else {
+      // Tab: wrap from last to first
+      if (document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  }
+
+  /* ── Gallery grid: click and keyboard open ──────────── */
+  const grid = document.getElementById('galleryGrid');
+
+  grid?.addEventListener('click', (e) => {
     const item = e.target.closest('.res-photo-item');
     if (!item) return;
+    lastFocused = item; // remember for focus return
     buildItemList();
     openAt(galleryItems.indexOf(item));
   });
 
-  document.getElementById('galleryGrid')?.addEventListener('keydown', (e) => {
+  grid?.addEventListener('keydown', (e) => {
     if (e.key !== 'Enter' && e.key !== ' ') return;
     const item = e.target.closest('.res-photo-item');
     if (!item) return;
     e.preventDefault();
+    lastFocused = item;
     buildItemList();
     openAt(galleryItems.indexOf(item));
   });
 
+  /* ── Modal controls ──────────────────────────────────── */
   lbClose.addEventListener('click', closeLightbox);
   lbPrev.addEventListener('click',  showPrev);
   lbNext.addEventListener('click',  showNext);
 
+  // Click on backdrop (not the image/caption area) to close
   lightbox.addEventListener('click', (e) => {
     if (e.target === lightbox) closeLightbox();
   });
 
+  /* ── Keyboard: Escape + arrows + Tab trap ────────────── */
   document.addEventListener('keydown', (e) => {
     if (!lightbox.classList.contains('open')) return;
-    if (e.key === 'Escape')     closeLightbox();
-    if (e.key === 'ArrowLeft')  showPrev();
-    if (e.key === 'ArrowRight') showNext();
+
+    switch (e.key) {
+      case 'Escape':
+        closeLightbox();
+        break;
+      case 'ArrowLeft':
+        showPrev();
+        break;
+      case 'ArrowRight':
+        showNext();
+        break;
+      default:
+        trapFocus(e);
+    }
   });
+
+  /* ── Touch / swipe support (mobile) ─────────────────── */
+  lightbox.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  lightbox.addEventListener('touchend', (e) => {
+    if (!lightbox.classList.contains('open')) return;
+    const deltaX = e.changedTouches[0].screenX - touchStartX;
+
+    if (Math.abs(deltaX) >= SWIPE_THRESHOLD) {
+      if (deltaX < 0) showNext(); // swipe left  → next image
+      else            showPrev(); // swipe right → prev image
+    }
+  }, { passive: true });
 }
 
 

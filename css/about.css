@@ -1,21 +1,25 @@
 /* ================================================
-   IDF Kenya — about.css  (v5 — non-responsive only)
+   IDF Kenya — about.css  (v6 — synced to ourwork.css)
    Scoped styles for the About Us long-scroll page.
    Loaded only on about.html.
 
-   REFACTOR NOTES (v5):
-     · Sidenav logic extracted to sidenav.css
-     · All @media / responsive rules REMOVED from this
-       file and relocated to css/responsive.css.
-     · .hide-mobile base state kept here (display:none);
-       the @media (min-width: 768px) override is in
-       responsive.css.
-     · Hero height reduced: 480px -> 420px for a more
-       visually balanced proportion on wide viewports.
-     · --section-gap reduced: 72px -> 56px
-     · --section-gap-sm reduced: 48px -> 36px
-       — tightens the History->Mission gap and all
-         inter-section spacing without dead air.
+   REFACTOR NOTES (v6 — design-system sync):
+     · Hero height:        420px  → 440px   (matches work-hero)
+     · Hero margin-top:    none   → 72px    (matches work-hero; fixes
+                                              navbar overlap)
+     · Hero content pb:    44px   → 52px    (matches work-hero-content)
+     · Hero p max-width:   560px  → 600px   (matches work-hero-content p)
+     · Pills gap:          10px   → 8px     (matches work-hero-pills)
+     · Pill font-size:     0.78rem → 0.76rem (matches work-hero-pill)
+     · Pill inner gap:     7px    → 6px     (matches work-hero-pill)
+     · Pill padding:       6px 14px → 5px 13px (matches work-hero-pill)
+     · Pill transition:    multi  → all 0.25s  (matches work-hero-pill)
+     · --section-gap:      56px   → 72px    (matches ourwork.css)
+     · --section-gap-sm:   36px   → 44px    (matches ourwork.css)
+     · Added --idf-shadow-xl and --r-2xl tokens (present in ourwork.css)
+     · HTML change: mobile-tab-nav moved BEFORE <header> (matches
+                    ourwork.html document order)
+     · Responsive rules added for hero at ≤600px (mirrors ourwork.css)
    ================================================ */
 
 
@@ -42,36 +46,35 @@
   --idf-text-muted:   #6b7280;
   --idf-border:       rgba(27, 46, 75, 0.10);
 
-  /* Elevation */
+  /* Elevation — includes xl level added in v6 to match ourwork.css */
   --idf-shadow-sm:    0 2px 10px rgba(27, 46, 75, 0.07);
   --idf-shadow-md:    0 8px 30px rgba(27, 46, 75, 0.13);
   --idf-shadow-lg:    0 20px 60px rgba(27, 46, 75, 0.18);
+  --idf-shadow-xl:    0 32px 80px rgba(27, 46, 75, 0.26);
 
   /*
-    VERTICAL RHYTHM
-    Reduced from original 72 px -> 56 px to eliminate
-    excess dead space, especially between History and
-    Mission & Vision sections. A single padding-bottom
-    of 56 px provides clean, consistent separation.
+    VERTICAL RHYTHM — v6: restored to ourwork.css values.
+    72px / 44px matches the visual rhythm of Our Work page.
   */
-  --section-gap:      56px;
-  --section-gap-sm:   36px;
+  --section-gap:      72px;
+  --section-gap-sm:   44px;
 
   /* Side-nav column width */
   --sidenav-width:    240px;
 
-  /* Navbar height — used by offsets */
+  /* Navbar height — used by hero margin-top and anchor offsets */
   --navbar-height:    72px;
 
   /* Typography */
   --font-display:     'Playfair Display', Georgia, serif;
   --font-body:        'DM Sans', system-ui, sans-serif;
 
-  /* Border radii */
+  /* Border radii — includes 2xl added in v6 to match ourwork.css */
   --r-sm:  4px;
   --r-md:  10px;
   --r-lg:  18px;
   --r-xl:  28px;
+  --r-2xl: 40px;
 }
 
 
@@ -112,6 +115,7 @@ p            { margin-bottom: 1rem; }
 p:last-child { margin-bottom: 0; }
 img          { display: block; max-width: 100%; }
 a            { color: inherit; text-decoration: none; transition: color 0.25s; }
+ul           { list-style: none; }
 
 
 /* ================================================
@@ -129,13 +133,18 @@ a            { color: inherit; text-decoration: none; transition: color 0.25s; }
 
 /* ================================================
    4. PAGE HERO
+   Synced to .work-hero in ourwork.css (v6).
+   Changes: height 440px, margin-top 72px,
+            content padding-bottom 52px,
+            p max-width 600px.
    ================================================ */
 .about-hero {
   position: relative;
-  height: 420px;
+  height: 440px;            /* ← was 420px */
   display: flex;
   align-items: flex-end;
   overflow: hidden;
+  margin-top: 72px;         /* ← was missing; offsets fixed navbar */
 }
 
 .about-hero-bg {
@@ -164,7 +173,7 @@ a            { color: inherit; text-decoration: none; transition: color 0.25s; }
   max-width: 1280px;
   width: 100%;
   margin: 0 auto;
-  padding: 0 28px 44px;
+  padding: 0 28px 52px;     /* ← was 44px */
 }
 
 .about-hero-eyebrow {
@@ -185,31 +194,32 @@ a            { color: inherit; text-decoration: none; transition: color 0.25s; }
 .about-hero-content p {
   color: rgba(255, 255, 255, 0.76);
   font-size: 1.08rem;
-  max-width: 560px;
+  max-width: 600px;         /* ← was 560px */
   line-height: 1.75;
   margin: 0;
 }
 
+/* ── Nav pills — synced to .work-hero-pills / .work-hero-pill ── */
 .about-hero-nav-pills {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;                 /* ← was 10px */
   margin-top: 28px;
 }
 
 .hero-pill {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  font-size: 0.78rem;
+  gap: 6px;                 /* ← was 7px */
+  font-size: 0.76rem;       /* ← was 0.78rem */
   font-weight: 500;
   color: rgba(255, 255, 255, 0.72);
   background: rgba(255, 255, 255, 0.10);
   border: 1px solid rgba(255, 255, 255, 0.20);
-  padding: 6px 14px;
+  padding: 5px 13px;        /* ← was 6px 14px */
   border-radius: 20px;
   backdrop-filter: blur(6px);
-  transition: background 0.25s, border-color 0.25s, color 0.25s;
+  transition: all 0.25s;    /* ← was multi-property list */
   cursor: pointer;
 }
 
@@ -227,7 +237,9 @@ a            { color: inherit; text-decoration: none; transition: color 0.25s; }
 .about-main {
   flex: 1;
   min-width: 0;
-  padding: var(--section-gap) 0;
+  /* ↓ Reduced top gap: was --section-gap (72px); now 36px for tighter
+       hero-to-content transition without affecting inter-section rhythm. */
+  padding: 0 0 var(--section-gap);
 }
 
 
@@ -248,8 +260,8 @@ a            { color: inherit; text-decoration: none; transition: color 0.25s; }
 .about-section::before {
   content: '';
   display: block;
-  height: 96px;
-  margin-top: -96px;
+  height: 48px;
+  margin-top: -48px;
   pointer-events: none;
 }
 
@@ -273,34 +285,39 @@ a            { color: inherit; text-decoration: none; transition: color 0.25s; }
 
 
 /* ================================================
-   7. SECTION — OUR HISTORY
+   7. SECTION — OUR HISTORY  (v7 — stacked single-column)
+   Layout order: section-label → h2 → image → body text → timeline
    ================================================ */
-.history-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 56px;
-  align-items: center;
-  margin-top: 36px;
+
+/* Heading — sits directly under the section label */
+.history-heading {
+  margin-bottom: 28px;
 }
 
-.history-text h2 { margin-bottom: 20px; }
-
-.history-img-wrap { position: relative; }
+/* Image wrapper — full-width block, centred, between title and text */
+.history-img-wrap {
+  position: relative;
+  margin-bottom: 32px;
+}
 
 .history-img {
   width: 100%;
-  height: 420px;
+  max-width: 100%;          /* ← requirement: max-width 100% */
+  height: auto;
+  max-height: 520px;
   object-fit: cover;
+  object-position: center top;
   border-radius: var(--r-xl);
   box-shadow: var(--idf-shadow-lg);
+  display: block;
   position: relative;
   z-index: 1;
 }
 
 .history-img-deco {
   position: absolute;
-  bottom: -16px;
-  right: -16px;
+  bottom: -14px;
+  right: -14px;
   width: 100%;
   height: 100%;
   border: 2px solid var(--idf-blue);
@@ -310,8 +327,8 @@ a            { color: inherit; text-decoration: none; transition: color 0.25s; }
 
 .history-badge {
   position: absolute;
-  top: 24px;
-  left: -20px;
+  bottom: 24px;
+  right: -20px;
   background: var(--idf-navy);
   color: #fff;
   padding: 14px 20px;
@@ -333,6 +350,17 @@ a            { color: inherit; text-decoration: none; transition: color 0.25s; }
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: rgba(255, 255, 255, 0.6);
+}
+
+/* Body text — sits below the image */
+.history-text {
+  margin-bottom: 8px;
+}
+
+.history-text p {
+  font-size: 0.97rem;
+  line-height: 1.8;
+  color: var(--idf-text-mid);
 }
 
 /* Timeline */
@@ -871,12 +899,12 @@ a            { color: inherit; text-decoration: none; transition: color 0.25s; }
   background: var(--idf-blue);
   color: #fff;
   border: 2px solid var(--idf-blue);
-  padding: 11px 26px;
+  padding: 10px 22px;
   border-radius: var(--r-sm);
   font-family: var(--font-body);
   font-size: 0.875rem;
   font-weight: 600;
-  transition: background 0.26s ease, border-color 0.26s ease, transform 0.26s ease, box-shadow 0.26s ease;
+  transition: all 0.26s ease;
   cursor: pointer;
   white-space: nowrap;
 }
@@ -896,12 +924,12 @@ a            { color: inherit; text-decoration: none; transition: color 0.25s; }
   background: transparent;
   color: #fff;
   border: 2px solid rgba(255, 255, 255, 0.55);
-  padding: 11px 26px;
+  padding: 10px 22px;
   border-radius: var(--r-sm);
   font-family: var(--font-body);
   font-size: 0.875rem;
   font-weight: 600;
-  transition: background 0.26s ease, border-color 0.26s ease;
+  transition: all 0.26s ease;
   cursor: pointer;
   white-space: nowrap;
 }
@@ -915,12 +943,13 @@ a            { color: inherit; text-decoration: none; transition: color 0.25s; }
 
 /* ================================================
    14. SCROLL REVEAL UTILITY
-   JS adds .visible via IntersectionObserver in main.js
+   JS adds .visible via IntersectionObserver in main.js.
+   Class name synced to ourwork.css (.visible not .revealed).
    ================================================ */
 .reveal {
   opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 0.55s ease, transform 0.55s ease;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
 .reveal.visible {
@@ -934,8 +963,114 @@ a            { color: inherit; text-decoration: none; transition: color 0.25s; }
 .reveal-delay-4 { transition-delay: 0.32s; }
 .reveal-delay-5 { transition-delay: 0.40s; }
 
+/* Slide-up variant (available for gallery-style elements) */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.reveal-up.visible { opacity: 1; transform: translateY(0); }
+
 
 /* ================================================
    15. UTILITY
    ================================================ */
 .hide-mobile { display: none; }
+
+
+/* ================================================
+   16. RESPONSIVE BREAKPOINTS
+   Mirrors ourwork.css breakpoint structure.
+   ================================================ */
+
+/* ── ≤ 1100px — tighten layout gutters ── */
+@media (max-width: 1100px) {
+  .about-layout {
+    padding: 0 20px;
+    gap: 0;
+  }
+
+  .about-main {
+    padding: var(--section-gap-sm) 0;
+  }
+}
+
+/* ── ≤ 960px — stack two-column section layouts ── */
+@media (max-width: 960px) {
+  .mv-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .values-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .join-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .join-cta-box {
+    grid-template-columns: 1fr;
+    padding: 36px 28px;
+  }
+
+  .join-cta-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+/* ── ≤ 600px — mobile hero & section adjustments
+        Mirrors ourwork.css @media (max-width: 600px) ── */
+@media (max-width: 600px) {
+  :root {
+    --section-gap:    60px;
+    --section-gap-sm: 48px;
+  }
+
+  .about-hero {
+    height: 340px;            /* matches work-hero mobile height */
+  }
+
+  .about-main {
+    /* Restore normal top padding on mobile — mobile-tab-nav takes over
+       so the tight 36px desktop gap isn't needed here */
+    padding-top: var(--section-gap-sm);
+  }
+
+  .about-hero-nav-pills {
+    display: none;            /* matches work-hero-pills: display none */
+  }
+
+  .history-img {
+    height: auto;
+    max-height: 300px;
+    object-position: center top;
+  }
+
+  .history-img-deco {
+    display: none;            /* decorative offset border clips on mobile */
+  }
+
+  .values-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .team-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .join-cta-actions {
+    flex-direction: column;
+  }
+
+  .btn-idf-primary,
+  .btn-idf-outline-white {
+    justify-content: center;
+  }
+}

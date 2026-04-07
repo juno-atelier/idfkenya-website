@@ -1,0 +1,233 @@
+/* =============================================================
+   IDF Kenya — resources-lightbox-enhancements.css
+   
+   PURPOSE: Enhances the existing lightbox in resources.css with:
+     1. Scale + fade entrance/exit animation
+     2. Image loading skeleton state
+     3. Swipe gesture hint (mobile chevrons)
+     4. Focus-visible ring inside modal
+     5. Reduced-motion safe fallback
+   
+   INTEGRATION: Append the contents of this file to the end of
+   css/resources.css — or link it AFTER resources.css in <head>.
+   =============================================================
+
+   ── HOW THE ANIMATION WORKS ────────────────────────────────
+   The overlay (.res-lightbox) fades in via opacity as before.
+   The inner container (.res-lightbox-inner) additionally scales
+   from 0.88 → 1 and translates up slightly. A spring-style
+   cubic-bezier gives it a subtle overshoot feel.
+   On close, the image container scales back down.
+   ============================================================= */
+
+
+/* ── 1. OVERLAY: add will-change for GPU compositing ─────── */
+.res-lightbox {
+  will-change: opacity;
+  /* Existing: opacity 0, pointer-events none, transition opacity 0.3s ease */
+}
+
+
+/* ── 2. INNER CONTAINER: scale + translate entrance ─────────
+   The .res-lightbox-inner already exists in resources.css with
+   max-width/max-height/flex properties. We add the transform state.
+   ─────────────────────────────────────────────────────────── */
+.res-lightbox-inner {
+  transform: scale(0.88) translateY(18px);
+  transition:
+    transform 0.38s cubic-bezier(0.34, 1.42, 0.64, 1),
+    opacity   0.28s ease;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* When lightbox is open: spring to natural scale */
+.res-lightbox.open .res-lightbox-inner {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+/* Close animation: shrink down quickly */
+.res-lightbox.closing .res-lightbox-inner {
+  transform: scale(0.92) translateY(8px);
+  opacity: 0;
+  transition:
+    transform 0.22s cubic-bezier(0.4, 0, 0.6, 1),
+    opacity   0.18s ease;
+}
+
+
+/* ── 3. IMAGE: loading skeleton state ────────────────────────
+   While the full-size image is loading, show an animated
+   shimmer in place of the image.
+   ─────────────────────────────────────────────────────────── */
+@keyframes lb-shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
+}
+
+.res-lightbox-img {
+  /* Existing: max-width, max-height, object-fit, border-radius, box-shadow */
+  transition: opacity 0.22s ease;
+}
+
+/* Applied by JS while image src is loading */
+.res-lightbox-img.lb-loading {
+  opacity: 0;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,0.04) 25%,
+      rgba(255,255,255,0.12) 50%,
+      rgba(255,255,255,0.04) 75%
+    );
+  background-size: 600px 100%;
+  animation: lb-shimmer 1.4s infinite linear;
+  min-width: 300px;
+  min-height: 200px;
+  border-radius: var(--r-lg);
+}
+
+.res-lightbox-img.lb-loaded {
+  opacity: 1;
+}
+
+
+/* ── 4. IMAGE: hover zoom cursor on desktop ──────────────── */
+.res-lightbox-img {
+  cursor: zoom-out;
+}
+
+
+/* ── 5. CAPTION: slide up on open ────────────────────────── */
+.res-lightbox-caption {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease 0.18s, transform 0.3s ease 0.18s;
+}
+
+.res-lightbox.open .res-lightbox-caption {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.res-lightbox.closing .res-lightbox-caption {
+  opacity: 0;
+  transition-delay: 0s;
+}
+
+
+/* ── 6. NAVIGATION ARROWS: enhanced hover feedback ──────── */
+.res-lightbox-prev,
+.res-lightbox-next {
+  transition:
+    background    var(--transition),
+    transform     0.18s ease,
+    opacity       0.18s ease;
+  /* Existing: position, width, height, border-radius, border, color */
+}
+
+.res-lightbox-prev:hover { transform: translateY(-50%) translateX(-3px); }
+.res-lightbox-next:hover { transform: translateY(-50%) translateX(3px); }
+.res-lightbox-prev:active { transform: translateY(-50%) translateX(-1px); }
+.res-lightbox-next:active { transform: translateY(-50%) translateX(1px); }
+
+/* Hide arrows when there's only one image */
+.res-lightbox[data-count="1"] .res-lightbox-prev,
+.res-lightbox[data-count="1"] .res-lightbox-next {
+  display: none;
+}
+
+
+/* ── 7. CLOSE BUTTON: enhanced feedback ─────────────────── */
+.res-lightbox-close {
+  transition: background var(--transition), transform 0.18s ease;
+}
+
+.res-lightbox-close:hover  { transform: scale(1.12); }
+.res-lightbox-close:active { transform: scale(0.95); }
+
+
+/* ── 8. FOCUS-VISIBLE RINGS inside modal ─────────────────── */
+.res-lightbox-close:focus-visible,
+.res-lightbox-prev:focus-visible,
+.res-lightbox-next:focus-visible {
+  outline: 2px solid rgba(255,255,255,0.75);
+  outline-offset: 3px;
+}
+
+
+/* ── 9. MOBILE SWIPE HINT ─────────────────────────────────── */
+@media (max-width: 600px) {
+  /* Pill hint at bottom telling user to swipe */
+  .res-lightbox::after {
+    content: '← Swipe to navigate →';
+    position: fixed;
+    bottom: 56px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.06em;
+    pointer-events: none;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.4s ease 0.5s;
+  }
+
+  .res-lightbox.open::after {
+    opacity: 1;
+  }
+
+  /* Make arrows smaller but still tapeable (min 44px touch target) */
+  .res-lightbox-prev,
+  .res-lightbox-next {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+
+/* ── 10. COUNTER: enhanced pill ─────────────────────────── */
+.res-lightbox-counter {
+  /* Existing: position fixed, bottom, left 50%, transform, font-size, color, background, padding, border-radius */
+  transition: opacity 0.2s ease;
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.res-lightbox.closing .res-lightbox-counter {
+  opacity: 0;
+}
+
+
+/* ── 11. REDUCED MOTION: respect user preference ────────────
+   Users who have prefers-reduced-motion enabled get instant
+   transitions only — no scale or translate animations.
+   ─────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .res-lightbox-inner {
+    transform: none !important;
+    transition: opacity 0.15s ease !important;
+  }
+
+  .res-lightbox.closing .res-lightbox-inner {
+    transform: none !important;
+  }
+
+  .res-lightbox-caption {
+    transform: none !important;
+    transition: opacity 0.15s ease !important;
+  }
+
+  .res-lightbox-prev:hover,
+  .res-lightbox-next:hover,
+  .res-lightbox-prev:active,
+  .res-lightbox-next:active {
+    transform: translateY(-50%) !important;
+  }
+
+  .res-lightbox-img.lb-loading {
+    animation: none !important;
+  }
+}

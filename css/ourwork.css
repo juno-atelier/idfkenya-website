@@ -280,7 +280,7 @@ ul           { list-style: none; }
   bottom: 0;
   left: 0;
   right: 0;
-  padding-bottom: 76px;
+  padding: 0 32px 76px;
   z-index: 2;
   display: flex;
   align-items: flex-end;
@@ -796,7 +796,7 @@ ul           { list-style: none; }
   }
 
   .work-banner-meta {
-    padding-bottom: 32px; /* reset to comfortable value — no overlap at this bp */
+    padding: 0 32px 32px; /* reset to comfortable value — no overlap at this bp */
   }
 
 
