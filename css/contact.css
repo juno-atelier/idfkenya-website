@@ -1,3 +1,6 @@
+/* No media queries — all responsive rules in responsive.css.
+   contact.css — IDF Kenya — Contact page styles. */
+
 /* ================================================
    IDF Kenya — contact.css
    Dedicated stylesheet for contact.html only.
@@ -17,7 +20,6 @@
    11. Scroll Reveal
    12. Responsive Breakpoints
    ================================================ */
-
 
 /* ================================================
    1. BRAND TOKENS — mirror of styles.css
@@ -49,7 +51,6 @@
   --transition:       0.26s ease;
 }
 
-
 /* ================================================
    2. BASE RESET
    ================================================ */
@@ -74,8 +75,6 @@ p:last-child { margin-bottom: 0; }
 img          { display: block; max-width: 100%; }
 a            { color: inherit; text-decoration: none; transition: color var(--transition); }
 ul           { list-style: none; }
-
-
 
 /* ================================================
    4. PAGE HERO
@@ -201,7 +200,6 @@ ul           { list-style: none; }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-
 /* ================================================
    5. MAIN CONTACT LAYOUT
    Two-column: info cards left, form right.
@@ -251,7 +249,6 @@ ul           { list-style: none; }
   margin-bottom: 32px;
   line-height: 1.7;
 }
-
 
 /* ================================================
    6. INFO COLUMN — contact cards
@@ -392,7 +389,6 @@ ul           { list-style: none; }
 .contact-hours-day  { color: rgba(255,255,255,0.6); }
 .contact-hours-time { color: #fff; font-weight: 600; }
 .contact-hours-closed { color: rgba(255,0,0,0.5); font-weight: 600; }
-
 
 /* ================================================
    7. FORM COLUMN
@@ -657,7 +653,6 @@ ul           { list-style: none; }
 
 .form-privacy-note i { font-size: 0.68rem; color: var(--idf-green); }
 
-
 /* ================================================
    8. SUCCESS STATE OVERLAY
    Replaces the form after successful submission.
@@ -786,7 +781,6 @@ ul           { list-style: none; }
 }
 
 .btn-success-outline:hover { background: var(--idf-navy); color: #fff; }
-
 
 /* ================================================
    9. MAP SECTION
@@ -917,7 +911,6 @@ ul           { list-style: none; }
   margin-bottom: 10px;
 }
 
-
 /* ================================================
    10. TRUST STRIP
    Registration numbers, accreditations, partners.
@@ -983,7 +976,6 @@ ul           { list-style: none; }
 
 .contact-trust-logo:hover { opacity: 0.85; }
 
-
 /* ================================================
    11. SCROLL REVEAL
    ================================================ */
@@ -998,39 +990,3 @@ ul           { list-style: none; }
 .reveal-delay-2 { transition-delay: 0.16s; }
 .reveal-delay-3 { transition-delay: 0.24s; }
 .reveal-delay-4 { transition-delay: 0.32s; }
-
-
-/* ================================================
-   12. RESPONSIVE BREAKPOINTS
-   ================================================ */
-
-/* Tablet */
-@media (max-width: 1024px) {
-  .contact-grid { grid-template-columns: 1fr; gap: 40px; }
-  .contact-info-col { order: 2; }
-  .contact-form-col { order: 1; }
-  .contact-map-info-card { left: 20px; max-width: 240px; }
-}
-
-/* Tablet portrait */
-@media (max-width: 768px) {
-  .contact-main { padding: 52px 20px 72px; }
-  .contact-form-col { padding: 32px 24px 28px; }
-  .form-row { grid-template-columns: 1fr; gap: 0; }
-  .contact-map-wrap { height: 320px; }
-  .contact-map-info-card { display: none; } /* hidden on mobile — info in header */
-  .contact-map-header { padding: 0 20px 28px; flex-direction: column; align-items: flex-start; }
-  .contact-trust-inner { flex-direction: column; align-items: flex-start; gap: 16px; }
-  .contact-trust-divider { display: none; }
-}
-
-/* Mobile */
-@media (max-width: 600px) {
-  .contact-hero { height: 340px; }
-  .contact-hero-pills { display: none; }
-  .contact-form-col { padding: 28px 18px 24px; border-radius: var(--r-lg); }
-  .contact-map-section { padding: 52px 0 0; }
-  .success-actions { flex-direction: column; align-items: center; }
-  .btn-success-primary,
-  .btn-success-outline { justify-content: center; }
-}

@@ -1,3 +1,6 @@
+/* No media queries — all responsive rules in responsive.css.
+   about.css — IDF Kenya — About page styles. */
+
 /* ================================================
    IDF Kenya — about.css  (v6 — synced to ourwork.css)
    Scoped styles for the About Us long-scroll page.
@@ -21,7 +24,6 @@
                     ourwork.html document order)
      · Responsive rules added for hero at ≤600px (mirrors ourwork.css)
    ================================================ */
-
 
 /* ================================================
    1. BRAND TOKENS
@@ -77,7 +79,6 @@
   --r-2xl: 40px;
 }
 
-
 /* ================================================
    2. BASE RESET & GLOBALS
    ================================================ */
@@ -117,7 +118,6 @@ img          { display: block; max-width: 100%; }
 a            { color: inherit; text-decoration: none; transition: color 0.25s; }
 ul           { list-style: none; }
 
-
 /* ================================================
    3. PAGE LAYOUT WRAPPER
    ================================================ */
@@ -129,7 +129,6 @@ ul           { list-style: none; }
   padding: 0 28px;
   gap: 56px;
 }
-
 
 /* ================================================
    4. PAGE HERO
@@ -230,7 +229,6 @@ ul           { list-style: none; }
   color: #fff;
 }
 
-
 /* ================================================
    5. MAIN CONTENT COLUMN
    ================================================ */
@@ -241,7 +239,6 @@ ul           { list-style: none; }
        hero-to-content transition without affecting inter-section rhythm. */
   padding: 0 0 var(--section-gap);
 }
-
 
 /* ================================================
    6. SHARED SECTION STYLES
@@ -282,7 +279,6 @@ ul           { list-style: none; }
 .section-label-blue  { color: var(--idf-blue);  background: var(--idf-blue-pale); }
 .section-label-green { color: var(--idf-green); background: var(--idf-green-pale); }
 .section-label-navy  { color: var(--idf-navy);  background: rgba(27, 46, 75, 0.07); }
-
 
 /* ================================================
    7. SECTION — OUR HISTORY  (v7 — stacked single-column)
@@ -426,7 +422,6 @@ ul           { list-style: none; }
   line-height: 1.6;
 }
 
-
 /* ================================================
    8. SECTION — MISSION & VISION
    ================================================ */
@@ -517,7 +512,6 @@ ul           { list-style: none; }
   margin: 0;
   line-height: 1.7;
 }
-
 
 /* ================================================
    9. SECTION — CORE VALUES
@@ -611,7 +605,6 @@ ul           { list-style: none; }
   background: linear-gradient(90deg, var(--idf-blue-light), var(--idf-green-light));
 }
 
-
 /* ================================================
    10. SECTION — PARTNERS & NETWORKS
    ================================================ */
@@ -696,7 +689,6 @@ ul           { list-style: none; }
   letter-spacing: 0.14em;
   color: var(--idf-blue-light);
 }
-
 
 /* ================================================
    11. SECTION — OUR TEAM
@@ -803,7 +795,6 @@ ul           { list-style: none; }
 .team-note a { color: var(--idf-blue); font-weight: 500; }
 .team-note a:hover { text-decoration: underline; }
 
-
 /* ================================================
    12. SECTION — JOIN US (CAREERS)
    ================================================ */
@@ -888,7 +879,6 @@ ul           { list-style: none; }
   gap: 12px;
 }
 
-
 /* ================================================
    13. BUTTONS
    ================================================ */
@@ -940,7 +930,6 @@ ul           { list-style: none; }
   color: #fff;
 }
 
-
 /* ================================================
    14. SCROLL REVEAL UTILITY
    JS adds .visible via IntersectionObserver in main.js.
@@ -972,12 +961,10 @@ ul           { list-style: none; }
 
 .reveal-up.visible { opacity: 1; transform: translateY(0); }
 
-
 /* ================================================
    15. UTILITY
    ================================================ */
 .hide-mobile { display: none; }
-
 
 /* ================================================
    16. RESPONSIVE BREAKPOINTS
@@ -985,92 +972,8 @@ ul           { list-style: none; }
    ================================================ */
 
 /* ── ≤ 1100px — tighten layout gutters ── */
-@media (max-width: 1100px) {
-  .about-layout {
-    padding: 0 20px;
-    gap: 0;
-  }
-
-  .about-main {
-    padding: var(--section-gap-sm) 0;
-  }
-}
 
 /* ── ≤ 960px — stack two-column section layouts ── */
-@media (max-width: 960px) {
-  .mv-cards {
-    grid-template-columns: 1fr;
-  }
-
-  .values-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .team-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .join-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .join-cta-box {
-    grid-template-columns: 1fr;
-    padding: 36px 28px;
-  }
-
-  .join-cta-actions {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-}
 
 /* ── ≤ 600px — mobile hero & section adjustments
-        Mirrors ourwork.css @media (max-width: 600px) ── */
-@media (max-width: 600px) {
-  :root {
-    --section-gap:    60px;
-    --section-gap-sm: 48px;
-  }
-
-  .about-hero {
-    height: 340px;            /* matches work-hero mobile height */
-  }
-
-  .about-main {
-    /* Restore normal top padding on mobile — mobile-tab-nav takes over
-       so the tight 36px desktop gap isn't needed here */
-    padding-top: var(--section-gap-sm);
-  }
-
-  .about-hero-nav-pills {
-    display: none;            /* matches work-hero-pills: display none */
-  }
-
-  .history-img {
-    height: auto;
-    max-height: 300px;
-    object-position: center top;
-  }
-
-  .history-img-deco {
-    display: none;            /* decorative offset border clips on mobile */
-  }
-
-  .values-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .team-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .join-cta-actions {
-    flex-direction: column;
-  }
-
-  .btn-idf-primary,
-  .btn-idf-outline-white {
-    justify-content: center;
-  }
-}
+        Mirrors ourwork.css

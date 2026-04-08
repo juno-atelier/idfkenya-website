@@ -1,3 +1,5 @@
+/* No media queries — all responsive rules in responsive.css. */
+
 /* =============================================================
    IDF Kenya — resources-lightbox-enhancements.css
    
@@ -20,13 +22,11 @@
    On close, the image container scales back down.
    ============================================================= */
 
-
 /* ── 1. OVERLAY: add will-change for GPU compositing ─────── */
 .res-lightbox {
   will-change: opacity;
   /* Existing: opacity 0, pointer-events none, transition opacity 0.3s ease */
 }
-
 
 /* ── 2. INNER CONTAINER: scale + translate entrance ─────────
    The .res-lightbox-inner already exists in resources.css with
@@ -55,7 +55,6 @@
     transform 0.22s cubic-bezier(0.4, 0, 0.6, 1),
     opacity   0.18s ease;
 }
-
 
 /* ── 3. IMAGE: loading skeleton state ────────────────────────
    While the full-size image is loading, show an animated
@@ -92,12 +91,10 @@
   opacity: 1;
 }
 
-
 /* ── 4. IMAGE: hover zoom cursor on desktop ──────────────── */
 .res-lightbox-img {
   cursor: zoom-out;
 }
-
 
 /* ── 5. CAPTION: slide up on open ────────────────────────── */
 .res-lightbox-caption {
@@ -115,7 +112,6 @@
   opacity: 0;
   transition-delay: 0s;
 }
-
 
 /* ── 6. NAVIGATION ARROWS: enhanced hover feedback ──────── */
 .res-lightbox-prev,
@@ -138,7 +134,6 @@
   display: none;
 }
 
-
 /* ── 7. CLOSE BUTTON: enhanced feedback ─────────────────── */
 .res-lightbox-close {
   transition: background var(--transition), transform 0.18s ease;
@@ -146,7 +141,6 @@
 
 .res-lightbox-close:hover  { transform: scale(1.12); }
 .res-lightbox-close:active { transform: scale(0.95); }
-
 
 /* ── 8. FOCUS-VISIBLE RINGS inside modal ─────────────────── */
 .res-lightbox-close:focus-visible,
@@ -156,37 +150,7 @@
   outline-offset: 3px;
 }
 
-
 /* ── 9. MOBILE SWIPE HINT ─────────────────────────────────── */
-@media (max-width: 600px) {
-  /* Pill hint at bottom telling user to swipe */
-  .res-lightbox::after {
-    content: '← Swipe to navigate →';
-    position: fixed;
-    bottom: 56px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.65rem;
-    color: rgba(255,255,255,0.35);
-    letter-spacing: 0.06em;
-    pointer-events: none;
-    white-space: nowrap;
-    opacity: 0;
-    transition: opacity 0.4s ease 0.5s;
-  }
-
-  .res-lightbox.open::after {
-    opacity: 1;
-  }
-
-  /* Make arrows smaller but still tapeable (min 44px touch target) */
-  .res-lightbox-prev,
-  .res-lightbox-next {
-    width: 40px;
-    height: 40px;
-  }
-}
-
 
 /* ── 10. COUNTER: enhanced pill ─────────────────────────── */
 .res-lightbox-counter {
@@ -200,34 +164,3 @@
   opacity: 0;
 }
 
-
-/* ── 11. REDUCED MOTION: respect user preference ────────────
-   Users who have prefers-reduced-motion enabled get instant
-   transitions only — no scale or translate animations.
-   ─────────────────────────────────────────────────────────── */
-@media (prefers-reduced-motion: reduce) {
-  .res-lightbox-inner {
-    transform: none !important;
-    transition: opacity 0.15s ease !important;
-  }
-
-  .res-lightbox.closing .res-lightbox-inner {
-    transform: none !important;
-  }
-
-  .res-lightbox-caption {
-    transform: none !important;
-    transition: opacity 0.15s ease !important;
-  }
-
-  .res-lightbox-prev:hover,
-  .res-lightbox-next:hover,
-  .res-lightbox-prev:active,
-  .res-lightbox-next:active {
-    transform: translateY(-50%) !important;
-  }
-
-  .res-lightbox-img.lb-loading {
-    animation: none !important;
-  }
-}

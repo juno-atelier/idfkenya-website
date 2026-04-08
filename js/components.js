@@ -120,12 +120,19 @@ function initStickyHeader() {
     return;
   }
 
+  // BUG-6 FIX: threshold was scrollY > 50. With hero now below the navbar
+  // (margin-top: 72px), the navbar sits over white page background at load.
+  // The old 50px grace period left all nav links invisible for the first
+  // scroll movement. We now apply is-scrolled immediately on page load
+  // (scrollY >= 0 is always true) so the navbar is solid from the first
+  // render. The enhanced shadow/blur from .is-scrolled still animates in
+  // naturally as the user scrolls.
   window._idfStickyHandler = () => {
-    header.classList.toggle('is-scrolled', window.scrollY > 50);
+    header.classList.toggle('is-scrolled', window.scrollY >= 0);
   };
 
   window.addEventListener('scroll', window._idfStickyHandler, { passive: true });
-  window._idfStickyHandler(); 
+  window._idfStickyHandler(); // Fire immediately — solidifies navbar on load
 }
 
 function initFooterYear() {

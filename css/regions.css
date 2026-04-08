@@ -1,3 +1,6 @@
+/* No media queries — all responsive rules in responsive.css.
+   regions.css — IDF Kenya — Regions page styles. */
+
 /* ================================================
    IDF Kenya — regions.css  (REFACTORED v4.1)
    Storytelling magazine-spread layout for county sections.
@@ -33,7 +36,6 @@
                  ├── .story-stats         (3-stat row)
                  └── .story-actions       (CTA buttons)
    ================================================ */
-
 
 /* ================================================
    1. BRAND TOKENS
@@ -76,7 +78,6 @@
   --story-cnt-pct: 42%;  /* content panel width (100% - 58%) */
 }
 
-
 /* ================================================
    2. BASE RESET
    ================================================ */
@@ -107,7 +108,6 @@ img          { display: block; max-width: 100%; }
 a            { color: inherit; text-decoration: none; transition: color 0.25s; }
 ul           { list-style: none; }
 
-
 /* ================================================
    3. PAGE LAYOUT WRAPPER
    ================================================ */
@@ -119,7 +119,6 @@ ul           { list-style: none; }
   padding: 0 28px;
   gap: 56px;
 }
-
 
 /* ================================================
    4. PAGE HERO
@@ -212,7 +211,6 @@ ul           { list-style: none; }
   color: #fff;
 }
 
-
 /* ================================================
    5. MAIN CONTENT COLUMN
    ================================================ */
@@ -221,7 +219,6 @@ ul           { list-style: none; }
   min-width: 0;
   padding: var(--section-gap) 0;
 }
-
 
 /* ================================================
    6. COUNTY SECTION WRAPPER
@@ -246,7 +243,6 @@ ul           { list-style: none; }
   margin-top: -96px;
   pointer-events: none;
 }
-
 
 /* ================================================
    7. STORY CARD — magazine-spread layout
@@ -281,7 +277,6 @@ ul           { list-style: none; }
   margin-left: 0;
   border-radius: var(--r-xl) 0 0 var(--r-xl);
 }
-
 
 /* ── IMAGE PANEL ─────────────────────────────── */
 .story-img-panel {
@@ -338,7 +333,6 @@ ul           { list-style: none; }
     );
 }
 
-
 /* ================================================
    8. COUNTY SVG EMBLEM PLACEHOLDER
    Fixed 72×72px container positioned above the photo
@@ -377,7 +371,6 @@ ul           { list-style: none; }
   right: 24px;
 }
 
-
 /* County name watermark on the photo */
 .story-photo-label {
   position: absolute;
@@ -397,7 +390,6 @@ ul           { list-style: none; }
   right: 28px;
   text-align: right;
 }
-
 
 /* ================================================
    9. IMAGE BADGE GROUP — single positioned flex container
@@ -459,7 +451,6 @@ ul           { list-style: none; }
      visual "outer" edge and emblem closer to the image interior */
   flex-direction: row-reverse;
 }
-
 
 /* ================================================
    STATUS PILL — visual styles only (no positioning)
@@ -525,7 +516,6 @@ ul           { list-style: none; }
   50%       { opacity: 0.5; transform: scale(0.75); }
 }
 
-
 /* ================================================
    10. COUNTY ICON EMBLEM — visual styles only (no positioning)
    ─────────────────────────────────────────────────
@@ -571,7 +561,6 @@ ul           { list-style: none; }
 .emblem--green { background: linear-gradient(135deg, var(--idf-green), var(--idf-navy)); }
 .emblem--navy  { background: linear-gradient(135deg, var(--idf-navy),  var(--idf-blue-light)); }
 
-
 /* ── CONTENT CARD ────────────────────────────── */
 .story-content {
   background: #fff;
@@ -609,7 +598,6 @@ ul           { list-style: none; }
 .story-card:hover .story-content::before {
   transform: scaleX(1);
 }
-
 
 /* ================================================
    11. STORY CONTENT COMPONENTS
@@ -807,7 +795,6 @@ ul           { list-style: none; }
   color: #fff;
 }
 
-
 /* ================================================
    12. SCROLL REVEAL
    ================================================ */
@@ -837,112 +824,3 @@ ul           { list-style: none; }
 }
 .reveal-right.visible { opacity: 1; transform: translateX(0); }
 
-
-/* ================================================
-   13. RESPONSIVE BREAKPOINTS
-   ================================================ */
-
-/* ── Medium: stack story card vertically ── */
-@media (max-width: 960px) {
-
-  .story-card,
-  .story-card--flip {
-    grid-template-columns: 1fr;
-    grid-template-rows: 380px 1fr; /* fixed image row, auto content row */
-    min-height: unset;
-    border-radius: var(--r-xl);
-    overflow: hidden;
-  }
-
-  /* Image always on top */
-  .story-img-panel,
-  .story-card--flip .story-img-panel {
-    grid-column: 1;
-    grid-row: 1;
-    min-height: 380px;
-    border-radius: 0;
-  }
-
-  /* Content below image */
-  .story-content,
-  .story-card--flip .story-content {
-    grid-column: 1;
-    grid-row: 2;
-    margin-left: 0;
-    margin-right: 0;
-    padding: 32px 28px;
-    border-radius: 0;
-    box-shadow: none;
-  }
-
-  /* No accent line on smaller screens */
-  .story-content::before { display: none; }
-
-  /*
-    IMAGE BADGE GROUP — stacked mobile reset
-    In stacked layout the image is row 1 (full card width).
-    The group stays at the top-left of the image for both
-    default and flip orientations — the image fills 100%
-    width, so left:16px is inside the image on both.
-    flex-direction resets to row (pill left, emblem right)
-    since the flip mirroring is irrelevant when stacked.
-  */
-  .image-badge-group,
-  .story-card--flip .image-badge-group {
-    top: 14px;
-    left: 14px;
-    right: auto;
-    flex-direction: row; /* reset flip reversal — uniform top-left on mobile */
-  }
-
-  /* Photo label alignment — flip mirrors right */
-  .story-card--flip .story-photo-label {
-    right: auto;
-    left: 28px;
-    text-align: left;
-  }
-
-  /* County SVG emblem flip reset */
-  .story-card--flip .county-svg-emblem {
-    right: auto;
-    left: 24px;
-  }
-}
-
-/* ── Mobile ── */
-@media (max-width: 600px) {
-  :root {
-    --section-gap:    48px;
-    --section-gap-sm: 36px;
-  }
-
-  .story-card,
-  .story-card--flip {
-    grid-template-rows: 260px 1fr; /* reduced image row for small screens */
-  }
-
-  .story-img-panel,
-  .story-card--flip .story-img-panel { min-height: 260px; }
-
-  .story-content,
-  .story-card--flip .story-content { padding: 36px 20px 28px; }
-
-  /* Badge group — slightly tighter inset on very small screens */
-  .image-badge-group,
-  .story-card--flip .image-badge-group {
-    top: 10px;
-    left: 10px;
-    gap: 8px;
-  }
-
-  .story-stats { flex-direction: column; }
-  .story-stat { border-right: none; border-bottom: 1px solid var(--idf-border); }
-  .story-stat:last-child { border-bottom: none; }
-
-  .regions-hero { height: 340px; }
-  .regions-hero-pills { display: none; }
-
-  .story-actions { flex-direction: column; }
-  .btn-idf-primary,
-  .btn-idf-outline-navy { justify-content: center; }
-}

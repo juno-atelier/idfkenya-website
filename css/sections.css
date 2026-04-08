@@ -1,3 +1,6 @@
+/* No media queries — all responsive rules in responsive.css.
+   sections.css — IDF Kenya v4.2 — shared section styles. */
+
 /* ==============================================
    sections.css — IDF Kenya v4.2
    Shared section styles for all pages.
@@ -17,7 +20,6 @@
 
    home.css is no longer linked in index.html.
    ============================================== */
-
 
 /* =====================================================
    TOKEN BRIDGE
@@ -52,7 +54,6 @@
   --max-width:   1180px;
 }
 
-
 /* =====================================================
    HERO SECTION - MATCHING REGIONS.HTML STYLE
    ─────────────────────────────────────────────────────
@@ -61,12 +62,12 @@
 
 .hero {
   position: relative;
-  height: 100vh;            /* Full viewport height — fills the entire screen */
-  min-height: 620px;        /* Floor so content never crushes on tiny screens */
+  height: calc(100vh - 72px); /* Full visible height below fixed navbar */
+  min-height: 560px;           /* Floor so content never crushes on tiny screens */
   display: flex;
-  align-items: flex-end;    /* Content sits at the bottom of the viewport */
+  align-items: center;         /* Vertically centre content so nothing scrolls out of view */
   overflow: hidden;
-  margin-top: 0;            /* No offset — hero starts at top, bg slides behind fixed navbar */
+  margin-top: 72px;            /* Offsets fixed navbar — hero starts below it */
   background-color: #0f1e33; /* Fallback shown until image loads */
 }
 
@@ -105,7 +106,7 @@
   max-width: 1280px;
   width: 100%;
   margin: 0 auto;
-  padding: 0 28px 52px;
+  padding: 24px 28px 32px;
 }
 
 .hero-inner {
@@ -147,7 +148,7 @@
   color: rgba(255, 255, 255, 0.76);
   max-width: 600px;
   line-height: 1.75;
-  margin: 0 0 clamp(25px, 4vh, 40px) 0;
+  margin: 0 0 clamp(16px, 2.5vh, 24px) 0;
 }
 
 /* CTA buttons - matching regions styling */
@@ -188,8 +189,8 @@
   display: flex;
   align-items: flex-start;
   gap: clamp(28px, 5vw, 56px);
-  margin-top: clamp(36px, 6vh, 56px);
-  padding-top: clamp(20px, 3vh, 28px);
+  margin-top: clamp(20px, 3vh, 32px);
+  padding-top: clamp(12px, 2vh, 18px);
   border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
@@ -245,7 +246,6 @@
 .hero-sub     { animation: heroFadeUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.52s both; }
 .hero-actions { animation: heroFadeUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.68s both; }
 .hero-impact  { animation: heroFadeUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.85s both; }
-
 
 /* =====================================================
    ABOUT SECTION (index.html)
@@ -350,7 +350,6 @@
   z-index: 0;
 }
 
-
 /* =====================================================
    STATS SECTION
    ===================================================== */
@@ -417,7 +416,6 @@
   letter-spacing: 0.1em;
   color: rgba(255, 255, 255, 0.45);
 }
-
 
 /* =====================================================
    PROJECTS SECTION
@@ -490,7 +488,6 @@
 .project-link::after { content: '→'; transition: transform var(--transition); }
 .project-card:hover .project-link::after { transform: translateX(4px); }
 
-
 /* =====================================================
    QUOTE SECTION
    ===================================================== */
@@ -533,7 +530,6 @@
   color: var(--blue-light);
 }
 
-
 /* =====================================================
    PARTNERS SECTION
    ===================================================== */
@@ -573,7 +569,6 @@
 .partner-item:hover     { opacity: 1; }
 .partner-item:hover img { filter: grayscale(0%); }
 
-
 /* =====================================================
    CTA STRIP
    ===================================================== */
@@ -592,7 +587,6 @@
 .cta-inner h2   { margin-top: 8px; margin-bottom: 16px; }
 .cta-inner p    { margin-bottom: 32px; font-size: 1.05rem; }
 .cta-buttons    { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-
 
 /* =====================================================
    INNER PAGE HERO (about, ourwork, contact, etc.)
@@ -645,7 +639,6 @@
 .breadcrumb a       { color: rgba(255, 255, 255, 0.55); }
 .breadcrumb a:hover { color: var(--white); }
 .page-hero-content h1 { color: var(--white); }
-
 
 /* =====================================================
    PAGE CONTENT
@@ -701,7 +694,6 @@
 
 .photo-grid img { width: 100%; height: 220px; object-fit: cover; margin: 0; }
 
-
 /* =====================================================
    INFO BOXES
    ===================================================== */
@@ -716,7 +708,6 @@
 .info-box h4          { color: var(--navy); margin-bottom: 10px; }
 .info-box p,
 .info-box li          { color: var(--text-mid); }
-
 
 /* =====================================================
    CONTACT PAGE
@@ -789,7 +780,6 @@
 
 .form-group textarea { min-height: 130px; resize: vertical; }
 
-
 /* =====================================================
    UTILITY / SHARED COMPONENTS
    ===================================================== */
@@ -818,7 +808,6 @@
 
 .label-tag--white { color: var(--blue-light) !important; background: rgba(255, 255, 255, 0.12); }
 .label-tag--green { color: var(--green); background: var(--green-pale); }
-
 
 /* =====================================================
    BUTTONS
@@ -872,7 +861,6 @@
   transform: translateY(-2px);
 }
 
-
 /* =====================================================
    SCROLL REVEAL
    ===================================================== */
@@ -884,120 +872,14 @@
 
 .reveal.revealed { opacity: 1; transform: translateY(0); }
 
-
 /* =====================================================
    RESPONSIVE BREAKPOINTS
    ===================================================== */
 
 /* ── ≤ 1100px ── */
-@media (max-width: 1100px) {
-  .about-grid { grid-template-columns: 1fr; gap: 40px; }
-}
 
 /* ── ≤ 992px ── */
-@media (max-width: 992px) {
-  .stats-grid    { grid-template-columns: repeat(2, 1fr); gap: 20px; }
-  .projects-grid { grid-template-columns: 1fr; }
-  .contact-grid  { grid-template-columns: 1fr; gap: 40px; }
-}
 
 /* ── ≤ 768px ── */
-@media (max-width: 768px) {
-  /* Hero — keep full-screen at tablet; min-height floors it */
-  .hero {
-    height: 100vh;
-    min-height: 560px;
-  }
-
-  .hero-inner {
-    text-align: center;
-  }
-
-  .hero-content {
-    text-align: center;
-  }
-
-  .hero-actions {
-    justify-content: center;
-  }
-
-  .hero-sub {
-    max-width: 100%;
-  }
-
-  .hero-impact {
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .hero-impact-stat + .hero-impact-stat {
-    padding-left: 20px;
-  }
-
-  .hero-impact-number {
-    font-size: 1.5rem;
-  }
-
-  /* Sections */
-  .about-section        { padding: 60px 0; }
-  .about-image-wrap img { height: 320px; }
-  .award-card           { align-self: flex-start; }
-  .stats-grid           { grid-template-columns: 1fr; gap: 16px; }
-  .stat-card            { padding: 28px 20px; }
-  .projects-section     { padding: 70px 0; }
-  .quote-section        { padding: 70px 0; }
-  .partners-section     { padding: 40px 0; }
-  .partners-logos       { gap: 24px 32px; }
-  .partner-item img     { max-height: 35px; }
-  .cta-section          { padding: 60px 0; }
-  .contact-form         { padding: 28px; }
-}
 
 /* ── ≤ 480px ── */
-@media (max-width: 480px) {
-  /* Hero */
-  .hero h1 {
-    font-size: clamp(1.8rem, 8vw, 2.5rem);
-  }
-
-  .hero-sub {
-    font-size: 0.9rem;
-  }
-
-  .hero-actions {
-    gap: 12px;
-    flex-direction: column;
-  }
-
-  .hero-actions .btn {
-    width: 100%;
-    text-align: center;
-    justify-content: center;
-  }
-
-  .hero-impact {
-    gap: 0;
-    flex-direction: column;
-  }
-
-  .hero-impact-stat + .hero-impact-stat {
-    padding-left: 0;
-    padding-top: 16px;
-    margin-top: 16px;
-    border-left: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-  }
-
-  .hero-eyebrow {
-    font-size: 0.65rem;
-  }
-
-  /* Sections */
-  .about-section    { padding: 48px 0; }
-  .projects-section { padding: 48px 0; }
-  .quote-section blockquote { font-size: 1.2rem; }
-  .page-hero        { height: 280px; }
-  .photo-grid       { grid-template-columns: 1fr; gap: 12px; }
-  .photo-grid img   { height: 180px; }
-}

@@ -1,3 +1,6 @@
+/* No media queries — all responsive rules in responsive.css.
+   sidenav.css — IDF Kenya — Sidenav + mobile tab nav. */
+
 /* =====================================================
    sidenav.css — Unified Side Navigation & Mobile Tabs
    BEM Architecture Component
@@ -151,7 +154,6 @@
   pointer-events: none;
 }
 
-
 /* -----------------------------------------------------
    MOBILE HORIZONTAL TAB NAV
 ----------------------------------------------------- */
@@ -214,16 +216,7 @@
   font-weight: 600;
 }
 
-
 /* -----------------------------------------------------
    RESPONSIVE LOGIC (Component-Level Media Queries)
 ----------------------------------------------------- */
 /* Tablet threshold (matches your existing 1099px/1100px logic) */
-@media (max-width: 1100px) {
-  .sidenav { 
-    display: none; 
-  }
-  .mobile-tab-nav { 
-    display: block; 
-  }
-}

@@ -1,3 +1,6 @@
+/* No media queries — all responsive rules in responsive.css.
+   ourwork.css — IDF Kenya — Our Work page styles. */
+
 /* ================================================
    IDF Kenya — our-work.css
    Scoped stylesheet for the Our Work page.
@@ -26,7 +29,6 @@
      │     └── .work-metrics       (impact stats + key facts)
      └── .work-gallery         (placeholder image row)
    ================================================ */
-
 
 /* ================================================
    1. BRAND TOKENS — mirror of about.css / regions.css
@@ -64,7 +66,6 @@
   --r-2xl: 40px;
 }
 
-
 /* ================================================
    2. BASE RESET & GLOBALS
    ================================================ */
@@ -96,7 +97,6 @@ img          { display: block; max-width: 100%; }
 a            { color: inherit; text-decoration: none; transition: color 0.25s; }
 ul           { list-style: none; }
 
-
 /* ================================================
    3. PAGE LAYOUT WRAPPER
    Sidenav + main — identical to regions-layout.
@@ -109,7 +109,6 @@ ul           { list-style: none; }
   padding: 0 28px;
   gap: 56px;
 }
-
 
 /* ================================================
    5. PAGE HERO
@@ -201,7 +200,6 @@ ul           { list-style: none; }
   color: #fff;
 }
 
-
 /* ================================================
    7. MAIN CONTENT COLUMN
    ================================================ */
@@ -210,7 +208,6 @@ ul           { list-style: none; }
   min-width: 0;
   padding-top: 40px; 
 }
-
 
 /* ================================================
    8. PROJECT SECTION WRAPPER
@@ -234,7 +231,6 @@ ul           { list-style: none; }
   margin-top: -96px;
   pointer-events: none;
 }
-
 
 /* ================================================
    9. FULL-WIDTH PROJECT BANNER
@@ -372,7 +368,6 @@ ul           { list-style: none; }
   0%, 100% { opacity: 1; transform: scale(1); }
   50%        { opacity: 0.45; transform: scale(0.7); }
 }
-
 
 /* ================================================
    10. PROJECT BODY — two-column content below banner
@@ -581,7 +576,6 @@ ul           { list-style: none; }
 
 .btn-idf-outline-navy:hover { background: var(--idf-navy); color: #fff; }
 
-
 /* ── METRICS COLUMN ─────────────────────────── */
 .work-metrics {
   background: var(--idf-navy);
@@ -681,7 +675,6 @@ ul           { list-style: none; }
   font-weight: 600;
 }
 
-
 /* ================================================
    11. PHOTO GALLERY STRIP
    ================================================ */
@@ -753,7 +746,6 @@ ul           { list-style: none; }
 
 .work-gallery-item:hover::after { opacity: 1; }
 
-
 /* ================================================
    12. SCROLL REVEAL
    ================================================ */
@@ -777,82 +769,12 @@ ul           { list-style: none; }
 }
 .reveal-up.visible { opacity: 1; transform: translateY(0); }
 
-
 /* ================================================
    14. RESPONSIVE BREAKPOINTS
    ================================================ */
 
 /* Tablet — adjust layout */
-@media (max-width: 1100px) {
-  .work-layout     { padding: 0 20px; gap: 0; }
-  .work-main       { padding: var(--section-gap-sm) 0; }
-}
 
 /* Tablet portrait — stack body columns */
-@media (max-width: 960px) {
-  .work-body {
-    grid-template-columns: 1fr;
-    margin-top: 0;
-  }
-
-  .work-banner-meta {
-    padding: 0 32px 32px; /* reset to comfortable value — no overlap at this bp */
-  }
-
-
-  .work-narrative {
-    border-radius: 0;
-    padding: 36px 28px;
-    box-shadow: none;
-    border: 1px solid var(--idf-border);
-    border-top: none;
-    border-bottom: none;
-  }
-
-  .work-narrative::before {
-    top: 0;
-  }
-
-  .work-metrics {
-    border-radius: 0 0 var(--r-xl) var(--r-xl);
-    padding: 32px 28px;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0;
-  }
-
-  .work-metrics-title { width: 100%; }
-
-  .work-metric {
-    flex: 1 1 calc(50% - 12px);
-    padding: 12px;
-  }
-
-  .work-facts { flex-direction: row; flex-wrap: wrap; }
-  .work-fact  { flex: 1 1 calc(50% - 6px); }
-
-  .work-gallery { grid-template-columns: repeat(3, 1fr); }
-}
 
 /* Mobile */
-@media (max-width: 600px) {
-  :root {
-    --section-gap: 60px;
-    --section-gap-sm: 48px;
-  }
-
-
-
-  .work-hero          { height: 340px; }
-  .work-hero-pills    { display: none; }
-  .work-banner-meta {
-    padding: 16px 20px 28px; /* compact but safe */
-  }
-  .work-banner-donors { display: none; }
-  .work-narrative     { padding: 28px 20px; }
-  .work-metrics       { flex-direction: column; }
-  .work-gallery       { grid-template-columns: 1fr 1fr; }
-  .work-actions       { flex-direction: column; }
-  .btn-idf-primary,
-  .btn-idf-outline-navy { justify-content: center; }
-}
