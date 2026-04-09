@@ -115,10 +115,18 @@ function initAboutScrollSpy() {
     if (entry.sideLink) entry.sideLink.classList.add(SIDE_ACTIVE);
     if (entry.tabLink) {
       entry.tabLink.classList.add(TAB_ACTIVE);
-      // Scroll the active mobile tab into view horizontally
-      entry.tabLink.scrollIntoView({
-        behavior: 'smooth', block: 'nearest', inline: 'center'
-      });
+      // Scroll the active tab into the centre of the strip without moving the page.
+      // scrollIntoView() scrolls the whole page — we want only the tab container.
+      const tabInner = entry.tabLink.closest('.mobile-tab-nav__inner');
+      if (tabInner) {
+        const linkLeft   = entry.tabLink.offsetLeft;
+        const linkWidth  = entry.tabLink.offsetWidth;
+        const stripWidth = tabInner.offsetWidth;
+        tabInner.scrollTo({
+          left: linkLeft - (stripWidth / 2) + (linkWidth / 2),
+          behavior: 'smooth'
+        });
+      }
     }
   }
 
@@ -321,12 +329,13 @@ function initRegionsScrollSpy() {
     if (entry.sideLink) entry.sideLink.classList.add(SIDE_ACTIVE);
     if (entry.tabLink) {
       entry.tabLink.classList.add(TAB_ACTIVE);
-      // Keep the active mobile tab scrolled into view
-      entry.tabLink.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'center'
-      });
+      const tabInner = entry.tabLink.closest('.mobile-tab-nav__inner');
+      if (tabInner) {
+        const linkLeft   = entry.tabLink.offsetLeft;
+        const linkWidth  = entry.tabLink.offsetWidth;
+        const stripWidth = tabInner.offsetWidth;
+        tabInner.scrollTo({ left: linkLeft - (stripWidth / 2) + (linkWidth / 2), behavior: 'smooth' });
+      }
     }
   }
 
@@ -530,9 +539,13 @@ function initWorkScrollSpy() {
     if (entry.sideLink) entry.sideLink.classList.add(SIDE_ACTIVE);
     if (entry.tabLink) {
       entry.tabLink.classList.add(TAB_ACTIVE);
-      entry.tabLink.scrollIntoView({
-        behavior: 'smooth', block: 'nearest', inline: 'center'
-      });
+      const tabInner = entry.tabLink.closest('.mobile-tab-nav__inner');
+      if (tabInner) {
+        const linkLeft   = entry.tabLink.offsetLeft;
+        const linkWidth  = entry.tabLink.offsetWidth;
+        const stripWidth = tabInner.offsetWidth;
+        tabInner.scrollTo({ left: linkLeft - (stripWidth / 2) + (linkWidth / 2), behavior: 'smooth' });
+      }
     }
   }
 
@@ -683,10 +696,13 @@ function initResourcesScrollSpy() {
     if (entry.sideLink) entry.sideLink.classList.add(SIDE_ACTIVE);
     if (entry.tabLink) {
       entry.tabLink.classList.add(TAB_ACTIVE);
-      // Keep active tab scrolled into view on mobile
-      entry.tabLink.scrollIntoView({
-        behavior: 'smooth', block: 'nearest', inline: 'center'
-      });
+      const tabInner = entry.tabLink.closest('.mobile-tab-nav__inner');
+      if (tabInner) {
+        const linkLeft   = entry.tabLink.offsetLeft;
+        const linkWidth  = entry.tabLink.offsetWidth;
+        const stripWidth = tabInner.offsetWidth;
+        tabInner.scrollTo({ left: linkLeft - (stripWidth / 2) + (linkWidth / 2), behavior: 'smooth' });
+      }
     }
   }
 
@@ -732,7 +748,7 @@ function initResourcesScrollSpy() {
    FIXED vs. original:
      OLD (broken): document.querySelector('.sidenav-progress-bar')
                    → class never exists in the DOM, so progressBar
-                     was always null and aria-valuenow was never set.
+                   was always null and aria-valuenow was never set.
                    No requestAnimationFrame throttle — fired on every
                    scroll tick.
      NEW (correct): progressFill.closest('[role="progressbar"]')
@@ -1408,7 +1424,82 @@ function initWorkScrollReveal() {
 
 
 /* ============================================
-   22. MAIN INITIALIZATION
+   22. MOBILE TAB NAV — keyboard horizontal scroll
+   ─────────────────────────────────────────────
+   Allows keyboard users to scroll the sticky horizontal
+   tab strip with ArrowLeft / ArrowRight keys.
+
+   Why this is needed:
+   · overflow-x:auto containers are not keyboard-scrollable
+     by default unless they have a focusable tabindex.
+   · WCAG 2.1 SC 2.1.1 (Keyboard) requires all functionality
+     to be operable without a mouse.
+
+   Implementation notes:
+   · tabindex="0" makes the strip focusable in tab order.
+   · role="tablist" + aria-label give screen readers context.
+   · The guard (!inner) means this is safely page-agnostic —
+     pages without a .mobile-tab-nav__inner are unaffected.
+   · passive:false is not needed (no preventDefault called).
+   ============================================ */
+function initMobileTabKeyboardScroll() {
+  const inner = document.querySelector('.mobile-tab-nav__inner');
+  if (!inner) return;
+
+  // Make the scroll container focusable via keyboard Tab key
+  inner.setAttribute('tabindex', '0');
+  inner.setAttribute('role', 'tablist');
+  inner.setAttribute('aria-label', 'Page sections');
+
+  inner.addEventListener('keydown', (e) => {
+    const step = 120; // px scrolled per arrow keypress
+    if (e.key === 'ArrowRight') inner.scrollBy({ left:  step, behavior: 'smooth' });
+    if (e.key === 'ArrowLeft')  inner.scrollBy({ left: -step, behavior: 'smooth' });
+  });
+}
+
+
+/* ============================================
+   23. MOBILE TAB NAV — scroll hint animation
+   ─────────────────────────────────────────────
+   Two behaviours:
+
+   1. Nudge: on page load, briefly scrolls the strip 52px to
+      the right then returns to 0. This gives a clear "swipe
+      me" signal without being intrusive. Fires after 900ms so
+      the page has settled before the animation plays.
+
+   2. Gradient fade: the ::after pseudo-element on
+      .mobile-tab-nav (defined in sidenav.css) shows a
+      right-edge fade to signal more hidden tabs. Once the
+      user scrolls all the way to the last tab, this function
+      adds .is-scroll-end to .mobile-tab-nav, which fades the
+      gradient out via CSS transition.
+
+   Guards: both nav and inner must exist — this is page-agnostic
+   and runs safely on every page that has a .mobile-tab-nav.
+   ============================================ */
+function initMobileTabScrollHint() {
+  const nav   = document.querySelector('.mobile-tab-nav');
+  const inner = document.querySelector('.mobile-tab-nav__inner');
+  if (!nav || !inner) return;
+
+  // Nudge animation: scroll right a little, then return
+  setTimeout(() => {
+    inner.scrollTo({ left: 52, behavior: 'smooth' });
+    setTimeout(() => inner.scrollTo({ left: 0, behavior: 'smooth' }), 650);
+  }, 900);
+
+  // Gradient: hide the ::after fade once the strip is fully scrolled
+  inner.addEventListener('scroll', () => {
+    const atEnd = inner.scrollLeft + inner.clientWidth >= inner.scrollWidth - 4;
+    nav.classList.toggle('is-scroll-end', atEnd);
+  }, { passive: true });
+}
+
+
+/* ============================================
+   24. MAIN INITIALIZATION
    Waits for componentsReady event from components.js
    ============================================ */
 function initAll() {
@@ -1418,6 +1509,8 @@ function initAll() {
   initCounters();
   initScrollReveal();
   initSmoothScroll();
+  initMobileTabKeyboardScroll(); // keyboard arrow-key scroll for mobile tab nav
+  initMobileTabScrollHint();     // nudge animation + right-edge gradient hint
 
   // About page
   initAboutScrollSpy();

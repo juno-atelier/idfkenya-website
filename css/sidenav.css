@@ -156,11 +156,18 @@
 
 /* -----------------------------------------------------
    MOBILE HORIZONTAL TAB NAV
+   Base state: hidden (display:none). Revealed by responsive.css
+   at ≤1100px via display:block.
+
+   position:sticky keeps it pinned below the navbar as the page
+   scrolls. It already creates a containing block for ::after
+   pseudo-elements — do NOT add position:relative, which would
+   override sticky and break the pinning behaviour.
 ----------------------------------------------------- */
 .mobile-tab-nav {
-  display: none; /* Base state is hidden, revealed via media query below */
+  display: none;
   position: sticky;
-  top: var(--navbar-height, 72px);
+  top: var(--navbar-height, 80px);
   z-index: 200;
   background: rgba(255, 255, 255, 0.97);
   backdrop-filter: blur(12px);
@@ -178,7 +185,12 @@
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE / Edge */
   padding: 0 16px;
-  min-width: max-content;
+  /* FIX: min-width: max-content was removed from here.
+     It forced the container to expand to the full width of all its
+     children, which prevented overflow-x: auto from ever triggering —
+     the container WAS the content width, so nothing overflowed.
+     With this line removed, the flex container is constrained by its
+     parent's 100% width and children correctly overflow, enabling scroll. */
 }
 
 .mobile-tab-nav__inner::-webkit-scrollbar {
@@ -217,6 +229,34 @@
 }
 
 /* -----------------------------------------------------
-   RESPONSIVE LOGIC (Component-Level Media Queries)
+   MOBILE TAB NAV — SCROLL HINT
+   A right-edge gradient fade signals that more tabs exist
+   off-screen. It fades out once the user has scrolled to
+   the end of the strip.
+
+   The ::after pseudo-element is safe here because
+   position:sticky on .mobile-tab-nav already acts as a
+   containing block for absolutely positioned children —
+   no position:relative is needed (and must not be added,
+   as it would break the sticky behaviour).
+
+   .is-scroll-end is toggled by initMobileTabScrollHint()
+   in main.js once inner.scrollLeft reaches the far end.
 ----------------------------------------------------- */
-/* Tablet threshold (matches your existing 1099px/1100px logic) */
+.mobile-tab-nav::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 52px;
+  height: 100%;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.96));
+  pointer-events: none;
+  z-index: 1;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-tab-nav.is-scroll-end::after {
+  opacity: 0;
+}

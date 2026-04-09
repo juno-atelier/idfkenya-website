@@ -93,10 +93,14 @@
    B. GLOBAL / CONTAINER / TYPOGRAPHY
    ============================================================================= */
 
-/* Prevent horizontal overflow at all sizes — the primary
-   cause of horizontal scroll on mobile is untamed overflow. */
+/* Prevent horizontal overflow at all sizes.
+   CRITICAL: overflow-x:hidden on <body> silently creates a new scroll
+   container, which breaks position:sticky on every child element
+   (sidenav, mobile-tab-nav, site-header all stop sticking).
+   overflow-x:clip is visually identical but does NOT create a scroll
+   container — position:sticky keeps working correctly on all viewports. */
 html, body {
-  overflow-x: hidden;
+  overflow-x: clip;
   max-width: 100%;
 }
 
@@ -160,6 +164,28 @@ img, video, iframe, embed, object {
     gap: 0.75rem;
     padding-inline: clamp(1rem, 4vw, 1.5rem);
   }
+
+  /* Reduce logo to compact mobile size */
+  .logo__img {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .site-header {
+    padding: 10px 0;
+  }
+
+  .site-header.is-scrolled {
+    padding: 8px 0;
+  }
+
+  /* Sync --navbar-height with actual mobile header height
+     (logo 40px + padding-top 10px + padding-bottom 10px = 60px).
+     mobile-tab-nav uses this variable for its sticky top offset —
+     without this override the 80px default leaves a ~20px gap. */
+  :root {
+    --navbar-height: 60px;
+  }
 }
 
 /* ── ≤ 480px — smallest logo state ── */
@@ -169,16 +195,22 @@ img, video, iframe, embed, object {
   }
 
   .logo__img {
-    width: clamp(90px, 28vw, 130px) !important;
-    height: auto !important;
+    width: 36px !important;
+    height: 36px !important;
   }
 
   .site-header.is-scrolled .logo__img {
-    width: clamp(80px, 24vw, 110px) !important;
+    width: 32px !important;
+    height: 32px !important;
   }
 
   .logo__primary {
     font-size: 0.95rem !important;
+  }
+
+  /* logo 36px + padding 10px*2 = 56px */
+  :root {
+    --navbar-height: 56px;
   }
 }
 
@@ -300,6 +332,15 @@ img, video, iframe, embed, object {
    .about-layout, .work-layout, .regions-layout, .res-layout
    all share the same flex+gap pattern. */
 @media (max-width: 1100px) {
+
+  /* FIX: THE MISSING RULE — sidenav.css has NO display:none for .sidenav.
+     Without this, the vertical sidenav stays rendered in the flex row on
+     mobile (flex-shrink:0 prevents it shrinking), crowding the main column
+     and making the layout appear broken or overflowed. */
+  .sidenav {
+    display: none;
+  }
+
   .about-layout,
   .work-layout,
   .regions-layout,
@@ -317,9 +358,30 @@ img, video, iframe, embed, object {
     width: 100%;
   }
 
-  /* Mobile tab nav: appears below the fixed header */
+  /* Mobile tab nav: appears below the fixed header.
+     display:block makes it visible; position:sticky is set in sidenav.css. */
   .mobile-tab-nav {
     display: block;
+  }
+
+  /* Ensure horizontal scroll works for overflow items */
+  .mobile-tab-nav__inner {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    display: flex;
+    flex-wrap: nowrap;
+    padding: 0 12px;
+  }
+
+  .mobile-tab-nav__inner::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mobile-tab-nav__link {
+    flex-shrink: 0;
+    white-space: nowrap;
   }
 
   /* Anchor offset: section headings must clear both the fixed navbar
